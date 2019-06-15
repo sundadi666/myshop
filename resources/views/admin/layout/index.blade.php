@@ -110,11 +110,21 @@
 						    <span>用户管理</span>
 					    </a>
 						<ul class="sub-menu">
-						    <li class="active"><a href="/admin/user">用户列表</a></li>
-						    <li><a href="index_v2.html">用户添加</a></li>
+						    <li class="active"><a href="/admin/users">用户列表</a></li>
+						    <li><a href="/admin/users/create">用户添加</a></li>
 						</ul>
 					</li>
-					
+					<li class="has-sub active">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+						    <i class="fa fa-2x fa-users"></i>
+						    <span>网站底部管理</span>
+					    </a>
+						<ul class="sub-menu">
+						    <li class="active"><a href="/admin/footer">网站底部列表</a></li>
+						    <li><a href="/admin/footer/create">网站底部添加</a></li>
+						</ul>
+					</li>					
 					<li class="has-sub">
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
@@ -125,8 +135,6 @@
 							<li><a href="ui_general.html">数据</a></li>
 						</ul>
 					</li>
-
-
 					<!-- 侧边栏 缩放按钮 开始 -->
 					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 					<!-- 侧边栏 缩放按钮 结束 -->
@@ -137,17 +145,32 @@
 		<div class="sidebar-bg"></div>
 		<!-- 侧边栏 结束 -->
 		
-		<div id="content" class="content">
-			<!-- 右上方模块定位 开始 -->
-			<ol class="breadcrumb pull-right">
-				<li><a href="javascript:;">首页</a></li>
-				<li class="active">用户管理</li>
-			</ol>
-			<!-- 右上方模块定位 结束 -->
+		<div id="content" class="content">	
 
-			<!-- 内容 开始 -->
+
+			<!-- 内容 开始 -->	
 			<div class="container">
+				@if(session('success'))
+			     <div class="alert alert-success fade in m-b-15">
+			      <strong>Success!</strong>
+			      {{ session('success') }}
+			      <span class="close" data-dismiss="alert">×</span>
+			     </div>
+			    @endif
+
+			    @if(session('error'))
+			    <div class="bs-example" data-example-id="dismissible-alert-css">
+			        <div class="alert alert-danger fade in m-b-15">
+			      <strong>Error!</strong>
+			      {{ session('error') }}
+			      <span class="close" data-dismiss="alert">×</span>
+			     </div>
+			    @endif
+
+
 				@section('content')
+
+
 
 				@show
 			</div>
