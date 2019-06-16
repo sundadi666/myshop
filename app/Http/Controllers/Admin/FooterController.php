@@ -8,13 +8,13 @@ use App\Models\Footer;
 class FooterController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 网站 底部 列表
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // 获取 网站底部 所有 数据
+        // 获取 网站底部 所有 数据  每页 3 条 数据
         $footer_data = Footer::paginate(3);
 
         // 网站 底部 列表
@@ -23,7 +23,7 @@ class FooterController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 网站 底部 添加
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,7 +35,7 @@ class FooterController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 网站 底部 执行 添加
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -88,21 +88,21 @@ class FooterController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 网站 底部 执行 添加
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        // 修改 指定 网络 底部
+        // 网站 底部 执行 添加
         $data = Footer::find($id);
         // 显示 修改 视图
         return view('admin.footer.edit',['data'=>$data]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * 确定 要修改 内容
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -126,7 +126,7 @@ class FooterController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 执行 要删除 的 内容
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

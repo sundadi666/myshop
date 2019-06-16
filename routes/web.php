@@ -209,10 +209,11 @@ Route::get('/', function () {
 
 
 
-
+//修改激活
+Route::get('admin/users/status','Admin\UsersController@status');
 
 //  后台用户 路由
-// Route::resource('admin/users','Admin\UsersController');
+Route::resource('admin/users','Admin\UsersController');
 
 // 后台 底部 路由
 Route::resource('admin/footer','Admin\FooterController');
