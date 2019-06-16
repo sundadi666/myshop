@@ -2,7 +2,7 @@
 
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}"> 
-    <div class="row" style="width: 1095px;">
+    <div class="row">
         <!-- begin col-12 -->
         <div class="col-md-12 ui-sortable">
             <!-- begin panel -->

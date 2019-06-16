@@ -2,7 +2,7 @@
 
 @section('content')
         <!-- begin panel -->
-        <div class="panel panel-inverse" data-sortable-id="form-stuff-3" style="width: 1095px;">
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>

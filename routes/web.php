@@ -74,11 +74,14 @@ Route::get('/', function () {
 
 
 
+
 // 友情链接
 Route::resource('admin/links','Admin\LinksController');
 
 // 导航
 Route::resource('admin/navicates','Admin\NavigatesController');
+
+
 
 
 
@@ -200,6 +203,35 @@ Route::resource('admin/goods','Admin\GoodsController');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//修改激活
+Route::get('admin/users/status','Admin\UsersController@status');
+
+//  后台用户 路由
+Route::resource('admin/users','Admin\UsersController');
+
+// 后台 底部 路由
+Route::resource('admin/footer','Admin\FooterController');
 
 
 

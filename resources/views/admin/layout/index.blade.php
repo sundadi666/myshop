@@ -90,145 +90,6 @@
 				
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				<!-- 侧边栏用户头像 开始 -->
 				<ul class="nav">
 					<li class="nav-profile">
@@ -242,6 +103,7 @@
 					</li>
 				</ul>
 				<!-- 侧边栏用户头像 结束 -->
+				
 				<!-- 侧边栏导航 开始 -->
 				<ul class="nav">
 					<li class="nav-header">导航</li>
@@ -252,35 +114,16 @@
 						    <span>用户管理</span>
 					    </a>
 						<ul class="sub-menu">
-						    <li class="active"><a href="/admin/user">用户列表</a></li>
-						    <li><a href="index_v2.html">用户添加</a></li>
+						    <li class="active"><a href="/admin/users">用户列表</a></li>
+						    <li><a href="/admin/users/create">用户添加</a></li>
 						</ul>
 					</li>
 					
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 					<li class="has-sub">
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
 						    <i class="fa fa-suitcase"></i>
-						    <span>友情链接管理<span class="label label-theme m-l-5">NEW</span></span> 
+						    <span>友情链接管理</span> 
 						</a>
 						<ul class="sub-menu">
 							<li><a href="/admin/links">查看友情链接</a></li>
@@ -288,33 +131,6 @@
 						</ul>
 					</li>
 					
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 					<li class="has-sub">
 						<a href="javascript:;">
 							<b class="caret pull-right"></b>
@@ -327,23 +143,23 @@
 						</ul>
 					</li>
 
-
-
-
-
-
-
-
-
-
-
-
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+						    <i class="fa fa-2x fa-users"></i>
+						    <span>网站底部管理</span>
+					    </a>
+						<ul class="sub-menu">
+						    <li class="active"><a href="/admin/footer">网站底部列表</a></li>
+						    <li><a href="/admin/footer/create">网站底部添加</a></li>
+						</ul>
+					</li>
 
 					<li class="has-sub">
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
 						    <i class="fa fa-suitcase"></i>
-						    <span>导航管理<span class="label label-theme m-l-5">NEW</span></span> 
+						    <span>导航管理</span> 
 						</a>
 						<ul class="sub-menu">
 							<li><a href="/admin/navicates">查看导航</a></li>
@@ -353,27 +169,17 @@
 
 
 
-
-
-
-
-
-
-
-
 					<li class="has-sub">
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
 							<i class="fa fa-2x fa-gift"></i>
-						    <span>商品管理 <span class="label label-theme m-l-5">NEW</span></span> 
+						    <span>商品管理</span> 
 						</a>
 						<ul class="sub-menu">
 							<li><a href="/admin/goods">商品列表</a></li>
 							<li><a href="/admin/goods/create">商品添加</a></li>
 						</ul>
 					</li>
-
-
 					<!-- 侧边栏 缩放按钮 开始 -->
 					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 					<!-- 侧边栏 缩放按钮 结束 -->
@@ -403,37 +209,13 @@
 			      {{ session('error') }}
 			      <span class="close" data-dismiss="alert">×</span>
 			     </div>
-		    @endif
+		   		@endif
 
-
-			<div class="container">
-				@if(session('success'))
-					<div class="alert alert-success fade in m-b-15">
-						<strong>Success!</strong>
-						{{ session('success') }}
-						<span class="close" data-dismiss="alert">×</span>
-					</div>
-				@endif
-
-				@if(session('error'))
-				<div class="bs-example" data-example-id="dismissible-alert-css">
-				    <div class="alert alert-danger fade in m-b-15">
-						<strong>Error!</strong>
-						{{ session('error') }}
-						<span class="close" data-dismiss="alert">×</span>
-					</div>
-				@endif
-
-
+			
 				@section('content')
 					
 
-<<<<<<< HEAD
-					
-=======
 
-
->>>>>>> origin/liu
 				@show
 			</div>
 			<!-- 内容 结束 -->
