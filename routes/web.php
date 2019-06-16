@@ -73,6 +73,7 @@ Route::get('/', function () {
 
 
 
+
 // 友情链接
 Route::resource('admin/links','Admin\LinksController');
 
@@ -149,6 +150,11 @@ Route::resource('admin/navicates','Admin\NavigatesController');
 
 
 
+// 公告列表 路由
+Route::resource('admin/news','Admin\NewsController');
+
+// 商品列表 路由
+Route::resource('admin/goods','Admin\GoodsController');
 
 
 
