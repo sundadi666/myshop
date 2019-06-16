@@ -25,7 +25,7 @@
 	<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
 	<link href="/d/assets/plugins/jquery-jvectormap/jquery-jvectormap.css" rel="stylesheet" />
 	<link href="/d/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
-    <link href="/d/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+    <!-- <link href="/d/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" /> -->
 	<!-- ================== END PAGE LEVEL STYLE ================== -->
 	
 	<!-- ================== BEGIN BASE JS ================== -->
@@ -118,11 +118,24 @@
 					<li class="has-sub">
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
-						    <i class="fa fa-suitcase"></i>
-						    <span>标题 <span class="label label-theme m-l-5">NEW</span></span> 
+						    <i class="fa fa-2x fa-bookmark"></i>
+						    <span>公告管理 <span class="label label-theme m-l-5">NEW</span></span> 
 						</a>
 						<ul class="sub-menu">
-							<li><a href="ui_general.html">数据</a></li>
+							<li><a href="/admin/news">公告列表</a></li>
+							<li><a href="/admin/news/create">公告添加</a></li>
+						</ul>
+					</li>
+
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+						    <i class="fa fa-2x fa-gift"></i>
+						    <span>商品管理 <span class="label label-theme m-l-5">NEW</span></span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/goods">商品列表</a></li>
+							<li><a href="/admin/goods/create">商品添加</a></li>
 						</ul>
 					</li>
 
@@ -138,16 +151,31 @@
 		<!-- 侧边栏 结束 -->
 		
 		<div id="content" class="content">
-			<!-- 右上方模块定位 开始 -->
-			<ol class="breadcrumb pull-right">
-				<li><a href="javascript:;">首页</a></li>
-				<li class="active">用户管理</li>
-			</ol>
-			<!-- 右上方模块定位 结束 -->
+			
 
 			<!-- 内容 开始 -->
+			@if(session('success'))
+			     <div class="alert alert-success fade in m-b-15">
+			      <strong>Success!</strong>
+			      {{ session('success') }}
+			      <span class="close" data-dismiss="alert">×</span>
+			     </div>
+			    @endif
+
+			    @if(session('error'))
+			    <div class="bs-example" data-example-id="dismissible-alert-css">
+			        <div class="alert alert-danger fade in m-b-15">
+			      <strong>Error!</strong>
+			      {{ session('error') }}
+			      <span class="close" data-dismiss="alert">×</span>
+			     </div>
+		    @endif
+
+
 			<div class="container">
 				@section('content')
+
+
 
 				@show
 			</div>
@@ -171,7 +199,7 @@
 	<!-- ================== END BASE JS ================== -->
 	
 	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
-	<script src="/d/assets/plugins/gritter/js/jquery.gritter.js"></script>
+	<!-- <script src="/d/assets/plugins/gritter/js/jquery.gritter.js"></script> -->
 	<script src="/d/assets/plugins/flot/jquery.flot.min.js"></script>
 	<script src="/d/assets/plugins/flot/jquery.flot.time.min.js"></script>
 	<script src="/d/assets/plugins/flot/jquery.flot.resize.min.js"></script>
