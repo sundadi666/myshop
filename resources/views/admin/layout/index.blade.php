@@ -190,6 +190,18 @@
 							<li><a href="/admin/goods/create">商品添加</a></li>
 						</ul>
 					</li>
+
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-database"></i>
+						    <span>品牌管理</span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/brands">品牌列表</a></li>
+							<li><a href="/admin/brands/create">品牌添加</a></li>
+						</ul>
+					</li>
 					<!-- 侧边栏 缩放按钮 开始 -->
 					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 					<!-- 侧边栏 缩放按钮 结束 -->

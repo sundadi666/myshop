@@ -84,6 +84,9 @@ Route::resource('admin/navicates','Admin\NavigatesController');
 // 分类
 Route::resource('admin/cates','Admin\CatesController');
 
+// 品牌
+Route::resource('admin/brands','Admin\BrandsController');
+
 
 
 

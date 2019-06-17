@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 @section('content')
 
-	<h1 class="page-header">友情<small>链接</small></h1>
+	<h1 class="page-header">分类<small></small></h1>
 	
 	<div class="row">
 	    <!-- begin col-12 -->
@@ -15,7 +15,7 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                     </div>
-                    <h4 class="panel-title">友情链接</h4>
+                    <h4 class="panel-title">分类</h4>
                 </div>
                 <div class="panel-body">
                     <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -24,8 +24,8 @@
 	                    	<div class="col-sm-6" style="margin-left:60%;">
 	                    		<div id="data-table_filter" class="dataTables_filter">
 	                    			<label>
-	                    				<form action="/admin/links" method="get">
-		                    				标题: <input type="search" name="search_title" class="form-control input-sm" placeholder="" aria-controls="data-table" value="{{ $params['search_title'] or '' }}">
+	                    				<form action="/admin/cates" method="get">
+		                    				分类名称: <input type="search" name="search_title" class="form-control input-sm" placeholder="" aria-controls="data-table" value="{{ $params['search_title'] or '' }}">
 	                    					<input type="submit" class="btn btn-info" value="查询" name="">
 	                    				</form>
 	                    			</label>
@@ -68,7 +68,7 @@
 						   <div class="col-sm-7">
 						    	<div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
 								     <ul class="pagination">
-								      {{ $cates->links() }}
+								      {{ $cates->appends($params)->links() }}
 								     </ul>
 							    </div>
 					   		</div>

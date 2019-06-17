@@ -9,10 +9,10 @@ use DB;
 
 class CatesController extends Controller
 {   
-    public static function getCateData()
+    public static function getCateData($search_title='')
     {
          // 查询 所有 分类
-        $cates = Cates::select('*',DB::raw("concat(path,',',id) as paths"))->orderBy('paths','asc')->paginate(5);
+        $cates = Cates::select('*',DB::raw("concat(path,',',id) as paths"))->where('cname','like','%'.$search_title.'%')->orderBy('paths','asc')->paginate(5);
         
         foreach ($cates as $key => $value) {
             $n = substr_count($value->path,',');
@@ -27,11 +27,15 @@ class CatesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {   
-       
+        // 接收要搜索的分类名称
+        $search_cname = $request->input('search_title','');
 
-        return view('admin.cates.index',['cates'=>self::getCateData()]);
+
+        $cates = self::getCateData($search_cname);
+
+        return view('admin.cates.index',['cates'=>$cates,'params'=>$request->all()]);
     }
 
     /**
