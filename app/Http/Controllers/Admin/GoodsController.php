@@ -8,6 +8,7 @@ use App\Models\Goods;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Input as Input;
 use DB;
+use App\Models\Cates;
 
 class GoodsController extends Controller
 {
@@ -18,14 +19,16 @@ class GoodsController extends Controller
      */
     public function index()
     {
-        //
+        //获取所有分类
+        $cates_data = Cates::all();
+        
         $goods = new Goods();
         $goods_data = $goods->all();
-        return view('admin.goods.index',['goods_data'=>$goods_data]);
+        return view('admin.goods.index',['goods_data'=>$goods_data,'cates_data'=>$cates_data]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 显示商品添加表面 页面
      *
      * @return \Illuminate\Http\Response
      */
@@ -93,7 +96,7 @@ class GoodsController extends Controller
         $row = $goods->save();
         //返回受影响行数
         if($row) {
-            return redirect('admin/news')->with('success','添加数据成功');
+            return redirect('admin/goods')->with('success','添加数据成功');
         } else {
             //添加失败
             return back()->with('error','添加数据失败');
@@ -113,7 +116,7 @@ class GoodsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 显示商品修改 表单 页面
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -127,12 +130,11 @@ class GoodsController extends Controller
         $brands = DB::table('brands')->get();
         $goods_data = Goods::all();
 
-        echo json_encode(['goods'=>$goods]);
-        return view('admin.goods.index',['cates'=>$cates]);
+        echo json_encode(['goods'=>$goods,'cates'=>$cates,'brands'=>$brands]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * 执行修改数据 操作
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -140,8 +142,38 @@ class GoodsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        dd($request->all());
+        //获取缩略图
+        if($request->hasFile('img')) {
+            //接收图片
+            $file = $request->file('img');
+            //获取文件原始名称
+            $filename = time() . '_' .rand(1000000,9999999).'_'.$file->getClientOriginalName();
+            //上传原始大小图片
+            $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
+            //上传mid规格图片
+            $img = \Image::make($file)->resize(60, 60)->save(public_path('/uploads/'.date('Ymd').'/'.'img_small_'.$filename));
+            //上传big规格图片
+            $img = \Image::make($file)->resize(400, 400)->save(public_path('/uploads/'.date('Ymd').'/'.'img_big_'.$filename));
+
+            $goods->img = date('Ymd').'/'.$filename;
+            $goods->img_small = date('Ymd').'/'.'img_small_'.$filename;
+            $goods->img_big = date('Ymd').'/'.'img_big_'.$filename;
+            }
+
+
+        $goods = Goods::find($id);
+        //保存商品标题
+        $goods->title = $request->input('title');
+        //保存商品描述
+        $goods->desc = $request->input('desc');
+        //保存商品状态
+        $goods->goods_status = $request->input('goods_status');
+        //保存商品分类
+        $goods->cid = $request->input('cid');
+        //保存商品品牌
+        $goods->bid = $request->input('bid');
+        //执行添加数据
+        $row = $goods->save();
     }
 
     /**
