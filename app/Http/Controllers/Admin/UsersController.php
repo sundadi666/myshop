@@ -88,19 +88,21 @@ class UsersController extends Controller
        $user->uname = $data['uname'];
        $user->token = $data['_token'];
        $user->phone = $data['phone'];
+       $user->email = $data['email'];
        $user->upass = Hash::make($data['upass']);
        // 将数据 存入到 数据库
        $res1 = $user->save();
+       // 如果 插入成功 获取 uid
        if($res1){
         // 获取 uid
         $uid = $user->id;
        }
 
-       // 将 头像和手机 插入 到 用户详情表里
+       // 将 头像 插入 到 用户详情表里
        $userinfo = new UsersInfos;
        $userinfo->uid = $uid;
        $userinfo->profile = $file_path;     
-       $userinfo->email = $data['email'];
+      
        // 执行 插入 到数据库
        $res2 = $userinfo->save();
        // 判断 两个表 是否同部  添加 实务
@@ -174,15 +176,16 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function status(Request $request)
-    {
-        
-
+    {        
+      // 接收状态值
       $status = $request->input('status');
       $id = $request->input('id');
       $res = DB::table('users')->where('id',$id)->update(['status'=>$status]);
       if($res){
+        // 成功返回
         return back()->with('success','修改状态成功');
       }else{
+        // 失败返回
         return back()->with('error','修改状态失败');
       }
     }

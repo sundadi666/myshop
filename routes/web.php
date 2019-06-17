@@ -218,9 +218,12 @@ Route::resource('admin/goods','Admin\GoodsController');
 
 
 
-
-
-
+// 前台 邮箱 注册 路由
+Route::post('home/register/email','Home\RegisterController@email');
+// 前台 手机验证码 路由
+Route::post('home/register/phone','Home\RegisterController@phone');
+// 前台 手机 邮箱 注册路由
+Route::resource('home/register','Home\RegisterController');
 
 
 

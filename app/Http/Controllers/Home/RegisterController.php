@@ -1,0 +1,228 @@
+<?php
+
+namespace App\Http\Controllers\Home;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
+use App\Models\Users;
+use Hash;
+use Mail;
+class RegisterController extends Controller
+{
+    /**
+     * 手机和邮箱 注册 页面
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        // 显示 手机和邮箱 注册页面
+        return view('home.register.index');
+    }
+
+    /**
+     * 手机 验证
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+       
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+      // dd($request->token);
+       
+        // 接收 所有 值
+        $phone = $request->input('phone');
+        $code = $request->input('code');
+         $k = $phone.'_code';
+        $phone_code = session($k);
+        if($code !=$phone_code){
+           // echo "<script>alert('验证码错误');location.href='/home/register'</script>";
+            echo json_encode(['msg'=>'err']);
+        }
+       $data = $request->all();
+
+       $user = new Users;
+       $user->uname = $request->input('uname','');
+       $user->token = str_random(50);
+
+       $user->phone =$request->input('phone','');
+       $user->upass = Hash::make($data['upass']);
+        // 将数据 存入到 数据库
+       $res1 = $user->save();
+       if($res1){
+         // echo "<script>alert('注册成功');location.href='/home'</script>";
+         echo json_encode(['msg'=>'ok']);
+       }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+     /**
+     * 邮箱 注册
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function email(Request $request)
+    {
+        // 接收 所有 值        
+        $email = $request->input('email','');
+        $user = new Users;
+        // 没有 uname的值 默认为空
+        $user->uname = $request->input('uname','');
+        $user->phone = $request->input('phone','');
+        $user->email = $email;
+        $user->token = str_random(50);
+        $user->upass = Hash::make($request->input('upass',''));
+
+        $user = '';
+        // 发送 邮箱
+        Mail::send('home/register.mail', ['user' => $user], function ($m) use ($user) {
+           // to 要发送 地址  subject 发送邮件的标题
+
+            $m->to('780101138@qq.com')->subject('Your Reminder!');
+        });
+
+
+        // 将数据 存入到 数据库
+       // $res = $user->save();
+       // if($res){
+       //   // echo "<script>alert('注册成功');location.href='/home'</script>";
+       //   echo json_encode(['msg'=>'ok']);
+       // }
+      
+    }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  验证 手机验证码
+     * @return \Illuminate\Http\Response
+     */
+    public function phone(Request $request)
+    {
+        $phone = $request->input('phone');
+        echo $phone; 
+        // 验证码随机数
+        $code = rand(1234,4321);
+        // 将 验证码存入到session中
+        $k = $phone.'_code';
+       session([$k=>$code]);
+        
+         $url = "http://v.juhe.cn/sms/send";
+        $params = array(
+            'key'   => '0aa424d347e3983869b9a56f375d9863', //您申请的APPKEY
+            'mobile'    => $phone, //接受短信的用户手机号码
+            'tpl_id'    => '166001', //您申请的短信模板ID，根据实际情况修改
+            'tpl_value' =>'#code#='.$code, //您设置的模板变量，根据实际情况修改
+            'dtype' => 'json'
+        );
+
+        $paramstring = http_build_query($params);
+        $content = self::juheCurl($url, $paramstring);
+        // 返回 json格式
+        echo $content;
+        // $result = json_decode($content, true);
+        // if ($result) {
+        //     var_dump($result);
+        // } else {
+        //     //请求异常
+        // }
+
+
+    }
+
+            /**
+         * 请求接口返回内容
+         * @param  string $url [请求的URL地址]
+         * @param  string $params [请求的参数]
+         * @param  int $ipost [是否采用POST形式]
+         * @return  string
+         */
+        public static function juheCurl($url, $params = false, $ispost = 0)
+        {
+            $httpInfo = array();
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'JuheData');
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            if ($ispost) {
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($ch, CURLOPT_URL, $url);
+            } else {
+                if ($params) {
+                    curl_setopt($ch, CURLOPT_URL, $url.'?'.$params);
+                } else {
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                }
+            }
+            $response = curl_exec($ch);
+            if ($response === FALSE) {
+                //echo "cURL Error: " . curl_error($ch);
+                return false;
+            }
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $httpInfo = array_merge($httpInfo, curl_getinfo($ch));
+            curl_close($ch);
+            return $response;
+        } 
+
+}
