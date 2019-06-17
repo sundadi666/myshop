@@ -14,7 +14,7 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                     </div>
-                    <h4 class="panel-title">公告管理</h4>
+                    <h4 class="panel-title">商品管理</h4>
                 </div>
                 <div class="panel-body">
                     <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -37,15 +37,23 @@
                         <thead>
                             <tr role="row">
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 327px;">id</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">标题</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品名称</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品描述</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品状态</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品品牌</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">缩略图</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 164px;">操作</th></tr>
                         </thead>
                         <tbody>
-                            @foreach($news_data as $k=>$v)
+                            @foreach($goods_data as $k=>$v)
                             <tr class="gradeA odd" role="row">
-                                <td class="sorting_1" tabindex="0">{{ $v->id }}</td>
+                                <td class="sorting_1" tabindex="0" style="width: 3%;">{{ $v->id }}</td>
                                 <td>{{ $v->title }}</td>
-                                <td>
+                                <td>{{ $v->desc }}</td>
+                                <td>{{ $v->goods_status }}</td>
+                                <td>{{ $v->bid }}</td>
+                                <td><img src="/uploads/{{ $v->img_small }}"></td>
+                                <td style="width: 15%;">
                                     <a href="javascript:;" class="btn btn-info" onclick="edit({{ $v->id }})">修改</a>
                                     <a href="javascript:;" class="btn btn-success" onclick="destroy({{ $v->id }},this)">删除</a>
                                 </td>
@@ -62,7 +70,7 @@
                            <div class="col-sm-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
                                      <ul class="pagination">
-                                      {{ $news_data->appends($params)->links() }}
+
                                      </ul>
                                 </div>
                             </div>
@@ -99,24 +107,52 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">公告管理修改</h4>
+        <h4 class="modal-title" id="myModalLabel">商品修改</h4>
       </div>
       <div class="modal-body">
-        <form id="form1" action="/admin/news" method="POST">
+        <form id="form1" action="admin/goods" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('PUT') }}
           <div class="form-group">
-            <label for="exampleInputEmail1">公告标题</label>
-            <input type="text" name="title" class="form-control" id="title" placeholder="公告标题">
+            <label for="exampleInputEmail1">商品标题</label>
+            <input type="text" name="title" class="form-control" id="title" placeholder="商品标题">
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">公告内容</label>
-            <textarea class="form-control" rows="3" name="content" id="content1"></textarea>
+            <label for="exampleInputEmail1">商品描述</label>
+            <input type="text" name="desc" class="form-control" id="desc" placeholder="商品标题">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">缩略图</label>
+            <div>
+                <img id="img_small" src="">
+                <input name="img" type="file" id="exampleInputFile">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">商品状态</label>
+            <label class="radio-inline">
+              &nbsp;&nbsp;<input type="radio" name="goods_status" id="inlineRadio1" value="1">激活
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="goods_status" id="inlineRadio2" value="0">未激活
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">商品分类</label>
+            <select name="cid" id="cid" class="form-control" style="width: 100px;">
+                <option>请选择</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">所属品牌</label>
+            <select name="bid" id="bid" class="form-control" style="width: 100px;">
+              <option>请选择</option>
+            </select>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-success"  value="确认修改">
           </div>
-        </form>¬
+        </form>
       </div>
     </div>
   </div>
@@ -135,13 +171,24 @@
 
     function edit(id)
     {
+        console.log(id);
         $('#myModal1').modal('show');
-        $.get('/admin/news/'+id+'/edit',function(res){
-            let newurl = '/admin/news/'+id;
-            console.log(newurl);
-            $('#title').val(res.title);
-            $('#content1').val(res.content);
-            $('#form1').attr('action',newurl);
+        $.get('/admin/goods/'+id+'/edit',function(res){
+            let newurl = '/admin/goods/'+id;
+            $('#title').val(res.goods.title);
+            $('#desc').val(res.goods.desc);
+            $('#img_small').attr('src','/uploads/'+res.goods.img_small);
+            $("input[name=goods_status][value="+res.goods.goods_status+"]").attr("checked",true);
+
+            // $.each(res.cates, function(i, item){
+            //         $("#cid").append($("<option/>").text(item.id).attr("value",item.id));
+            //         $("#cid").find(`option[value="${res.goods.cid}"]`).attr("selected",true);
+            // });
+
+            // $.each(res.brands, function(i, item){
+            //     $("#bid").append($("<option/>").text(item.id).attr("value",item.id));
+            //     $("#bid").find(`option[value="${res.goods.bid}"]`).attr("selected",true);  
+            // });
         },'json')
     }
 
