@@ -44,6 +44,16 @@ class NavigatesController extends Controller
      */
     public function store(Request $request)
     {   
+        $this->validate($request, [
+            'title' => 'required|max:20',
+            'url' => 'required',
+        ],[
+            //表单规格被触发
+            'title.required'=>'标题必须填写',
+            'title.max'=>'标题输入在20字以内',
+            'url.required'=>'地址必须填写'
+        ]);
+
         $navigates = new Navigates;
 
         // 接收 要保存的数据

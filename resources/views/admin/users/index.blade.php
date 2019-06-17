@@ -15,7 +15,7 @@
 		<div class="panel-body">
 		<div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 			<div class="row">
-                <div class="col-sm-6" style="margin-left:60%;">
+                <div  style="margin-left:40%;">
 					<div id="data-table_filter" class="dataTables_filter">
 						<label>
 							<form>
@@ -49,7 +49,7 @@
 		            <td>{{$v->usersinfos->email}}</td>
 		            <td>
 		            	@if($v->status == 0)	
-		            	<span><kbd style="background-color:red">为激活</kbd></span>
+		            	<span><kbd style="background-color:red">未激活</kbd></span>
 		            	@else
 		            	<span><kbd style="background-color:green">已激活</kbd></span>
 		            	@endif

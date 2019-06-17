@@ -167,7 +167,17 @@
 						</ul>
 					</li>
 
-
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-gift"></i>
+						    <span>分类管理</span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/cates">分类列表</a></li>
+							<li><a href="/admin/cates/create">分类添加</a></li>
+						</ul>
+					</li>
 
 					<li class="has-sub">
 						<a href="javascript:;">
