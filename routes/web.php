@@ -162,7 +162,8 @@ Route::resource('admin/news','Admin\NewsController');
 // 商品列表 路由
 Route::resource('admin/goods','Admin\GoodsController');
 
-
+// 商品型号添加 路由
+Route::resource('admin/models','Admin\ModelsController');
 
 
 

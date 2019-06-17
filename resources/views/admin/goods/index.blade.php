@@ -42,6 +42,8 @@
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品状态</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品品牌</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">缩略图</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">型号</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">大小</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 164px;">操作</th></tr>
                         </thead>
                         <tbody>
@@ -50,9 +52,15 @@
                                 <td class="sorting_1" tabindex="0" style="width: 3%;">{{ $v->id }}</td>
                                 <td>{{ $v->title }}</td>
                                 <td>{{ $v->desc }}</td>
-                                <td>{{ $v->goods_status }}</td>
+                                @if($v->goods_status == 0)
+                                <td><kbd style="background: #4cd415;">激活</kbd></td>
+                                @else
+                                <td><kbd style="background: #000000;">未激活</kbd></td>
+                                @endif
                                 <td>{{ $v->bid }}</td>
                                 <td><img src="/uploads/{{ $v->img_small }}"></td>
+                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd()">添加</button></td>
+                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd()">添加</button></td>
                                 <td style="width: 15%;">
                                     <a href="javascript:;" class="btn btn-info" onclick="edit({{ $v->id }})">修改</a>
                                     <a href="javascript:;" class="btn btn-success" onclick="destroy({{ $v->id }},this)">删除</a>
@@ -124,14 +132,15 @@
           <div class="form-group">
             <label for="exampleInputEmail1">缩略图</label>
             <div>
-                <img id="img_small" src="">
+                <img id="old_pic" src="">
+                <input type="hidden" name="img_small">
                 <input name="img" type="file" id="exampleInputFile">
             </div>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">商品状态</label>
             <label class="radio-inline">
-              &nbsp;&nbsp;<input type="radio" name="goods_status" id="inlineRadio1" value="1">激活
+             <input type="radio" name="goods_status" id="inlineRadio1" value="1">激活
             </label>
             <label class="radio-inline">
               <input type="radio" name="goods_status" id="inlineRadio2" value="0">未激活
@@ -140,13 +149,16 @@
           <div class="form-group">
             <label for="exampleInputEmail1">商品分类</label>
             <select name="cid" id="cid" class="form-control" style="width: 100px;">
-                <option>请选择</option>
+                @foreach($cates_data as $k=>$v)
+                <option value="{{$v->id}}">{{ $v->cname}}</option>
+                @endforeach
             </select>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">所属品牌</label>
             <select name="bid" id="bid" class="form-control" style="width: 100px;">
               <option>请选择</option>
+              <option value="1">1</option>
             </select>
           </div>
           <div class="modal-footer">
@@ -158,6 +170,33 @@
   </div>
 </div>
 <!-- 修改 模态框 结束 -->
+
+<!-- 型号 模态框 开始 -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加型号</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form1" action="/admin/models" method="POST">
+            {{ csrf_field() }}
+          <div class="form-group">
+            <label for="exampleInputEmail1">商品型号</label><br>
+            <input type="text" name="mname" class="form-control" id="title" placeholder="商品型号">
+            <br>
+            <span style="color: red;">注意事项:型号名称以英文" , "逗号隔开</span><br>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-success"  value="确认修改">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 型号 模态框 结束 -->
 <script type="text/javascript">
 	function showContent(id)
 	{
@@ -171,24 +210,18 @@
 
     function edit(id)
     {
-        console.log(id);
         $('#myModal1').modal('show');
         $.get('/admin/goods/'+id+'/edit',function(res){
             let newurl = '/admin/goods/'+id;
             $('#title').val(res.goods.title);
             $('#desc').val(res.goods.desc);
-            $('#img_small').attr('src','/uploads/'+res.goods.img_small);
             $("input[name=goods_status][value="+res.goods.goods_status+"]").attr("checked",true);
+            $('#old_pic').attr('src','/uploads/'+res.goods.img_small);
+            $('input[name="img_small"]').val(res.goods.img_small);
+            $('#form1').attr('action',newurl);
 
-            // $.each(res.cates, function(i, item){
-            //         $("#cid").append($("<option/>").text(item.id).attr("value",item.id));
-            //         $("#cid").find(`option[value="${res.goods.cid}"]`).attr("selected",true);
-            // });
+            $("#cid").find(`option[value="${res.goods.cid}"]`).attr("selected",true);
 
-            // $.each(res.brands, function(i, item){
-            //     $("#bid").append($("<option/>").text(item.id).attr("value",item.id));
-            //     $("#bid").find(`option[value="${res.goods.bid}"]`).attr("selected",true);  
-            // });
         },'json')
     }
 
@@ -212,6 +245,11 @@
                     $(obj).parent().parent().parent().remove();
                 },
             });
+    }
+
+    function modelAdd()
+    {
+        $('#myModal2').modal('show');
     }
 </script>
 @endsection

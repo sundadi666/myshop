@@ -138,7 +138,6 @@
         $('#myModal1').modal('show');
         $.get('/admin/news/'+id+'/edit',function(res){
             let newurl = '/admin/news/'+id;
-            console.log(newurl);
             $('#title').val(res.title);
             $('#content1').val(res.content);
             $('#form1').attr('action',newurl);
