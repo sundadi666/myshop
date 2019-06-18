@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Redis;
 use App\Models\Users;
 use Hash;
 use Mail;
+use DB;
+
 class RegisterController extends Controller
 {
     /**
@@ -32,7 +34,7 @@ class RegisterController extends Controller
     }
     
     /**
-     * Store a newly created resource in storage.
+     * 手机号 注册
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -49,20 +51,24 @@ class RegisterController extends Controller
         if($code !=$phone_code){
            // echo "<script>alert('验证码错误');location.href='/home/register'</script>";
             echo json_encode(['msg'=>'err']);
+            exit;
         }
        $data = $request->all();
 
        $user = new Users;
        $user->uname = $request->input('uname','');
+       // 给 token 随机50位字符
        $user->token = str_random(50);
 
        $user->phone =$request->input('phone','');
+       // 给 密码 加密
        $user->upass = Hash::make($data['upass']);
         // 将数据 存入到 数据库
        $res1 = $user->save();
        if($res1){
          // echo "<script>alert('注册成功');location.href='/home'</script>";
          echo json_encode(['msg'=>'ok']);
+         exit;
        }
     }
 
@@ -110,40 +116,72 @@ class RegisterController extends Controller
     {
         //
     }
+
      /**
-     * 邮箱 注册
+     *  激活 用户 (邮箱)
+     *
+     * @param  激活 用户 (邮箱)
+     * @return \Illuminate\Http\Response
+     */
+    public function chengeStatus($id,$token)
+    {
+        //获取 用户 信息
+         $user = Users::find($id);
+         if($user->token != $token){
+            // 如果 token不一致 返回错误 图片
+           return  view('home.register.error');
+         }
+         // 修改 激活状态
+         $user->status = 1;
+         // 重新 给 token 赋值
+         $user->token = str_random(50);
+         // 将 数据 保存 到数据库
+         $res = $user->save();
+         if($res){
+            // 激活 成功 返回 成功图片
+            return view('home.register.success');
+         }else{
+            // 激活 失败 返回 错误图片
+            return  view('home.register.error');
+         }       
+    }
+     /**
+     * 邮箱 注册 方法
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function email(Request $request)
     {
-        // 接收 所有 值        
+        // 接收 邮箱 值        
         $email = $request->input('email','');
-        $user = new Users;
-        // 没有 uname的值 默认为空
-        $user->uname = $request->input('uname','');
+        $user = new Users;    
+        // 没有 uname的值 默认随机字符串
+        $user->uname = str_random(10);
         $user->phone = $request->input('phone','');
         $user->email = $email;
         $user->token = str_random(50);
         $user->upass = Hash::make($request->input('upass',''));
-
-        $user = '';
-        // 发送 邮箱
-        Mail::send('home/register.mail', ['user' => $user], function ($m) use ($user) {
-           // to 要发送 地址  subject 发送邮件的标题
-
-            $m->to('780101138@qq.com')->subject('Your Reminder!');
-        });
-
-
         // 将数据 存入到 数据库
-       // $res = $user->save();
-       // if($res){
-       //   // echo "<script>alert('注册成功');location.href='/home'</script>";
-       //   echo json_encode(['msg'=>'ok']);
-       // }
-      
+       $res = $user->save();
+        // 判断 如果添加成功 再发送 邮件      
+       if($res){
+             //echo "<script>alert('注册成功');location.href='/home'</script>";
+            // echo json_encode(['msg'=>'ok']);
+              // 发送 邮箱
+              
+            Mail::send('home/register.mail', ['id' => $user->id,'token'=>$user->token], function ($m) use ($email) {
+               // to 要发送 地址  subject 发送邮件的标题
+
+               $s = $m->to($email)->subject('【MYSHOP】提醒邮件!');
+
+               // 判断 是否发送成功
+               if($s){
+                   echo json_encode(['msg'=>'ok']);
+                  
+               }
+            });
+        }           
     }
 
      /**
@@ -155,21 +193,21 @@ class RegisterController extends Controller
     public function phone(Request $request)
     {
         $phone = $request->input('phone');
-        echo $phone; 
+       
         // 验证码随机数
         $code = rand(1234,4321);
         // 将 验证码存入到session中
         $k = $phone.'_code';
-       session([$k=>$code]);
-        
+         session([$k=>$code]);
+        // 发送 获取 手机验证码
          $url = "http://v.juhe.cn/sms/send";
-        $params = array(
+         $params = array(
             'key'   => '0aa424d347e3983869b9a56f375d9863', //您申请的APPKEY
             'mobile'    => $phone, //接受短信的用户手机号码
             'tpl_id'    => '166001', //您申请的短信模板ID，根据实际情况修改
             'tpl_value' =>'#code#='.$code, //您设置的模板变量，根据实际情况修改
             'dtype' => 'json'
-        );
+         );
 
         $paramstring = http_build_query($params);
         $content = self::juheCurl($url, $paramstring);

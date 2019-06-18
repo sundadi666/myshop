@@ -216,7 +216,8 @@ Route::resource('admin/goods','Admin\GoodsController');
 
 
 
-
+// 前台 激活 用户(邮箱) 路由
+Route::get('home/register/chengeStatus/{id}/{token}','Home\RegisterController@chengeStatus');
 
 // 前台 邮箱 注册 路由
 Route::post('home/register/email','Home\RegisterController@email');

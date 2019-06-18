@@ -63,8 +63,8 @@
 								    </label>
 								    <input type="password" name=repass" id="passwordRepeat1" placeholder="确认密码"></div>
 								    <div class="am-cf">
-											<input type="submit"  value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
-										</div>
+										<input type="submit"  value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+									</div>
 							</form>
                  
 								 <div class="login-links">
@@ -76,7 +76,7 @@
 
 								</div>
 
-								<div class="am-tab-panel">
+				<div class="am-tab-panel">
 					<form action="" method="post" name="reg" id="two">
 						{{ csrf_field() }}
 							<div class="user-phone">
@@ -195,7 +195,11 @@
 										$.post('/home/register',{uname,upass,code,phone},function(res){
 											console.log(res);
 											if(res.msg == 'ok') {
-												layer.msg('注册成功');
+												layer.msg('注册成功,');
+											// 等 10秒钟之后 再 跳转
+											setTimeout(function(){	    
+						                	 window.location.href = '/home';
+						               		 },10000);
 											} else {
 												layer.msg('验证码错误');
 											}
@@ -213,7 +217,7 @@
 										let upass = $('#password1').val();
 										let repass = $('#passwordRepeat1').val();
 										// 验证 邮箱 格式
-										let email_preg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+										let email_preg = /^[\w]+@[\w]+\.[\w]+$/;
 										if(!email_preg.test(email)){
 											layer.msg('邮箱格式错误');
 											return false;
@@ -242,8 +246,13 @@
 										        });
 										// 发送 ajax 
 										$.post('/home/register/email',{email,upass},function(res){
+											console.log(res.msg);
 										if(res.msg == 'ok') {
-												layer.msg('注册成功');
+												layer.msg('注册成功, 请尽快激活');
+										// 等 10秒钟之后 再 跳转
+										// setTimeout(function(){	                        
+						    //              window.location.href = '/home';
+						    //             },10000);
 											} else {
 												layer.msg('验证码错误');
 											}
@@ -253,6 +262,7 @@
 									})
 								</script>
 								<!-- 邮箱注册 发送 ajax 结束 -->
+
 								<!-- 发送 ajax 获取手机验证码 开始-->
 								<script type="text/javascript">
 									function sendMobileCode(obj){
