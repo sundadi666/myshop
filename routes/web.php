@@ -87,6 +87,9 @@ Route::resource('admin/cates','Admin\CatesController');
 // 品牌
 Route::resource('admin/brands','Admin\BrandsController');
 
+// 订单
+Route::resource('admin/orders','Admin\OrdersController');
+
 
 
 
