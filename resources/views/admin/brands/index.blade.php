@@ -3,7 +3,7 @@
 	
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<h1 class="page-header">导航<small> </small></h1>
+	<h1 class="page-header">品牌<small></small></h1>
 	
 	<div class="row">
 	    <!-- begin col-12 -->
@@ -17,7 +17,7 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                     </div>
-                    <h4 class="panel-title">导航</h4>
+                    <h4 class="panel-title">品牌管理</h4>
                 </div>
                 <div class="panel-body">
                     <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -26,8 +26,8 @@
 	                    	<div class="col-sm-6" style="margin-left:60%;">
 	                    		<div id="data-table_filter" class="dataTables_filter">
 	                    			<label>
-	                    				<form action="/admin/navicates" method="get">
-		                    				导航标题: <input type="search" name="search_title" class="form-control input-sm" placeholder="" aria-controls="data-table">
+	                    				<form action="/admin/brands" method="get">
+		                    				品牌名: <input type="search" name="search_bname" class="form-control input-sm" placeholder="" aria-controls="data-table" value="{{ $params['search_bname'] or '' }}">
 	                    					<input type="submit" class="btn btn-info" value="查询" name="">
 	                    				</form>
 	                    			</label>
@@ -40,21 +40,26 @@
                         <thead>
                            	<tr role="row">
 						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 327px;">id</th>
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">导航标题</th>
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">地址</th>
+						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">品牌名称</th>
+						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">品牌图片</th>
+						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">品牌介绍</th>
 						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 164px;">操作</th></tr>
                         </thead>
                         <tbody>
-                        	@foreach($navigates_data as $k=>$v)
-	                            <tr class="gradeA odd" role="row">
-	                                <td class="sorting_1" tabindex="0">{{ $v->id }}</td>
-	                                <td>{{ $v->title }}</td>
-	                                <td>{{ $v->url }}</td>
-	                                <td>
-										<a href="javascript:;" class="btn btn-info" onclick="edit({{ $v->id }})">修改</a>
-										<a href="javascript:;" class="btn btn-success" onclick="destroy({{ $v->id }},this)">删除</a>
-	                                </td>
-	                            </tr>
+                        	@foreach($brands_data as $k=>$v)
+                            <tr class="gradeA odd" role="row">
+                                <td class="sorting_1" tabindex="0">{{ $v->id }}</td>
+                                <td>{{ $v->bname }}</td>
+                                <td>
+                                	
+									<img src="/uploads/{{ $v->bimg }}" style="width:100px">
+                                </td>
+                                <td>{{ $v->intro }}</td>
+                                <td>
+									<a href="javascript:;" class="btn btn-info" onclick="edit({{ $v->id }})">修改</a>
+									<a href="javascript:;" class="btn btn-success" onclick="destroy({{ $v->id }},this)">删除</a>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     	</table></div></div>
@@ -67,7 +72,7 @@
 						   <div class="col-sm-7">
 						    	<div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
 								     <ul class="pagination">
-								     	{{ $navigates_data->appends($params)->links()}}
+								    	{{ $brands_data->appends($params)->links() }}
 								     </ul>
 							    </div>
 					   		</div>
@@ -79,60 +84,70 @@
         </div>
         <!-- end col-12 -->
     </div>
-	
-	<script type="text/javascript">
-		// 修改 导航
-		function edit(id){
-			$.get('/admin/navicates/'+ id + '/edit',function(res){
-				$('#exampleModal').find('#title').val(res.title);
-				$('#exampleModal').find('#url').val(res.url);
-				$('#exampleModal').find('form').attr('action','/admin/navicates/'+res.id);
 
-				// 打开模态框
-				$('#exampleModal').modal('show');
-			},'json')
+
+	<script type="text/javascript">
+		
+
+		// 执行修改
+		function edit(id){
+			$.get('/admin/brands/'+id+'/edit',function(res){
+
+				var resimg = '/uploads/' + res.bimg;
+				$('#exampleModal').find('#bname').val(res.bname);
+				$('#exampleModal').find('#intro').val(res.intro);
+				$('#exampleModal').find('#oldbimg').attr('src',resimg);
+				$('#exampleModal').find('form').attr('action','/admin/brands/'+id);
+				$('#exampleModal').modal('show')
+			},'json');
+			
 		}
 
-		// 删除 导航
-		function destroy(id,msg){
+		// 执行 删除
+		function destroy(id,esg){
 			$.ajaxSetup({
 			    headers: {
 			        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			    }
 			});
-
 			$.ajax({
 				type:'DELETE',
-				url:"/admin/navicates/"+id,
-				success: function(res){
-					if(res == "success"){
-						$(msg).parent().parent().remove();
-					}
+				url:'/admin/brands/' + id,
+				success: function(msg){
+				     if(msg == "success"){
+				     	$(esg).parent().parent().remove();
+				     }
 				}
-			});
+			})
 		}
-
+		
+		
 	</script>
 
-	 <!-- 修改友情链接 的模态框 开始 -->
+    <!-- 修改品牌链接 的模态框 开始 -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="exampleModalLabel">导航修改</h4>
+	        <h4 class="modal-title" id="exampleModalLabel">品牌修改</h4>
 	      </div>
 	      <div class="modal-body">
-	        <form action="" method="post" >
+	        <form action="/admin/brands" method="post" enctype="multipart/form-data">
 	        	{{ csrf_field() }}
 	        	{{ method_field('PUT') }}
 	          <div class="form-group">
-	            <label for="title" class="control-label">标题:</label>
-	            <input type="text" name="title" class="form-control" id="title">
+	            <label for="bname" class="control-label">品牌名称:</label>
+	            <input type="text" name="bname" class="form-control" id="bname">
 	          </div>
 	          <div class="form-group">
-	            <label for="url" class="control-label">地址:</label>
-	           	<input type="text" name="url" class="form-control" id="url">
+	            <label for="bimg" class="control-label">品牌图片:</label>
+				<img src="1.jpg" id="oldbimg" style="width:100px;" ="oldbimg">
+				<input type="file" name="bimg">
+	          </div>
+	          <div class="form-group">
+	            <label for="intro" class="control-label">品牌描述:</label>
+	           	<textarea name="intro" id="intro" class="form-control" placeholder="在此输入内容..." rows="5"></textarea>
 			  </div>
 			  <div class="modal-footer">
 		        <input type="submit" class="btn btn-primary" value="修改">
@@ -142,9 +157,6 @@
 		</div>
 	  </div>
 	</div>
-    <!-- 修改友情链接 的模态框 结束 -->
+    <!-- 修改品牌链接 的模态框 结束 -->
 
-
-
-
-@endsection()
+@endsection
