@@ -39,11 +39,10 @@
                 <label class="col-md-3 control-label">商品分类</label>
                 <div class="col-md-9">
                     <select name="cid" class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <option>请选择</option>
+                        @foreach($cates_data as $k=>$v)
+                        <option value="{{ $v->id }}">{{ $v->cname }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -51,11 +50,10 @@
                 <label class="col-md-3 control-label">所属品牌</label>
                 <div class="col-md-9">
                     <select name="bid" class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <option>请选择</option>
+                        @foreach($brands_data as $k=>$v)
+                        <option value="{{ $v->id }}">{{ $v->bname }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>

@@ -9,6 +9,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Input as Input;
 use DB;
 use App\Models\Cates;
+use App\Models\Brands;
 
 class GoodsController extends Controller
 {
@@ -23,8 +24,13 @@ class GoodsController extends Controller
         $cates_data = Cates::all();
         
         $goods = new Goods();
+        //获取所有商品数据
         $goods_data = $goods->all();
-        return view('admin.goods.index',['goods_data'=>$goods_data,'cates_data'=>$cates_data]);
+
+        //获取所有品牌数据
+        $brands_data = Brands::all();
+
+        return view('admin.goods.index',['goods_data'=>$goods_data,'cates_data'=>$cates_data,'brands_data'=>$brands_data]);
     }
 
     /**
@@ -34,8 +40,11 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        //
-        return view('admin.goods.create');
+        //获取所有分类数据
+        $cates_data = Cates::all();
+        //获取所有品牌数据
+        $brands_data = Brands::all();
+        return view('admin.goods.create',['cates_data'=>$cates_data,'brands_data'=>$brands_data]);
     }
 
     /**
@@ -68,8 +77,10 @@ class GoodsController extends Controller
             $file = $request->file('img');
             //获取文件原始名称
             $filename = time() . '_' .rand(1000000,9999999).'_'.$file->getClientOriginalName();
+
             //上传原始大小图片
             $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
+            // dd($img);    
             //上传mid规格图片
             $img = \Image::make($file)->resize(60, 60)->save(public_path('/uploads/'.date('Ymd').'/'.'img_small_'.$filename));
             //上传big规格图片
@@ -86,10 +97,12 @@ class GoodsController extends Controller
         //保存商品状态
         $goods->goods_status = $request->input('goods_status');
         //保存商品分类
-        $goods->cid = $request->input('cid');
+        $goods->cid = $request->input('cid','');
         //保存商品品牌
-        $goods->bid = $request->input('bid');
+        $goods->bid = $request->input('bid','');
+        //自定义三个规格图片的路径
         $goods->img = date('Ymd').'/'.$filename;
+       
         $goods->img_small = date('Ymd').'/'.'img_small_'.$filename;
         $goods->img_big = date('Ymd').'/'.'img_big_'.$filename;
         //执行添加数据
@@ -101,7 +114,6 @@ class GoodsController extends Controller
             //添加失败
             return back()->with('error','添加数据失败');
         }
-
     }
 
     /**
@@ -125,12 +137,8 @@ class GoodsController extends Controller
     {
         //查询该id对应的数据
         $goods = Goods::find($id);
-        //查询所有分类数据
-        $cates = DB::table('cates')->get();
-        $brands = DB::table('brands')->get();
-        $goods_data = Goods::all();
 
-        echo json_encode(['goods'=>$goods,'cates'=>$cates,'brands'=>$brands]);
+        echo json_encode(['goods'=>$goods]);
     }
 
     /**
@@ -174,6 +182,11 @@ class GoodsController extends Controller
         $goods->bid = $request->input('bid');
         //执行添加数据
         $row = $goods->save();
+        if($row) {
+            return redirect('admin/goods')->with('success','修改数据成功');
+        } else {
+            return back()->with('error','修改数据失败');
+        }
     }
 
     /**

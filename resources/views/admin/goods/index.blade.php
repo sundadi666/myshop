@@ -41,6 +41,7 @@
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品描述</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品状态</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品品牌</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品单价</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">缩略图</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">型号</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">大小</th>
@@ -53,14 +54,15 @@
                                 <td>{{ $v->title }}</td>
                                 <td>{{ $v->desc }}</td>
                                 @if($v->goods_status == 0)
-                                <td><kbd style="background: #4cd415;">激活</kbd></td>
-                                @else
                                 <td><kbd style="background: #000000;">未激活</kbd></td>
+                                @else
+                                <td><kbd style="background: #4cd415;">激活</kbd></td>
                                 @endif
-                                <td>{{ $v->bid }}</td>
+                                <td>{{ $brands_data[$v->bid]->bname }}</td>
+                                <td>单价</td>
                                 <td><img src="/uploads/{{ $v->img_small }}"></td>
-                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd()">添加</button></td>
-                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd()">添加</button></td>
+                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd({{ $v->id }})">添加</button></td>
+                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd({{ $v->id }})">添加</button></td>
                                 <td style="width: 15%;">
                                     <a href="javascript:;" class="btn btn-info" onclick="edit({{ $v->id }})">修改</a>
                                     <a href="javascript:;" class="btn btn-success" onclick="destroy({{ $v->id }},this)">删除</a>
@@ -158,7 +160,9 @@
             <label for="exampleInputEmail1">所属品牌</label>
             <select name="bid" id="bid" class="form-control" style="width: 100px;">
               <option>请选择</option>
-              <option value="1">1</option>
+              @foreach($brands_data as $k=>$v)
+              <option value="{{ $v->id }}">{{ $v->bname }}</option>
+              @endforeach
             </select>
           </div>
           <div class="modal-footer">
@@ -186,8 +190,9 @@
             <label for="exampleInputEmail1">商品型号</label><br>
             <input type="text" name="mname" class="form-control" id="title" placeholder="商品型号">
             <br>
-            <span style="color: red;">注意事项:型号名称以英文" , "逗号隔开</span><br>
+            <label for="exampleInputEmail1" style="color: red;">注意：商品大小不能含有任何特殊字符</label><br>
           </div>
+          <input type="hidden" name="id" id="gid">
           <div class="modal-footer">
             <input type="submit" class="btn btn-success"  value="确认修改">
           </div>
@@ -197,6 +202,46 @@
   </div>
 </div>
 <!-- 型号 模态框 结束 -->
+
+<!-- 大小 模态框 开始 -->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加大小</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form2" action="" method="POST">
+            {{ csrf_field() }}
+            <span>商品型号:</span>
+            <select id="goods_models" name="mid" class="form-control" style="width: 100px;display: inline-block;">
+              <option>请选择</option>
+            </select><br><br>
+            <!-- <span>商品大小：</span> -->
+
+            <span>商品大小:</span>
+            <input type="text" name="sname" class="form-control" id="title" placeholder="商品大小" style="width: 100px;display: inline-block;">
+            <label for="exampleInputEmail1" style="color: red;position: relative;left:0px;">
+            注意：商品大小不能含有任何特殊字符</label><br><br>
+
+            <span>商品单价:</span>
+            <input type="text" name="money" class="form-control" id="title" placeholder="商品单价" style="width: 100px;display: inline-block;"><br>
+            <label for="exampleInputEmail1" style="color: red;position: relative;left:0px;"><br>
+            
+            <span style="color: #707478;">商品库存:</span>
+            <input type="text" name="inventory" class="form-control" id="title" placeholder="商品库存" style="width: 100px;display: inline-block;"><br>
+            <label for="exampleInputEmail1" style="color: red;position: relative;left:0px;">
+          <!-- <input type="hidden" name="goods_id" id="goods_id"> -->
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-success"  value="确认修改">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 大小 模态框 结束 -->
 <script type="text/javascript">
 	function showContent(id)
 	{
@@ -247,9 +292,39 @@
             });
     }
 
-    function modelAdd()
+    function modelAdd(id)
     {
         $('#myModal2').modal('show');
+        $('#gid').val(id);
+    }
+
+    function sizeAdd(id)
+    {
+        $('#myModal3').modal('show');
+        $.get('/admin/sizes/create/'+id,{id},function(res){
+            if(res.msg == 'ok') {
+
+            var str="";
+            str+="<option value=''>请选择</option>"
+            $.each(res.models_data,function(index,val){
+               str+="<option value='"+val.id+"'>"+val.mname+"</option>"
+            })
+             $("#goods_models").empty();
+            $("#goods_models").append(str);
+
+            // let newurl = '/admin/sizes/update?gid='+id+'mid='+$("#goods_models").find("option:selected").val();
+
+            let newurl = '/admin/sizes/store/'+id;
+            
+            $('#form2').attr('action',newurl);
+
+            }
+        },'json')
+    }
+
+    function getMid(models_value)
+    {
+
     }
 </script>
 @endsection

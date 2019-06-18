@@ -87,8 +87,10 @@ Route::resource('admin/cates','Admin\CatesController');
 // 品牌
 Route::resource('admin/brands','Admin\BrandsController');
 
+
 // 订单
 Route::resource('admin/orders','Admin\OrdersController');
+
 
 
 
@@ -171,7 +173,11 @@ Route::resource('admin/goods','Admin\GoodsController');
 // 商品型号添加 路由
 Route::resource('admin/models','Admin\ModelsController');
 
+// 商品大小显示页面 路由
+Route::get('admin/sizes/create/{id}','Admin\SizesController@create');
 
+// 商品大小执行添加 路由
+Route::post('admin/sizes/store/{id}','Admin\SizesController@store');
 
 
 
