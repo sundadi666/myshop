@@ -47,8 +47,16 @@ class CatesController extends Controller
     {   
         $id = $request->input('id','');
 
+        $cates = Cates::select('*',DB::raw("concat(path,',',id) as paths"))->orderBy('paths','asc')->get();
+        
+        foreach ($cates as $key => $value) {
+            $n = substr_count($value->path,',');
+
+            $cates[$key]->cname = str_repeat('|---', $n).$value->cname;
+        }
+
         // 显示页面
-        return view('admin.cates.create',['cates'=>self::getCateData(),'id'=>$id]);
+        return view('admin.cates.create',['cates'=>$cates,'id'=>$id]);
     }
 
     /**

@@ -78,6 +78,10 @@ class GoodsController extends Controller
             //获取文件原始名称
             $filename = time() . '_' .rand(1000000,9999999).'_'.$file->getClientOriginalName();
 
+            if(!is_dir('/uploads/'.date('Ymd'))){
+               $request->file('img')->store(date('Ymd'));
+            }
+
             //上传原始大小图片
             $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
             // dd($img);    
@@ -150,6 +154,7 @@ class GoodsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $goods = Goods::find($id);
         //获取缩略图
         if($request->hasFile('img')) {
             //接收图片
@@ -169,7 +174,7 @@ class GoodsController extends Controller
             }
 
 
-        $goods = Goods::find($id);
+        
         //保存商品标题
         $goods->title = $request->input('title');
         //保存商品描述

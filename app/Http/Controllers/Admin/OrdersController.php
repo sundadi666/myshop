@@ -15,8 +15,11 @@ class OrdersController extends Controller
      */
     public function index(Request $request)
     {   
+        // 获取 要查询的 内容
+        $search_oid = $request->input('search_oid','');
+
         // 查询数据
-        $orders_data = Orders::paginate(5);
+        $orders_data = Orders::where('oid','like','%'.$search_oid.'%')->paginate(5);
 
         // 显示 页面
         return view('admin.orders.index',['orders_data'=>$orders_data,'params'=>$request->all()]);

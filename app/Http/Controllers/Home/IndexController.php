@@ -4,18 +4,38 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Cates;
+use App\Models\Navigates;
 
 class IndexController extends Controller
 {
+   public static function getPidCatesData($pid = 0)
+   {
+        // 获取一级分类
+        $data = Cates::where('pid',$pid)->get();
+        foreach ($data as $k => $v) {
+
+            $v->sub = self::getPidCatesData($v->id);
+            
+        }
+
+        return $data;
+
+   }    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $navigates_data = Navigates::all();
+
+        $cates_data = self::getPidCatesData(0);
+
         //
-        return view('home.index.index');
+        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data]);
     }
 
     /**

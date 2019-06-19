@@ -24,8 +24,8 @@
 	                    	<div class="col-sm-6" style="margin-left:60%;">
 	                    		<div id="data-table_filter" class="dataTables_filter">
 	                    			<label>
-	                    				<form action="/admin/cates" method="get">
-		                    				分类名称: <input type="search" name="search_title" class="form-control input-sm" placeholder="" aria-controls="data-table" value="{{ $params['search_title'] or '' }}">
+	                    				<form action="/admin/orders" method="get">
+		                    				订单编号: <input type="text" name="search_oid" class="form-control input-sm" placeholder="" aria-controls="data-table" value="{{ $params['search_oid'] or '' }}">
 	                    					<input type="submit" class="btn btn-info" value="查询" name="">
 	                    				</form>
 	                    			</label>
@@ -59,7 +59,7 @@
                                 <td>{{ $v->users->uname }}</td>
                                 <td>{{ $v->goods->title }}</td>
                                 <td>{{ $v->models->mname }}</td>
-                                <td>{{ $v->sid }}</td>
+                                <td>{{ $v->sizes->sname }}</td>
                                 <td>{{ $v->nums }}</td>
                                 <td>{{ $v->price }}</td>
                                 <td>{{ $v->status }}</td>

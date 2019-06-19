@@ -64,7 +64,7 @@ class SizesController extends Controller
       $row = $sizes->save();
 
       if($row) {
-        return redirect('admin/goods/index')->with('success','添加数据成功');
+        return redirect('admin/goods')->with('success','添加数据成功');
       } else {
         return back()->with('error','添加数据失败');
       }

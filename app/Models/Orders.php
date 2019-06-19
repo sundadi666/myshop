@@ -13,6 +13,8 @@ class Orders extends Model
     	 return $this->belongsTo('App\Models\Users','uid');
     }
    	
+  
+
    	// 查找 商品 名称
    	public function goods()
    	{
@@ -26,6 +28,9 @@ class Orders extends Model
    	}
 
    	// 查找 购买商品 的大小
-   	public function 
+   	public function sizes()
+   	{
+   		return $this->belongsTo('App\Models\Sizes','sid');
+   	}
 
 }
