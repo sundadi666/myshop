@@ -183,6 +183,18 @@
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
 							<i class="fa fa-2x fa-gift"></i>
+						    <span>轮播图管理</span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/banners">轮播图列表</a></li>
+							<li><a href="/admin/banners/create">轮播图添加</a></li>
+						</ul>
+					</li>
+
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-gift"></i>
 						    <span>商品管理</span> 
 						</a>
 						<ul class="sub-menu">

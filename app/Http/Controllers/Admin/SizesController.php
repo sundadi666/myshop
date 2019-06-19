@@ -44,9 +44,8 @@ class SizesController extends Controller
        *
        * @return \Illuminate\Http\Response
        */
-    public function store(Request $request,$id)
+    public function store(Request $request)
     {      
-      // dd($request->all());
       //实例化商品大小 模型
       // $sizes = Sizes::find($id);
       $sizes = new Sizes();

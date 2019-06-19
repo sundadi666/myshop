@@ -173,12 +173,17 @@ Route::resource('admin/goods','Admin\GoodsController');
 // 商品型号添加 路由
 Route::resource('admin/models','Admin\ModelsController');
 
+//轮播图 路由
+Route::resource('admin/banners','Admin\BannersController');
+
 // 商品大小显示页面 路由
 Route::get('admin/sizes/create/{id}','Admin\SizesController@create');
 
 // 商品大小执行添加 路由
-Route::post('admin/sizes/store/{id}','Admin\SizesController@store');
+Route::post('admin/sizes/store','Admin\SizesController@store');
 
+//用户留言 路由
+Route::get('home/addmsg','Home\ReplysController@create');
 
 
 
