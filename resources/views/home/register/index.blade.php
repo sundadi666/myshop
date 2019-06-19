@@ -111,11 +111,11 @@
 								<input type="submit" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
 						
 						</form>
-								 <div class="login-links">
-										<label for="reader-me">
-											<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
-										</label>
-							  	</div>
+							 <div class="login-links">
+									<label for="reader-me">
+										<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
+									</label>
+						  	</div>
 										
 									<hr>
 								</div>
@@ -147,39 +147,39 @@
 								            return false;          
 								       	  }
 										  // 正则验证 手机 格式
-											let phone_preg = /^1{1}[3-9]{1}[\d]{9}$/;
-											// 判断 如果不通过 就不发送 ajax
-											if(!phone_preg.test(phone)){
-												// 不往下执行
-												layer.msg('手机号格式不正确')
+										let phone_preg = /^1{1}[3-9]{1}[\d]{9}$/;
+										// 判断 如果不通过 就不发送 ajax
+										if(!phone_preg.test(phone)){
+										// 不往下执行
+											layer.msg('手机号格式不正确')
 												return false;
 											}
-											// 判断 验证码不能为空
-											 if(code ==''){
+										// 判断 验证码不能为空
+										 if(code ==''){
 								            layer.msg('验证码不能为空');
 								            return false;
 								       	   }
 
 								       	  
-								       	   // 判断 两次密码 不能为空
+								        // 判断 两次密码 不能为空
 								        if(upass==''&& repass==''){
 								            layer.msg('密码不能为空')
 								            return false;
 								        }
 
-
-								       	   let upass_preg = /^\w{6,18}$/;
-								       	   if(!upass_preg.test(upass)){
-								       	   	layer.msg('密码格式错误')
-								       	   	return false;
-								       	   }
+								        // 判断 密码格式
+							       	   let upass_preg = /^\w{6,18}$/;
+							       	   if(!upass_preg.test(upass)){
+							       	   	layer.msg('密码格式错误')
+							       	   	return false;
+							       	   }
 										
-								       
+								        // 判断 俩次密码不一致
 								        if(upass != repass){
 								            layer.msg('俩次密码不一致');
 								           return false;
 								        }
-								       
+								        // 判断 用户名不能为空
 								        if(uname==''){
 								            layer.msg('用户名不能为空');
 								            return false;
@@ -196,7 +196,7 @@
 											console.log(res);
 											if(res.msg == 'ok') {
 												layer.msg('注册成功,');
-											// 等 10秒钟之后 再 跳转
+											// 等 2秒钟之后 再 跳转
 											setTimeout(function(){	    
 						                	 window.location.href = '/home/login';
 						               		 },1500);
