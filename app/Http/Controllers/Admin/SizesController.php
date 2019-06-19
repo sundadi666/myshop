@@ -44,9 +44,8 @@ class SizesController extends Controller
        *
        * @return \Illuminate\Http\Response
        */
-    public function store(Request $request,$id)
+    public function store(Request $request)
     {      
-      // dd($request->all());
       //实例化商品大小 模型
       // $sizes = Sizes::find($id);
       $sizes = new Sizes();
@@ -64,7 +63,7 @@ class SizesController extends Controller
       $row = $sizes->save();
 
       if($row) {
-        return redirect('admin/goods/index')->with('success','添加数据成功');
+        return redirect('admin/goods')->with('success','添加数据成功');
       } else {
         return back()->with('error','添加数据失败');
       }

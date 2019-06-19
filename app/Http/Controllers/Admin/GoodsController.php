@@ -7,9 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Goods;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Input as Input;
-use DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Cates;
 use App\Models\Brands;
+use App\Models\Models;
+use App\Models\Sizes;
+use DB;
 
 class GoodsController extends Controller
 {
@@ -18,19 +21,26 @@ class GoodsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //获取所有分类
         $cates_data = Cates::all();
         
-        $goods = new Goods();
-        //获取所有商品数据
-        $goods_data = $goods->all();
+        
 
         //获取所有品牌数据
         $brands_data = Brands::all();
 
-        return view('admin.goods.index',['goods_data'=>$goods_data,'cates_data'=>$cates_data,'brands_data'=>$brands_data]);
+        //接收搜索关键词
+        $keywords = $request->input('keywords','');
+
+
+        //获取所有商品数据
+        $goods_data =Goods::where('title','like',"%{$keywords}%")->paginate(4);
+
+       
+        // dd($pages_data);
+        return view('admin.goods.index',['goods_data'=>$goods_data,'cates_data'=>$cates_data,'brands_data'=>$brands_data,'params'=>$request->all()]);
     }
 
     /**
@@ -75,12 +85,18 @@ class GoodsController extends Controller
         if($request->hasFile('img')) {
             //接收图片
             $file = $request->file('img');
+
             //获取文件原始名称
             $filename = time() . '_' .rand(1000000,9999999).'_'.$file->getClientOriginalName();
-
+            
             //上传原始大小图片
-            $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
-            // dd($img);    
+            // $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
+
+            if(!is_dir('/uploads/'.date('Ymd'))){
+                //上传原始图片
+               $path = $request->file('img')->store(date('Ymd'));
+            } 
+
             //上传mid规格图片
             $img = \Image::make($file)->resize(60, 60)->save(public_path('/uploads/'.date('Ymd').'/'.'img_small_'.$filename));
             //上传big规格图片
@@ -101,10 +117,10 @@ class GoodsController extends Controller
         //保存商品品牌
         $goods->bid = $request->input('bid','');
         //自定义三个规格图片的路径
-        $goods->img = date('Ymd').'/'.$filename;
+        $goods->img = $path;
        
-        $goods->img_small = date('Ymd').'/'.'img_small_'.$filename;
-        $goods->img_big = date('Ymd').'/'.'img_big_'.$filename;
+        $goods->img_small = 'uploads/'.date('Ymd').'/'.'img_small_'.$filename;
+        $goods->img_big = 'uploads/'.date('Ymd').'/'.'img_big_'.$filename;
         //执行添加数据
         $row = $goods->save();
         //返回受影响行数
@@ -150,26 +166,30 @@ class GoodsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $goods = Goods::find($id);
+
         //获取缩略图
         if($request->hasFile('img')) {
             //接收图片
             $file = $request->file('img');
             //获取文件原始名称
             $filename = time() . '_' .rand(1000000,9999999).'_'.$file->getClientOriginalName();
-            //上传原始大小图片
-            $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
+
+            if(!is_dir('/uploads/'.date('Ymd'))){
+                //上传原始图片
+               $path = $request->file('img')->store(date('Ymd'));
+            } 
             //上传mid规格图片
             $img = \Image::make($file)->resize(60, 60)->save(public_path('/uploads/'.date('Ymd').'/'.'img_small_'.$filename));
             //上传big规格图片
             $img = \Image::make($file)->resize(400, 400)->save(public_path('/uploads/'.date('Ymd').'/'.'img_big_'.$filename));
 
-            $goods->img = date('Ymd').'/'.$filename;
-            $goods->img_small = date('Ymd').'/'.'img_small_'.$filename;
-            $goods->img_big = date('Ymd').'/'.'img_big_'.$filename;
+            $goods->img = $path;
+            $goods->img_small = 'uploads/'.date('Ymd').'/'.'img_small_'.$filename;
+            $goods->img_big = 'uploads/'.date('Ymd').'/'.'img_big_'.$filename;
             }
 
-
-        $goods = Goods::find($id);
         //保存商品标题
         $goods->title = $request->input('title');
         //保存商品描述
@@ -197,6 +217,31 @@ class GoodsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //接收id
+        $row = Goods::destroy($id);
+
+        //根据商品gid删除型号
+        $models_data = Models::where('gid','=',$id)->get();
+        
+        //遍历该商品id的所有型号
+        foreach($models_data as $k=>$v) {
+            //根据型号id删除所有型号
+            Models::where('gid','=',$id)->delete();
+            //遍历该商品id的所有大小
+            $sizes = Sizes::where('mid','=',$v->id)->get();
+            foreach($sizes as $kk=>$vv) {
+                //根据型号id删除所有大小
+                Sizes::where('mid','=',$vv->mid)->delete();
+            }
+         }
+
+        if($row) {
+            //删除成功
+            echo json_encode(['msg'=>'ok']);
+        } else {
+            //删除失败
+            echo json_encode(['msg'=>'err']);
+        }
     }
 }
+    

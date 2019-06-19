@@ -23,9 +23,9 @@
                             <div class="col-sm-6" style="margin-left:60%;">
                                 <div id="data-table_filter" class="dataTables_filter">
                                     <label>
-                                        <form action="/admin/news" method="get">
+                                        <form action="/admin/goods" method="get">
                                             标题: <input type="search" name="keywords" class="form-control input-sm" placeholder="" aria-controls="data-table" value="{{ $params['keywords'] or '' }}">
-                                            <input type="submit" class="btn btn-info" value="查询" name="">
+                                            <input type="submit" class="btn btn-info">
                                         </form>
                                     </label>
                                 </div>
@@ -41,7 +41,6 @@
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品描述</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品状态</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品品牌</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品单价</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">缩略图</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">型号</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">大小</th>
@@ -59,8 +58,7 @@
                                 <td><kbd style="background: #4cd415;">激活</kbd></td>
                                 @endif
                                 <td>{{ $brands_data[$v->bid]->bname }}</td>
-                                <td>单价</td>
-                                <td><img src="/uploads/{{ $v->img_small }}"></td>
+                                <td><img src="/{{ $v->img_small }}"></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd({{ $v->id }})">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd({{ $v->id }})">添加</button></td>
                                 <td style="width: 15%;">
@@ -80,7 +78,7 @@
                            <div class="col-sm-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
                                      <ul class="pagination">
-
+                                      {{ $goods_data->appends($params)->links() }}
                                      </ul>
                                 </div>
                             </div>
@@ -261,7 +259,7 @@
             $('#title').val(res.goods.title);
             $('#desc').val(res.goods.desc);
             $("input[name=goods_status][value="+res.goods.goods_status+"]").attr("checked",true);
-            $('#old_pic').attr('src','/uploads/'+res.goods.img_small);
+            $('#old_pic').attr('src','/'+res.goods.img_small);
             $('input[name="img_small"]').val(res.goods.img_small);
             $('#form1').attr('action',newurl);
 
@@ -305,7 +303,7 @@
             if(res.msg == 'ok') {
 
             var str="";
-            str+="<option value=''>请选择</option>"
+            str += "<option value=''>请选择</option>"
             $.each(res.models_data,function(index,val){
                str+="<option value='"+val.id+"'>"+val.mname+"</option>"
             })
@@ -314,7 +312,7 @@
 
             // let newurl = '/admin/sizes/update?gid='+id+'mid='+$("#goods_models").find("option:selected").val();
 
-            let newurl = '/admin/sizes/store/'+id;
+            let newurl = '/admin/sizes/store';
             
             $('#form2').attr('action',newurl);
 
@@ -325,6 +323,31 @@
     function getMid(models_value)
     {
 
+    }
+
+    function destroy(id,obj)
+    {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        if(!confirm('确定要删除吗')){
+           return false;
+        }
+
+        $.ajax(
+            {
+                url: "/admin/goods/" + id,
+                type : "DELETE",
+                dataType: "json", 
+                success: function(data){
+                    if(data.msg == 'ok') {
+                      $(obj).parent().parent().remove();
+                    }
+                },
+            });
     }
 </script>
 @endsection
