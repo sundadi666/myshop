@@ -65,31 +65,32 @@
 
 				<div class="clear"></div>
 			</div>
-			@section('banner')
 			
-			@show
-			<div class="shopNav">
-				<div class="slideall">
-					
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-						   
-							   <div class="nav-cont">
-									<ul>
-										@foreach($navigates_data as $k=>$v)
-											<li class="index"><a href="#">{{$v->title}}</a></li>
-		                                @endforeach	
-									</ul>
-								    <div class="nav-extra">
-								    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-								    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-								    </div>
-								</div>					
-			        		
-		        		@section('header')
-
-		        		@show
+				@section('banner')
+				
+				@show
+				<div class="shopNav">
+					<div class="slideall">
 						
-			</div>
+						   <div class="long-title"><span class="all-goods">全部分类</span></div>
+							   
+								   <div class="nav-cont">
+										<ul>
+											@foreach($navigates_data as $k=>$v)
+												<li class="index"><a href="#">{{$v->title}}</a></li>
+			                                @endforeach	
+										</ul>
+									    <div class="nav-extra">
+									    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
+									    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
+									    </div>
+									</div>					
+			        		
+				@section('header')
+				
+				@show
+
+			
 					@section('content')
    
    

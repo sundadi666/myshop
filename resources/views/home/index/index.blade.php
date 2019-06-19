@@ -1,60 +1,60 @@
 		@extends('home.layout.index')
-		
-		<!-- 轮播图 -->
+			
 		@section('banner')
 			<div class="banner">
-                      <!--轮播 -->
-						<div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
-							<ul class="am-slides">
-								<li class="banner1"><a href="introduction.html"><img src="/h/images/ad1.jpg" /></a></li>
-								<li class="banner2"><a><img src="/h/images/ad2.jpg" /></a></li>
-								<li class="banner3"><a><img src="/h/images/ad3.jpg" /></a></li>
-								<li class="banner4"><a><img src="/h/images/ad4.jpg" /></a></li>
+	                      <!--轮播 -->
+							<div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
+								<ul class="am-slides">
+									<li class="banner1"><a href="introduction.html"><img src="/h/images/ad1.jpg" /></a></li>
+									<li class="banner2"><a><img src="/h/images/ad2.jpg" /></a></li>
+									<li class="banner3"><a><img src="/h/images/ad3.jpg" /></a></li>
+									<li class="banner4"><a><img src="/h/images/ad4.jpg" /></a></li>
 
-							</ul>
-						</div>
-						<div class="clear"></div>	
-			</div>
+								</ul>
+							</div>
+							<div class="clear"></div>	
+				</div>
 		@endsection
-		
-		<!-- 头部 -->
-		@section('header')
 
-			<!--侧边导航 -->
-						<div id="nav" class="navfull">
-							<div class="area clearfix">
-								<div class="category-content" id="guide_2">
-									
-									<div class="category">
-										<ul class="category-list" id="js_climit_li">
-											@foreach($cates_data as $k=>$v)
-											<li class="appliance js_toggle relative first">
-												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/h/images/cake.png"></i><a class="ml-22" title="点心">{{$v->cname}}</a></h3>
-													<em>&gt;</em></div>
-												<div class="menu-item menu-in top">
-													<div class="area-in">
-														<div class="area-bg">
-															<div class="menu-srot">
-																@foreach($v->sub as $kk=>$vv)
-																<div class="sort-side">
-																	<dl class="dl-sort">
-																		<dt><span title="蛋糕">{{$vv->cname}}</span></dt>
-																		@foreach($vv->sub as $kkk=>$vvv)
-																		<dd><a title="{{$vvv->cname}}" href="#"><span>{{$vvv->cname}}</span></a></dd>
-																		@endforeach
-																	</dl>
-																</div>
+
+		<!-- 轮播图 -->
+		@section('header')
+			
+        		<!--侧边导航 -->
+				<div id="nav" class="navfull">
+					<div class="area clearfix">
+						<div class="category-content" id="guide_2">
+							
+							<div class="category">
+								<ul class="category-list" id="js_climit_li">
+									@foreach($cates_data as $k=>$v)
+									<li class="appliance js_toggle relative first">
+										<div class="category-info">
+											<h3 class="category-name b-category-name"><i><img src="/h/images/cake.png"></i><a class="ml-22" title="点心">{{$v->cname}}</a></h3>
+											<em>&gt;</em></div>
+										<div class="menu-item menu-in top">
+											<div class="area-in">
+												<div class="area-bg">
+													<div class="menu-srot">
+														@foreach($v->sub as $kk=>$vv)
+														<div class="sort-side">
+															<dl class="dl-sort">
+																<dt><span title="蛋糕">{{$vv->cname}}</span></dt>
+																@foreach($vv->sub as $kkk=>$vvv)
+																<dd><a title="{{$vvv->cname}}" href="#"><span>{{$vvv->cname}}</span></a></dd>
 																@endforeach
-															</div>
+															</dl>
 														</div>
+														@endforeach
 													</div>
 												</div>
-											<b class="arrow"></b>	
-											</li>
-											@endforeach
-											
-											
+											</div>
+										</div>
+									<b class="arrow"></b>	
+									</li>
+									@endforeach
+									
+									
 
 											
 											
@@ -178,7 +178,11 @@
 						})
 					}
 				</script>
+				</div>		
+			</div>
 		@endsection
+		
+		
 		
 		<!-- 内容 -->
 		@section('content')
@@ -1582,6 +1586,6 @@
 					</div>
    
    
-   					@endsection
+		@endsection
 					
 
