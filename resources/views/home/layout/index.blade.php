@@ -88,7 +88,7 @@
 		        		@section('header')
 
 		        		@show
-						
+				</div>		
 			</div>
 					@section('content')
    

@@ -178,11 +178,11 @@ Route::get('admin/sizes/create/{id}','Admin\SizesController@create');
 // 商品大小执行添加 路由
 Route::post('admin/sizes/store','Admin\SizesController@store');
 
-//用户留言 路由
+//前台用户留言表单 路由
 Route::get('home/addmsg','Home\ReplysController@create');
 
-
-
+//后台用户留言列表 显示 路由
+Route::get('admin/replys/index','Admin\ReplysController@index');
 
 
 
