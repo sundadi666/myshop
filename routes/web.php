@@ -24,10 +24,6 @@
    			178 - 228		
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 
 
 
@@ -302,6 +298,8 @@ Route::resource('admin/footer','Admin\FooterController');
 
 // 进入 后台页面
 Route::resource('admin','Admin\IndexController');
+
+Route::resource('/','Home\IndexController');
 
 // 进入 前台页面
 Route::resource('home','Home\IndexController');
