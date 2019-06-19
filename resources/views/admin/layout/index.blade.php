@@ -205,6 +205,17 @@
 					<li class="has-sub">
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-gift"></i>
+						    <span>留言管理</span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/replys/index">留言列表</a></li>
+						</ul>
+					</li>
+
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
 							<i class="fa fa-2x fa-database"></i>
 						    <span>品牌管理</span> 
 						</a>

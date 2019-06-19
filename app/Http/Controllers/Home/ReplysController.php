@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Navigates;
 
 class ReplysController extends Controller
 {
@@ -25,8 +26,8 @@ class ReplysController extends Controller
     public function create()
     {
         //
-        // echo 123;die;
-        return view('home.replys.create');
+        $navigates_data = Navigates::all();
+        return view('home.replys.create',['navigates_data'=>$navigates_data]);
     }
 
     /**
