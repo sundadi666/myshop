@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use App\Models\Users;
+use App\Models\UserLogin;
 use Hash;
 use Mail;
 use DB;
@@ -56,7 +57,17 @@ class RegisterController extends Controller
        $data = $request->all();
 
        $user = new Users;
+       // 获取 用户名 和 输入框的用户名 比较
+        $users_data = Users::where('uname',$request->input('uname'))->first();
+
+        // 检测 用户名 是否 存在
+        if (!empty($users_data)) {
+             echo json_encode(['msg'=>'error','info'=>'用户名已经存在~']);
+             exit;
+        }
+
        $user->uname = $request->input('uname','');
+
        // 给 token 随机50位字符
        $user->token = str_random(50);
 
@@ -65,7 +76,9 @@ class RegisterController extends Controller
        $user->upass = Hash::make($data['upass']);
         // 将数据 存入到 数据库
        $res1 = $user->save();
+
        if($res1){
+       
          // echo "<script>alert('注册成功');location.href='/home'</script>";
          echo json_encode(['msg'=>'ok']);
          exit;
@@ -156,6 +169,16 @@ class RegisterController extends Controller
         // 接收 邮箱 值        
         $email = $request->input('email','');
         $user = new Users;    
+
+         // 获取 邮箱 和 输入框的邮箱 比较
+        $users_data = Users::where('email',$email)->first();
+
+        // 检测 邮箱名 是否 存在
+        if (!empty($users_data)) {
+             echo json_encode(['msg'=>'error','info'=>'邮箱已经存在~']);
+             exit;
+        }
+
         // 没有 uname的值 默认随机字符串
         $user->uname = str_random(10);
         $user->phone = $request->input('phone','');

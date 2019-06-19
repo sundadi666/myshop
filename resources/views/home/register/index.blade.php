@@ -21,7 +21,7 @@
 	</head>
 
 	<body>
-		<script>
+<script>
 //一般直接写在一个js文件中
     layui.use(['layer', 'form'], function(){
       var layer = layui.layer
@@ -63,7 +63,7 @@
 								    </label>
 								    <input type="password" name=repass" id="passwordRepeat1" placeholder="确认密码"></div>
 								    <div class="am-cf">
-										<input type="submit"  value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+										<input type="submit" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
 									</div>
 							</form>
                  
@@ -198,10 +198,10 @@
 												layer.msg('注册成功,');
 											// 等 10秒钟之后 再 跳转
 											setTimeout(function(){	    
-						                	 window.location.href = '/home';
-						               		 },10000);
+						                	 window.location.href = '/home/login';
+						               		 },1500);
 											} else {
-												layer.msg('验证码错误');
+												layer.msg(res.info);
 											}
 										},'json')
 
@@ -222,6 +222,12 @@
 											layer.msg('邮箱格式错误');
 											return false;
 										}
+										// $('#email').blur(function(){
+										// 	console.log('aaaa')
+										// })
+
+									
+										
 										   // 判断 两次密码 不能为空
 								        if(upass==''&& repass==''){
 								            layer.msg('密码不能为空')
@@ -246,20 +252,22 @@
 										        });
 										// 发送 ajax 
 										$.post('/home/register/email',{email,upass},function(res){
-											console.log(res.msg);
-										if(res.msg == 'ok') {
-												layer.msg('注册成功, 请尽快激活');
-										// 等 10秒钟之后 再 跳转
-										// setTimeout(function(){	                        
-						    //              window.location.href = '/home';
-						    //             },10000);
+									 		console.log(res);
+									 	if(res.msg == 'ok') {
+									 			layer.msg('注册成功, 请尽快激活');
+											// 等 10秒钟之后 再 跳转
+											setTimeout(function(){	    
+						                	 window.location.href = '/home/login';
+						               		 },2500);
 											} else {
-												layer.msg('验证码错误');
-											}
+									 			layer.msg(res.info);
+									 		}
 										},'json')
 										
-										return false;
-									})
+									 	return false;
+									 })
+									
+									
 								</script>
 								<!-- 邮箱注册 发送 ajax 结束 -->
 
@@ -278,7 +286,7 @@
 										// 判断 如果属性 disabled存在 开始 倒计时
 										if($(obj).find('span').html()=='获取'){
 											// 设置 倒计时 秒数
-											let i=5;
+											let i=60;
 											time = setInterval(function(){
 												i--;
 												$(obj).find('span').html('('+i+')s')
