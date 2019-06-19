@@ -235,17 +235,23 @@ Route::get('home/addmsg','Home\ReplysController@create');
 
 
 
+// 前台 登陆 路由
+Route::resource('home/login','Home\LoginController');
+// 前台 登陆验证路由
+Route::post('home/login/login','Home\LoginController@login');
+// 前台 激活 用户(邮箱) 路由
+Route::get('home/register/chengeStatus/{id}/{token}','Home\RegisterController@chengeStatus');
 
+// 前台 邮箱 注册 路由
+Route::post('home/register/email','Home\RegisterController@email');
 
+// 前台 手机验证码 路由
+Route::post('home/register/phone','Home\RegisterController@phone');
 
+// 前台 手机 邮箱 注册路由
+Route::resource('home/register','Home\RegisterController');
 
-
-
-
-
-
-
-//修改激活
+// 后台 修改 用户状态 路由
 Route::get('admin/users/status','Admin\UsersController@status');
 
 //  后台用户 路由
