@@ -88,15 +88,15 @@ class GoodsController extends Controller
 
             //获取文件原始名称
             $filename = time() . '_' .rand(1000000,9999999).'_'.$file->getClientOriginalName();
-<<<<<<< HEAD
+
 
             if(!is_dir('/uploads/'.date('Ymd'))){
                $request->file('img')->store(date('Ymd'));
             }
 
-=======
+
             
->>>>>>> origin/liu
+
             //上传原始大小图片
             // $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
 
@@ -174,13 +174,9 @@ class GoodsController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< HEAD
-        $goods = Goods::find($id);
-=======
-
+        // dd($request->input('bid'));
         $goods = Goods::find($id);
 
->>>>>>> origin/liu
         //获取缩略图
         if($request->hasFile('img')) {
             //接收图片
@@ -202,11 +198,6 @@ class GoodsController extends Controller
             $goods->img_big = 'uploads/'.date('Ymd').'/'.'img_big_'.$filename;
             }
 
-<<<<<<< HEAD
-
-        
-=======
->>>>>>> origin/liu
         //保存商品标题
         $goods->title = $request->input('title');
         //保存商品描述
@@ -227,7 +218,7 @@ class GoodsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除商品
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -237,26 +228,57 @@ class GoodsController extends Controller
         //接收id
         $row = Goods::destroy($id);
 
-        //根据商品gid删除型号
+        // 根据商品gid删除型号
         $models_data = Models::where('gid','=',$id)->get();
         
-        //遍历该商品id的所有型号
+        // 遍历该商品id的所有型号
         foreach($models_data as $k=>$v) {
-            //根据型号id删除所有型号
+            // 根据型号id删除所有型号
             Models::where('gid','=',$id)->delete();
-            //遍历该商品id的所有大小
+            // 遍历该商品id的所有大小
             $sizes = Sizes::where('mid','=',$v->id)->get();
             foreach($sizes as $kk=>$vv) {
-                //根据型号id删除所有大小
+                // 根据型号id删除所有大小
                 Sizes::where('mid','=',$vv->mid)->delete();
             }
          }
 
         if($row) {
-            //删除成功
+            // 删除成功
             echo json_encode(['msg'=>'ok']);
         } else {
-            //删除失败
+            // 删除失败
+            echo json_encode(['msg'=>'err']);
+        }
+    }
+
+    /**
+     * 商品推荐
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setRecommend($id)
+    {
+        // 接收商品id
+        $id = $id;
+        // 修改商品推荐值
+        $goods = Goods::find($id);
+
+        if($goods->is_recommend) {
+            // 设置为不推荐
+            $goods->is_recommend = '0';
+        } else {
+            //设置为推荐
+            $goods->is_recommend = '1';
+        }
+        // 返回受影响行数
+        $row = $goods->save();
+
+
+        if($row) {
+            echo json_encode(['msg'=>'ok']);
+        } else {
             echo json_encode(['msg'=>'err']);
         }
     }

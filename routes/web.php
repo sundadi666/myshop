@@ -166,6 +166,9 @@ Route::resource('admin/news','Admin\NewsController');
 // 商品列表 路由
 Route::resource('admin/goods','Admin\GoodsController');
 
+// 商品推荐 路由
+Route::get('admin/goods/setRecommend/{id}','Admin\GoodsController@setRecommend');
+
 // 商品型号添加 路由
 Route::resource('admin/models','Admin\ModelsController');
 
@@ -178,21 +181,17 @@ Route::get('admin/sizes/create/{id}','Admin\SizesController@create');
 // 商品大小执行添加 路由
 Route::post('admin/sizes/store','Admin\SizesController@store');
 
-//前台用户留言表单 路由
+// 前台用户留言表单 路由
 Route::get('home/addmsg','Home\ReplysController@create');
 
-//后台用户留言列表 显示 路由
+// 后台用户留言列表 显示 路由
 Route::get('admin/replys/index','Admin\ReplysController@index');
 
+// 后台查看用户留言详情 路由
+Route::get('admin/replys/{id}','Admin\ReplysController@show');
 
-
-
-
-
-
-
-
-
+// 后台查看用户留言详情 路由
+Route::get('admin/replys','Admin\ReplysController@index');
 
 
 

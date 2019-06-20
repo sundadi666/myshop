@@ -25,7 +25,7 @@
                                     <label>
                                         <form action="/admin/goods" method="get">
                                             标题: <input type="search" name="keywords" class="form-control input-sm" placeholder="" aria-controls="data-table" value="{{ $params['keywords'] or '' }}">
-                                            <input type="submit" class="btn btn-info">
+                                            <input type="submit" class="btn btn-info" value="搜索">
                                         </form>
                                     </label>
                                 </div>
@@ -44,6 +44,7 @@
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">缩略图</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">型号</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">大小</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">是否推荐</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 164px;">操作</th></tr>
                         </thead>
                         <tbody>
@@ -61,6 +62,13 @@
                                 <td><img src="/{{ $v->img_small }}"></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd({{ $v->id }})">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd({{ $v->id }})">添加</button></td>
+                                <td>
+                                  @if($v->is_recommend == 0)
+                                  <button type="button" class="btn btn-danger m-r-5 m-b-5" onclick="setRecommend({{ $v->id }})">设为推荐</button>
+                                  @else 
+                                  <button type="button" class="btn btn-warning m-r-5 m-b-5" onclick="setRecommend({{ $v->id }})">取消推荐</button>
+                                  @endif
+                                </td>
                                 <td style="width: 15%;">
                                     <a href="javascript:;" class="btn btn-info" onclick="edit({{ $v->id }})">修改</a>
                                     <a href="javascript:;" class="btn btn-success" onclick="destroy({{ $v->id }},this)">删除</a>
@@ -188,7 +196,7 @@
             <label for="exampleInputEmail1">商品型号</label><br>
             <input type="text" name="mname" class="form-control" id="title" placeholder="商品型号">
             <br>
-            <label for="exampleInputEmail1" style="color: red;">注意：商品大小不能含有任何特殊字符</label><br>
+            <label for="exampleInputEmail1" style="color: red;">注意：商品型号必须以英文" , "逗号隔开 , 不能含有任何特殊字符</label><br>
           </div>
           <input type="hidden" name="id" id="gid">
           <div class="modal-footer">
@@ -261,9 +269,11 @@
             $("input[name=goods_status][value="+res.goods.goods_status+"]").attr("checked",true);
             $('#old_pic').attr('src','/'+res.goods.img_small);
             $('input[name="img_small"]').val(res.goods.img_small);
+
             $('#form1').attr('action',newurl);
 
             $("#cid").find(`option[value="${res.goods.cid}"]`).attr("selected",true);
+            $("#bid").find(`option[value="${res.goods.bid}"]`).attr("selected",true);
 
         },'json')
     }
@@ -348,6 +358,15 @@
                     }
                 },
             });
+    }
+
+    function setRecommend(id)
+    {
+      $.get('/admin/goods/setRecommend/'+id,function(res){
+        if(res.msg == 'ok') {
+          location.reload();
+        }
+      },'json')
     }
 </script>
 @endsection
