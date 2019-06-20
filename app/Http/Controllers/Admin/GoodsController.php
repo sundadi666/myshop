@@ -98,8 +98,6 @@ class GoodsController extends Controller
             }
 
 
-            
-
             //上传原始大小图片
             // $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
 
