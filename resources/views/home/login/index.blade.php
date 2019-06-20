@@ -105,7 +105,7 @@
 			</body>
 			<script type="text/javascript">
 				
-			// 邮箱 注册
+			// 登陆 前台 ajax
 			$('#one').submit(function(){
 				let login = $('#login').val();
 				let upass = $('#password').val();

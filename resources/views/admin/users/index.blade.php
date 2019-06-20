@@ -46,7 +46,7 @@
 		            <td class="sorting_1" tabindex="0">{{$v->id}}</td>
 		            <td>{{$v->uname}}</td>
 		            <td>{{$v->phone}}</td>
-		            <td>{{$v->usersinfos->email}}</td>
+		            <td>{{$v->email}}</td>
 		            <td>
 		            	@if($v->status == 0)	
 		            	<span><kbd style="background-color:red">未激活</kbd></span>
@@ -54,8 +54,11 @@
 		            	<span><kbd style="background-color:green">已激活</kbd></span>
 		            	@endif
 		            </td>
-		            <td><img style="width:50px;" src="/uploads/{{$v->usersinfos->profile}}"></td>
+		          
 		            <td>
+		            	<img style="width:50px;" src="/uploads/{{$v->usersinfos->profile or ''}}"></td>
+		            <td>
+		           
             	<!-- 判断 如果 状态 为0 就激活 -->
 					@if($v->status==0)
 						<a href="Javascript:;" onclick="status({{$v->id}},0)" class="btn btn-warning">激活</a>
