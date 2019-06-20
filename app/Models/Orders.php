@@ -29,14 +29,10 @@ class Orders extends Model
 
    	// 查找 购买商品 的大小
    	public function sizes()
-<<<<<<< HEAD
+
    	{
    		return $this->belongsTo('App\Models\Sizes','sid');
    	}
 
-=======
-    {
-      return $this->belongsTo('App\Models\Sizes','sid');
-    }
->>>>>>> origin/liu
+
 }

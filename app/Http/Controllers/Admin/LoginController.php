@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Users;
+use App\Models\UsersInfos;
 use DB;
 use Hash;
 class LoginController extends Controller
@@ -22,8 +23,8 @@ class LoginController extends Controller
    		$uname = $request->input('uname');
    		$upass = $request->input('upass');
    		// 从数据库获取用户信息 
-   		$user = DB::table('users')->where('uname',$uname)->first();
-   		
+   		$user = DB::table('admin_users')->where('uname',$uname)->first();  		
+
     	//判断验证
     	if(empty($user->uname)){
     		 echo json_encode(['msg'=>'err','info'=>'用户名或密码错误']);
@@ -35,10 +36,22 @@ class LoginController extends Controller
      	    echo json_encode(['msg'=>'err','info'=>'用户名或密码错误']);
      	    exit;
 		}
-		//登陆
-    	session(['admin_login'=>true]);
-    	session(['userinfo'=>$user]);
+      
+     
 
+		  // 登陆
+    	session(['admin_login'=>true]); 
+      // 把 用户表里值压入 session1中
+      session(['userinfo'=>$user]);
+     
 	   echo json_encode(['msg'=>'ok','info'=>'登陆成功']);
    	}
+
+    // 退出 后台方法
+    public function logout()
+    {
+      session(['admin_login'=>false]);
+      session(['userinfo'=>false]);       
+      return redirect('admin/login');
+    }
 }

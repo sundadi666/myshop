@@ -25,10 +25,17 @@
 			<div class="am-container header">
 				<ul class="message-l">
 					<div class="topMessage">
-						<div class="menu-hd">
-							<a href="/home/login" target="_top" class="h">亲，请登录</a>
-							<a href="/home/register" target="_top">免费注册</a>
-						</div>
+						@if(session('home_login'))
+		                <div class="menu-hd">
+		                  <a href="#" target="_top" class="h">你好!{{session('userinfo')->uname}}</a>
+		                  <a href="/home/logout">退出</a>
+		                </div>
+		                @else
+		                <div class="menu-hd">
+		                  <a href="/home/login/login" target="_top" class="h">亲，请登录</a>
+		                  <a href="/home/register" target="_top">免费注册</a>
+		                </div>
+		                @endif
 					</div>
 				</ul>
 				<ul class="message-r">
