@@ -98,8 +98,6 @@ class GoodsController extends Controller
             }
 
 
-            
-
             //上传原始大小图片
             // $img = \Image::make($file)->save(public_path('/uploads/'.date('Ymd').'/'.$filename));
 
@@ -128,7 +126,7 @@ class GoodsController extends Controller
         // 保存商品品牌
         $goods->bid = $request->input('bid','');
         // 自定义三个规格图片的路径
-        $goods->img = $path;
+        $goods->img = 'uploads/'.$path;
         // 商品推荐信息上
         $goods->goods_info_top = $request->input('goods_info_top');
         // 商品推荐信息下

@@ -198,7 +198,7 @@
 								<h4>{{ $v->goods_info_bottom }}</h4>
 							</div>
 							<div class="recommendationMain two">
-								<img src="/uploads/{{ $v->img }}"></img>
+								<img src="{{ $v->img }}"></img>
 							</div>
 						</div>
 						@endforeach
