@@ -45,10 +45,13 @@ class CatesController extends Controller
      */
     public function create(Request $request)
     {   
+        //  获取id
         $id = $request->input('id','');
 
+        // 查询 分类 的所有数据
         $cates = Cates::select('*',DB::raw("concat(path,',',id) as paths"))->orderBy('paths','asc')->get();
         
+        // 遍历 分类 的数据
         foreach ($cates as $key => $value) {
             $n = substr_count($value->path,',');
 

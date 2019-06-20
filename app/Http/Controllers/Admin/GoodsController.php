@@ -49,8 +49,20 @@ class GoodsController extends Controller
      */
     public function create()
     {
+        // 查询 分类 的所有数据
+        $cates = Cates::select('*',DB::raw("concat(path,',',id) as paths"))->orderBy('paths','asc')->get();
+        
+        // 遍历 分类 的数据
+        foreach ($cates as $key => $value) {
+            $n = substr_count($value->path,',');
+
+            $cates[$key]->cname = str_repeat('|---', $n).$value->cname;
+        }
+
+
         //获取所有分类数据
-        $cates_data = Cates::all();
+        $cates_data = $cates;
+        
         //获取所有品牌数据
         $brands_data = Brands::all();
         return view('admin.goods.create',['cates_data'=>$cates_data,'brands_data'=>$brands_data]);
