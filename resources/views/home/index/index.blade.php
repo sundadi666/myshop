@@ -5,11 +5,9 @@
 	                      <!--轮播 -->
 							<div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
 								<ul class="am-slides">
-									<li class="banner1"><a href="introduction.html"><img src="/h/images/ad1.jpg" /></a></li>
-									<li class="banner2"><a><img src="/h/images/ad2.jpg" /></a></li>
-									<li class="banner3"><a><img src="/h/images/ad3.jpg" /></a></li>
-									<li class="banner4"><a><img src="/h/images/ad4.jpg" /></a></li>
-
+									@foreach($banners_data as $k=>$v)
+									<li class="banner1"><a href="introduction.html"><img style="height: 430px;" src="/uploads/{{ $v->url }}" /></a></li>
+									@endforeach
 								</ul>
 							</div>
 							<div class="clear"></div>	
@@ -193,38 +191,17 @@
 					<!--今日推荐 -->
 
 					<div class="am-g am-g-fixed recommendation">
-						<div class="clock am-u-sm-3" ">
-							<img src="/h/images/2016.png "></img>
-							<p>今日<br>推荐</p>
-						</div>
+						@foreach($recommends as $k=>$v)					
 						<div class="am-u-sm-4 am-u-lg-3 ">
 							<div class="info ">
-								<h3>真的有鱼</h3>
-								<h4>开年福利篇</h4>
-							</div>
-							<div class="recommendationMain one">
-								<a href="introduction.html"><img src="/h/images/tj.png "></img></a>
-							</div>
-						</div>						
-						<div class="am-u-sm-4 am-u-lg-3 ">
-							<div class="info ">
-								<h3>囤货过冬</h3>
-								<h4>让爱早回家</h4>
+								<h3>{{ $v->goods_info_top }}</h3>
+								<h4>{{ $v->goods_info_bottom }}</h4>
 							</div>
 							<div class="recommendationMain two">
-								<img src="/h/images/tj1.png "></img>
+								<img src="/uploads/{{ $v->img }}"></img>
 							</div>
 						</div>
-						<div class="am-u-sm-4 am-u-lg-3 ">
-							<div class="info ">
-								<h3>浪漫情人节</h3>
-								<h4>甜甜蜜蜜</h4>
-							</div>
-							<div class="recommendationMain three">
-								<img src="/h/images/tj2.png "></img>
-							</div>
-						</div>
-
+						@endforeach
 					</div>
 					<div class="clear "></div>
 					<!--热门活动 -->

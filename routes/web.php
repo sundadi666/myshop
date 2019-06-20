@@ -160,6 +160,8 @@ Route::resource('admin/orders','Admin\OrdersController');
 
 
 
+
+
 // 公告列表 路由
 Route::resource('admin/news','Admin\NewsController');
 
@@ -186,6 +188,9 @@ Route::get('home/addmsg','Home\ReplysController@create');
 
 // 后台用户留言列表 显示 路由
 Route::get('admin/replys/index','Admin\ReplysController@index');
+
+// 前台用户提交留言 路由
+Route::resource('home/replys','Home\ReplysController');
 
 // 后台查看用户留言详情 路由
 Route::get('admin/replys/{id}','Admin\ReplysController@show');
@@ -222,12 +227,10 @@ Route::get('admin/replys','Admin\ReplysController@index');
 
 
 
-
-
-
-
-
-
+// 前台 个人资料 路由
+Route::get('home/personal/info/{id}','Home\PersonalController@personalInfo');
+// 前台 个人中心 路由
+Route::resource('home/personal','Home\PersonalController');
 
 
 // 前台 登陆 路由
@@ -246,6 +249,14 @@ Route::post('home/register/phone','Home\RegisterController@phone');
 // 前台 手机 邮箱 注册路由
 Route::resource('home/register','Home\RegisterController');
 
+// 后台 登陆 路由
+Route::get('admin/login','Admin\LoginController@login');
+// 后台 登陆验证路由
+Route::post('admin/dologin','Admin\LoginController@dologin');
+// 后台 登陆中间件
+Route::group(['middleware'=>'login'],function(){
+
+
 // 后台 修改 用户状态 路由
 Route::get('admin/users/status','Admin\UsersController@status');
 
@@ -255,7 +266,7 @@ Route::resource('admin/users','Admin\UsersController');
 // 后台 底部 路由
 Route::resource('admin/footer','Admin\FooterController');
 
-
+});
 
 
 

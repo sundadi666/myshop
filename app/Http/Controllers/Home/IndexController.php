@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cates;
 use App\Models\Navigates;
+use App\Models\Banners;
+use DB;
 
 class IndexController extends Controller
 {
@@ -34,8 +36,13 @@ class IndexController extends Controller
 
         $cates_data = self::getPidCatesData(0);
 
-        //
-        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data]);
+        // 轮播图数据
+        $banners_data = Banners::all();
+
+        // 今日推荐
+        $recommends = DB::table('goods')->where('is_recommend','=','1')->select('goods_info_top','goods_info_bottom','img')->get();
+
+        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends]);
     }
 
     /**

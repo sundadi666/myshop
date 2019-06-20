@@ -1,7 +1,89 @@
-@extends('home.layout.other')
 
-@section('content')
-<div class="center">
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+		<title>个人中心</title>
+
+		<link href="/h/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+		<link href="/h/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+		<link href="/h/css/personal.css" rel="stylesheet" type="text/css">
+		<link href="/h/css/systyle.css" rel="stylesheet" type="text/css">
+
+	</head>
+
+	<body>
+		<!--头 -->
+		<header>
+			<article>
+				<div class="mt-logo">
+					<!--顶部导航条 -->
+					<div class="am-container header">
+						<ul class="message-l">
+							<div class="topMessage">
+								<div class="menu-hd">
+									<a href="#" target="_top" class="h">亲，请登录</a>
+									<a href="#" target="_top">免费注册</a>
+								</div>
+							</div>
+						</ul>
+						<ul class="message-r">
+							<div class="topMessage home">
+								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+							</div>
+							<div class="topMessage my-shangcheng">
+								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+							</div>
+							<div class="topMessage mini-cart">
+								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+							</div>
+							<div class="topMessage favorite">
+								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+						</ul>
+						</div>
+
+						<!--悬浮搜索框-->
+
+						<div class="nav white">
+							<div class="logoBig">
+								<li><img src="/h/images/logobig.png" /></li>
+							</div>
+
+							<div class="search-bar pr">
+								<a name="index_none_header_sysc" href="#"></a>
+								<form>
+									<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
+									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+								</form>
+							</div>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+				</div>
+			</article>
+		</header>
+            <div class="nav-table">
+					   <div class="long-title"><span class="all-goods">全部分类</span></div>
+					   <div class="nav-cont">
+							<ul>
+								<li class="index"><a href="#">首页</a></li>
+                                <li class="qc"><a href="#">闪购</a></li>
+                                <li class="qc"><a href="#">限时抢</a></li>
+                                <li class="qc"><a href="#">团购</a></li>
+                                <li class="qc last"><a href="#">大包装</a></li>
+							</ul>
+						    <div class="nav-extra">
+						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
+						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
+						    </div>
+						</div>
+			</div>
+			<b class="line"></b>
+		<div class="center">
 			<div class="col-main">
 				<div class="main-wrap">
 					<div class="wrap-left">
@@ -10,32 +92,107 @@
 								<!--个人信息 -->
 								<div class="m-bg"></div>
 								<div class="m-userinfo">
-									<div class="m-right">
-										<form action="/home/replys" method="POST">
-											{{ csrf_field() }}
-										  <h3>其他买家,需要你的建议哦!</h3><br><br><br><br>
-										  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="exampleInputEmail1">留言内容&nbsp;&nbsp;</label>
-										  <textarea name="content" style="width: 70%;height:150px;display: inline-block;" class="form-control" rows="3"></textarea>
-										  <div class="checkbox">
-										    
-										  </div>
-										  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-danger m-r-5 m-b-5">提交评价</button>
-										</form>
+									<div class="m-baseinfo">
+										<a href="information.html">
+											<img src="/uploads/{{$user->usersinfos->profile or ''}}">
+										</a>
+										<em class="s-name">{{$user->uname}}<span class="vip1"></em>
+										<div class="s-prestige am-btn am-round">
+											</span>会员福利</div>
 									</div>
+									<div class="m-right">
+										<div class="m-new">
+											<a href="news.html"><i class="am-icon-bell-o"></i>消息</a>
+										</div>
+										<div class="m-address">
+											<a href="address.html" class="i-trigger">我的收货地址</a>
+										</div>
+									</div>
+								</div>
+
+								<!--个人资产-->
+								<div class="m-userproperty">
+									<div class="s-bar">
+										<i class="s-icon"></i>个人资产
+									</div>
+									<p class="m-bonus">
+										<a href="bonus.html">
+											<i><img src="/h/images/bonus.png"/></i>
+											<span class="m-title">红包</span>
+											<em class="m-num">2</em>
+										</a>
+									</p>
+									<p class="m-coupon">
+										<a href="coupon.html">
+											<i><img src="/h/images/coupon.png"/></i>
+											<span class="m-title">优惠券</span>
+											<em class="m-num">2</em>
+										</a>
+									</p>
+									<p class="m-bill">
+										<a href="bill.html">
+											<i><img src="/h/images/wallet.png"/></i>
+											<span class="m-title">钱包</span>
+											<em class="m-num">2</em>
+										</a>
+									</p>
+									<p class="m-big">
+										<a href="#">
+											<i><img src="/h/images/day-to.png"/></i>
+											<span class="m-title">签到有礼</span>
+										</a>
+									</p>
+									<p class="m-big">
+										<a href="#">
+											<i><img src="/h/images/72h.png"/></i>
+											<span class="m-title">72小时发货</span>
+										</a>
+									</p>
 								</div>
 							</div>
 							<div class="box-container-bottom"></div>
 
+							<!--订单 -->
+							<div class="m-order">
+								<div class="s-bar">
+									<i class="s-icon"></i>我的订单
+									<a class="i-load-more-item-shadow" href="order.html">全部订单</a>
+								</div>
+								<ul>
+									<li><a href="order.html"><i><img src="/h/images/pay.png"/></i><span>待付款</span></a></li>
+									<li><a href="order.html"><i><img src="/h/images/send.png"/></i><span>待发货<em class="m-num">1</em></span></a></li>
+									<li><a href="order.html"><i><img src="/h/images/receive.png"/></i><span>待收货</span></a></li>
+									<li><a href="order.html"><i><img src="/h/images/comment.png"/></i><span>待评价<em class="m-num">3</em></span></a></li>
+									<li><a href="change.html"><i><img src="/h/images/refund.png"/></i><span>退换货</span></a></li>
+								</ul>
+							</div>
+							<!--九宫格-->
+							<div class="user-patternIcon">
+								<div class="s-bar">
+									<i class="s-icon"></i>我的常用
+								</div>
+								<ul>
+
+									<a href="home/shopcart.html"><li class="am-u-sm-4"><i class="am-icon-shopping-basket am-icon-md"></i><img src="/h/images/iconbig.png"/><p>购物车</p></li></a>
+									<a href="collection.html"><li class="am-u-sm-4"><i class="am-icon-heart am-icon-md"></i><img src="/h/images/iconsmall1.png"/><p>我的收藏</p></li></a>
+									<a href="home/home.html"><li class="am-u-sm-4"><i class="am-icon-gift am-icon-md"></i><img src="/h/images/iconsmall0.png"/><p>为你推荐</p></li></a>
+									<a href="comment.html"><li class="am-u-sm-4"><i class="am-icon-pencil am-icon-md"></i><img src="/h/images/iconsmall3.png"/><p>好评宝贝</p></li></a>
+									<a href="foot.html"><li class="am-u-sm-4"><i class="am-icon-clock-o am-icon-md"></i><img src="/h/images/iconsmall2.png"/><p>我的足迹</p></li></a>                                                                        
+								</ul>
+							</div>
 							<!--物流 -->
 							<div class="m-logistics">
 
+								<div class="s-bar">
+									<i class="s-icon"></i>我的物流
+								</div>
 								<div class="s-content">
 									<ul class="lg-list">
 
 										<li class="lg-item">
 											<div class="item-info">
 												<a href="#">
-													<img src="images/65.jpg_120x120xz.jpg" alt="抗严寒冬天保暖隔凉羊毛毡底鞋垫超薄0.35厘米厚吸汗排湿气舒适">
+													<img src="/h/images/65.jpg_120x120xz.jpg" alt="抗严寒冬天保暖隔凉羊毛毡底鞋垫超薄0.35厘米厚吸汗排湿气舒适">
 												</a>
 
 											</div>
@@ -70,7 +227,7 @@
 										<li class="lg-item">
 											<div class="item-info">
 												<a href="#">
-													<img src="images/88.jpg_120x120xz.jpg" alt="礼盒袜子女秋冬 纯棉袜加厚 女式中筒袜子 韩国可爱 女袜 女棉袜">
+													<img src="/h/images/88.jpg_120x120xz.jpg" alt="礼盒袜子女秋冬 纯棉袜加厚 女式中筒袜子 韩国可爱 女袜 女棉袜">
 												</a>
 
 											</div>
@@ -121,7 +278,7 @@
 
 											<div class="s-pic">
 												<a href="#" class="s-pic-link">
-													<img src="images/0-item_pic.jpg_220x220.jpg" alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" class="s-pic-img s-guess-item-img">
+													<img src="/h/images/0-item_pic.jpg_220x220.jpg" alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" class="s-pic-img s-guess-item-img">
 												</a>
 											</div>
 											<div class="s-price-box">
@@ -143,7 +300,7 @@
 
 											<div class="s-pic">
 												<a href="#" class="s-pic-link">
-													<img src="images/1-item_pic.jpg_220x220.jpg" alt="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" class="s-pic-img s-guess-item-img">
+													<img src="/h/images/1-item_pic.jpg_220x220.jpg" alt="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" class="s-pic-img s-guess-item-img">
 												</a>
 											</div>
 											<div class="s-price-box">
@@ -165,7 +322,7 @@
 
 											<div class="s-pic">
 												<a href="#" class="s-pic-link">
-													<img src="images/-0-saturn_solar.jpg_220x220.jpg" alt="4折抢购!十二生肖925银女戒指,时尚开口女戒" title="4折抢购!十二生肖925银女戒指,时尚开口女戒" class="s-pic-img s-guess-item-img">
+													<img src="/h/images/-0-saturn_solar.jpg_220x220.jpg" alt="4折抢购!十二生肖925银女戒指,时尚开口女戒" title="4折抢购!十二生肖925银女戒指,时尚开口女戒" class="s-pic-img s-guess-item-img">
 												</a>
 											</div>
 											<div class="s-price-box">
@@ -187,7 +344,7 @@
 
 											<div class="s-pic">
 												<a href="#" class="s-pic-link">
-													<img src="images/0-item_pic.jpg_220x220.jpg" alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" class="s-pic-img s-guess-item-img">
+													<img src="/h/images/0-item_pic.jpg_220x220.jpg" alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" class="s-pic-img s-guess-item-img">
 												</a>
 											</div>
 											<div class="s-price-box">
@@ -209,7 +366,7 @@
 
 											<div class="s-pic">
 												<a href="#" class="s-pic-link">
-													<img src="images/1-item_pic.jpg_220x220.jpg" alt="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" class="s-pic-img s-guess-item-img">
+													<img src="/h/images/1-item_pic.jpg_220x220.jpg" alt="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰" class="s-pic-img s-guess-item-img">
 												</a>
 											</div>
 											<div class="s-price-box">
@@ -231,7 +388,7 @@
 
 											<div class="s-pic">
 												<a href="#" class="s-pic-link">
-													<img src="images/-0-saturn_solar.jpg_220x220.jpg" alt="4折抢购!十二生肖925银女戒指,时尚开口女戒" title="4折抢购!十二生肖925银女戒指,时尚开口女戒" class="s-pic-img s-guess-item-img">
+													<img src="/h/images/-0-saturn_solar.jpg_220x220.jpg" alt="4折抢购!十二生肖925银女戒指,时尚开口女戒" title="4折抢购!十二生肖925银女戒指,时尚开口女戒" class="s-pic-img s-guess-item-img">
 												</a>
 											</div>
 											<div class="s-price-box">
@@ -281,7 +438,7 @@
 							<div class="new-goods-info">
 								<a class="shop-info" href="#" target="_blank">
 									<div class="face-img-panel">
-										<img src="images/imgsearch1.jpg" alt="">
+										<img src="/h/images/imgsearch1.jpg" alt="">
 									</div>
 									<span class="new-goods-num ">4</span>
 									<span class="shop-title">剥壳松子</span>
@@ -297,8 +454,8 @@
 							</div>
 							<div class="new-goods-info">
 								<a class="shop-info" href="#" target="_blank">
-									<div>
-										<img src="images/imgsearch1.jpg" alt="">
+									<div >
+										<img src="/h/images/imgsearch1.jpg" alt="">
 									</div>
                                     <span class="one-hot-goods">￥9.20</span>
 								</a>
@@ -339,9 +496,9 @@
 						<a href="index.html">个人中心</a>
 					</li>
 					<li class="person">
-						<a href="#">个人资料</a>
+						<a href="">个人资料</a>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
+							<li> <a href="/home/personal/info/{{$user->id}}">个人信息</a></li>
 							<li> <a href="safety.html">安全设置</a></li>
 							<li> <a href="address.html">收货地址</a></li>
 						</ul>
@@ -376,5 +533,13 @@
 
 			</aside>
 		</div>
-@endsection
+		<!--引导 -->
+		<div class="navCir">
+			<li><a href="home/home.html"><i class="am-icon-home "></i>首页</a></li>
+			<li><a href="home/sort.html"><i class="am-icon-list"></i>分类</a></li>
+			<li><a href="home/shopcart.html"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
+			<li class="active"><a href="index.html"><i class="am-icon-user"></i>我的</a></li>					
+		</div>
+	</body>
 
+</html>

@@ -4,60 +4,61 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Users; 
 use App\Models\Navigates;
-use App\Models\Replys;
-
-class ReplysController extends Controller
+class PersonalController extends Controller
 {
+    // 个人 详情 方法
+    public function personalInfo(Request $request,$id)
+    {
+        $navigates_data = Navigates::all();
+       
+        // 获取用户的个人详情 信息
+        $user_data = Users::find($id);
+        // dd($user_data->usersinfos);
+        // 加载 个人详情 页面
+        return view('home.personal.info',['navigates_data'=>$navigates_data,'user_data'=>$user_data]);
+    }
     /**
-     * Display a listing of the resource.
+     * 个人中心 列表
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+         $navigates_data = Navigates::all();
+        // 判断 用户是否登录
+        if(!session('home_login')){
+            return redirect('/home/login')->with('error','请先登录');
+        }
+        // 获取 用户id
+        $id = session('userinfo')->id;
+        // 通过id 查找用户 详细信息
+        $user = Users::find($id);
+        
+        // 显示 模板 将$user 分配模板
+        return view('home.personal.index',['navigates_data'=>$navigates_data,'user'=>$user]);
     }
 
     /**
-     * 显示添加留言表单
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
         //
-        $navigates_data = Navigates::all();
-        return view('home.replys.create',['navigates_data'=>$navigates_data]);
     }
 
     /**
-     * 保存前台用户 留言
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // 前台用户uid
-        $uid = 3;
-        // 前台用户商品gid
-        $gid = 10;
-
-        $reply = new Replys;
-        // 保存uid
-        $reply->uid = 3;
-        // 保存商品gid
-        $reply->gid = 10;
-        // 保存留言内容
-        if(!$request->input('content')) {
-            return back()->with('error')
-        }
-        $reply->content = $request->input('content');
-        // 执行 保存
-        $row = $reply->save();
-
-        
+        //
     }
 
     /**
@@ -105,4 +106,3 @@ class ReplysController extends Controller
         //
     }
 }
-    
