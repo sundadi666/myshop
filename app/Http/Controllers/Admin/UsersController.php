@@ -24,7 +24,8 @@ class UsersController extends Controller
 
         // 获取 用户 全部 数据  加上 搜索 条件
         $users_data = Users::where('uname','like','%'.$search_uname.'%')->where('phone','like','%'.$search_phone.'%')->paginate(3); 
-        
+       
+
         // 显示 用户 列表
         return view('admin.users.index',['users_data'=>$users_data,'params'=>$request->all()]);
         

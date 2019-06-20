@@ -209,6 +209,7 @@
 									})
 								</script>
 								<!-- 手机注册 发送 ajax 结束  -->
+
 								<!-- 邮箱注册 发送 ajax 开始 -->
 								<script type="text/javascript">
 									// 邮箱 注册
@@ -222,12 +223,7 @@
 											layer.msg('邮箱格式错误');
 											return false;
 										}
-										// $('#email').blur(function(){
-										// 	console.log('aaaa')
-										// })
-
 									
-										
 										   // 判断 两次密码 不能为空
 								        if(upass==''&& repass==''){
 								            layer.msg('密码不能为空')
@@ -288,16 +284,16 @@
 											// 设置 倒计时 秒数
 											let i=60;
 											time = setInterval(function(){
-												i--;
-												$(obj).find('span').html('('+i+')s')
-												// 判断 如果i小于1时 可以再次点击
-												if(i<1){
-													// 给 这个对象添加属性
-													$(obj).attr('disabled',false);							
-													// 给属性 颜色为 灰色
-													$(obj).css('color','#ccc')
-													$(obj).css('cursor','pointer')
-													$(obj).find('span').html('获取')
+											i--;
+											$(obj).find('span').html('('+i+')s')
+											// 判断 如果i小于1时 可以再次点击
+											if(i<1){
+												// 给 这个对象添加属性
+												$(obj).attr('disabled',false);							
+												// 给属性 颜色为 灰色
+												$(obj).css('color','#ccc')
+												$(obj).css('cursor','pointer')
+												$(obj).find('span').html('获取')
 
 												// 清除 倒计时
 												clearInterval(time)
@@ -331,8 +327,7 @@
 										  	}
 										  },'json')
 										}
-										
-										
+																				
 									}
 								</script>
 							<!-- 发送 ajax 获取手机验证码 结束-->
