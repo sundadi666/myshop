@@ -160,6 +160,8 @@ Route::resource('admin/orders','Admin\OrdersController');
 
 
 
+
+
 // 公告列表 路由
 Route::resource('admin/news','Admin\NewsController');
 
