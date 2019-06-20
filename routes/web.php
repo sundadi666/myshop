@@ -227,6 +227,7 @@ Route::get('admin/replys','Admin\ReplysController@index');
 
 
 
+
 // 前台 个人资料 路由
 Route::get('home/personal/info/{id}','Home\PersonalController@personalInfo');
 // 前台 个人中心 路由

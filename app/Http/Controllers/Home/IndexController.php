@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cates;
 use App\Models\Navigates;
+use App\Models\Links;
+use App\Models\Brands;
 use App\Models\Banners;
 use DB;
 
@@ -32,9 +34,22 @@ class IndexController extends Controller
      */
     public function index()
     {   
+        // 导航条 的数据
         $navigates_data = Navigates::all();
 
+        // 获取 分类 的数据
         $cates_data = self::getPidCatesData(0);
+
+        // 友情连接 的数据
+        $links_data = Links::all();
+
+        // 获取商品 的数据
+        $branks_data = Brands::all();
+
+
+        foreach ($branks_data as $key => $value) {
+            $branks_data[$key]['goods_data'] = DB::table('goods')->where('bid',$value->id)->paginate(4);  
+        }
 
         // 轮播图数据
         $banners_data = Banners::all();
@@ -42,7 +57,7 @@ class IndexController extends Controller
         // 今日推荐
         $recommends = DB::table('goods')->where('is_recommend','=','1')->select('goods_info_top','goods_info_bottom','img')->get();
 
-        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends]);
+        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends,'links_data'=>$links_data,'branks_data'=>$branks_data]);
     }
 
     /**
