@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cates;
 use App\Models\Navigates;
+use App\Models\Links;
+use App\Models\Brands;
+use DB;
 
 class IndexController extends Controller
 {
@@ -30,12 +33,27 @@ class IndexController extends Controller
      */
     public function index()
     {   
+        // 导航条 的数据
         $navigates_data = Navigates::all();
 
+        // 获取 分类 的数据
         $cates_data = self::getPidCatesData(0);
 
-        //
-        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data]);
+        // 友情连接 的数据
+        $links_data = Links::all();
+
+        // 获取商品 的数据
+        $branks_data = Brands::all();
+
+        // dd($branks_data);
+
+        foreach ($branks_data as $key => $value) {
+            $branks_data[$key]['goods_data'] = DB::table('goods')->where('bid',$value->id)->paginate(4);  
+        }
+
+        // dd($branks_data);
+
+        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'links_data'=>$links_data,'branks_data'=>$branks_data]);
     }
 
     /**
