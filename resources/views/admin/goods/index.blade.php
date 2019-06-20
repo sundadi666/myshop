@@ -58,7 +58,7 @@
                                 @else
                                 <td><kbd style="background: #4cd415;">激活</kbd></td>
                                 @endif
-                                <td>{{ $brands_data[$v->bid]->bname }}</td>
+                                <td>{{ $v->brands_data->bname }}</td>
                                 <td><img src="/{{ $v->img_small }}"></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd({{ $v->id }})">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd({{ $v->id }})">添加</button></td>

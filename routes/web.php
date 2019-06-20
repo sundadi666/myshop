@@ -189,13 +189,14 @@ Route::get('home/addmsg','Home\ReplysController@create');
 // 后台用户留言列表 显示 路由
 Route::get('admin/replys/index','Admin\ReplysController@index');
 
+// 前台用户提交留言 路由
+Route::resource('home/replys','Home\ReplysController');
+
 // 后台查看用户留言详情 路由
 Route::get('admin/replys/{id}','Admin\ReplysController@show');
 
 // 后台查看用户留言详情 路由
 Route::get('admin/replys','Admin\ReplysController@index');
-
-
 
 
 

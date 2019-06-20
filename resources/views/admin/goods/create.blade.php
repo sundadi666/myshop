@@ -36,6 +36,18 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-3 control-label">商品推荐信息(上)</label>
+                <div class="col-md-9">
+                    <input name="goods_info_top" type="text" class="form-control" placeholder="不能超过10个字符">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">商品推荐信息(下)</label>
+                <div class="col-md-9">
+                    <input name="goods_info_bottom" type="text" class="form-control" placeholder="不能超过10个字符">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-md-3 control-label">商品分类</label>
                 <div class="col-md-9">
                     <select name="cid" class="form-control">

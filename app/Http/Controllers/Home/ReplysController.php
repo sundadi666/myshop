@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Navigates;
+use App\Models\Replys;
 
 class ReplysController extends Controller
 {
@@ -31,15 +32,32 @@ class ReplysController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 保存前台用户 留言
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        // 前台用户uid
+        $uid = 3;
+        // 前台用户商品gid
+        $gid = 10;
 
+        $reply = new Replys;
+        // 保存uid
+        $reply->uid = 3;
+        // 保存商品gid
+        $reply->gid = 10;
+        // 保存留言内容
+        if(!$request->input('content')) {
+            return back()->with('error')
+        }
+        $reply->content = $request->input('content');
+        // 执行 保存
+        $row = $reply->save();
+
+        
     }
 
     /**
@@ -87,3 +105,4 @@ class ReplysController extends Controller
         //
     }
 }
+    

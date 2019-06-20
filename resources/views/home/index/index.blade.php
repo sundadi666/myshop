@@ -119,17 +119,7 @@
 						<div class="demo">
 
 							<ul>
-								<li class="title-first"><a target="_blank" href="#">
-									<img src="/h/images/TJ2.jpg"></img>
-									<span>[特惠]</span>商城爆品1分秒								
-								</a></li>
-								<li class="title-first"><a target="_blank" href="#">
-									<span>[公告]</span>商城与广州市签署战略合作协议
-								     <img src="/h/images/TJ.jpg"></img>
-								     <p>XXXXXXXXXXXXXXXXXX</p>
-							    </a></li>
-							    
-						<div class="mod-vip">
+								<div class="mod-vip">
 							<div class="m-baseinfo">
 								<a href="person/index.html">
 									<img src="/h/images/getAvatar.do.jpg">
@@ -150,7 +140,21 @@
 								<a href="#"><strong>0</strong>待评价</a>
 							</div>
 							<div class="clear"></div>	
-						</div>																	    
+						</div>	
+
+
+						
+								<li class="title-first"><a target="_blank" href="#">
+									<img src="/h/images/TJ2.jpg"></img>
+									<span>[特惠]</span>商城爆品1分秒								
+								</a></li>
+								<li class="title-first"><a target="_blank" href="#">
+									<span>[公告]</span>商城与广州市签署战略合作协议
+								     <img src="/h/images/TJ.jpg"></img>
+								     <p>XXXXXXXXXXXXXXXXXX</p>
+							    </a></li>
+							    
+																						    
 							    
 								<li><a target="_blank" href="#"><span>[特惠]</span>洋河年末大促，低至两件五折</a></li>
 								<li><a target="_blank" href="#"><span>[公告]</span>华北、华中部分地区配送延迟</a></li>
@@ -326,11 +330,11 @@
 										{{$v->title}}
 									</div>
 									<div class="sub-title ">
-										¥4.8
+										
 									</div>
 									<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 								</div>
-								<a href="# "><img src="/uploads/{{$v->img_small}}" /></a>
+								<a href="# "><img src="{{$v->img_big}}" /></a>
 							</div>
 						@endforeach
 

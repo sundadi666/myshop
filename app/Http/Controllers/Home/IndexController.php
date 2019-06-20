@@ -8,6 +8,7 @@ use App\Models\Cates;
 use App\Models\Navigates;
 use App\Models\Links;
 use App\Models\Brands;
+use App\Models\Banners;
 use DB;
 
 class IndexController extends Controller
@@ -45,15 +46,18 @@ class IndexController extends Controller
         // 获取商品 的数据
         $branks_data = Brands::all();
 
-        // dd($branks_data);
 
         foreach ($branks_data as $key => $value) {
             $branks_data[$key]['goods_data'] = DB::table('goods')->where('bid',$value->id)->paginate(4);  
         }
 
-        // dd($branks_data);
+        // 轮播图数据
+        $banners_data = Banners::all();
 
-        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'links_data'=>$links_data,'branks_data'=>$branks_data]);
+        // 今日推荐
+        $recommends = DB::table('goods')->where('is_recommend','=','1')->select('goods_info_top','goods_info_bottom','img')->get();
+
+        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends,'links_data'=>$links_data,'branks_data'=>$branks_data]);
     }
 
     /**

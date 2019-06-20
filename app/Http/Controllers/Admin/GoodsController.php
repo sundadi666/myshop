@@ -34,12 +34,11 @@ class GoodsController extends Controller
         //接收搜索关键词
         $keywords = $request->input('keywords','');
 
-
         //获取所有商品数据
         $goods_data =Goods::where('title','like',"%{$keywords}%")->paginate(4);
+        
+        
 
-       
-        // dd($pages_data);
         return view('admin.goods.index',['goods_data'=>$goods_data,'cates_data'=>$cates_data,'brands_data'=>$brands_data,'params'=>$request->all()]);
     }
 
@@ -69,13 +68,17 @@ class GoodsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:35',
             'desc' => 'required|max:20',
-            'img' => 'required'
+            'img' => 'required',
+            'goods_info_top' => 'required|max:10',
+            'goods_info_bottom' => 'required|max:10'
         ],[
             //表单规格被触发
             'title.required'=>'标题必须填写',
             'title.max'=>'标题不能超过35个字符',
             'desc.required'=>'商品描述必须填写',
-            'img.required'=>'商品图片必须上传'
+            'img.required'=>'商品图片必须上传',
+            'goods_info_top.required'=>'商品推荐信息(上)必须填写',
+            'goods_info_bottom.required'=>'商品推荐信息(下)必须填写',
         ]);
 
         //接收商品数据
@@ -114,18 +117,22 @@ class GoodsController extends Controller
             $path = '';
         }
 
-        //保存商品标题
+        // 保存商品标题
         $goods->title = $request->input('title');
-        //保存商品描述
+        // 保存商品描述
         $goods->desc = $request->input('desc');
-        //保存商品状态
+        // 保存商品状态
         $goods->goods_status = $request->input('goods_status');
-        //保存商品分类
+        // 保存商品分类
         $goods->cid = $request->input('cid','');
-        //保存商品品牌
+        // 保存商品品牌
         $goods->bid = $request->input('bid','');
-        //自定义三个规格图片的路径
-        $goods->img = $path;
+        // 自定义三个规格图片的路径
+        $goods->img = 'uploads/'.$path;
+        // 商品推荐信息上
+        $goods->goods_info_top = $request->input('goods_info_top');
+        // 商品推荐信息下
+        $goods->goods_info_top = $request->input('goods_info_bottom');
        
         $goods->img_small = 'uploads/'.date('Ymd').'/'.'img_small_'.$filename;
         $goods->img_big = 'uploads/'.date('Ymd').'/'.'img_big_'.$filename;
