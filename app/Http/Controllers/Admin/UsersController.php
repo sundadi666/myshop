@@ -183,8 +183,36 @@ class UsersController extends Controller
 
      }
 
+     //  后台 管理员 修改头像
+     public function update_profile(Request $request,$id)
+     {
+           // 判断是否有文件上传
+        if($request->hasFile('profile')){
+            // 把原先的旧图删除
+            Storage::delete($request->input('uface_path'));
+            $profile = $request->file('profile')->store(date('Ymd'));
+        }else{
+          // 如果没传值就选择默认的
+            $profile = $request->input('uface_path');
+        }
+          // 确定 修改图片保存到数据库
+         $res = DB::table('admin_users')->where('id',$id)->update(['profile'=>$profile]);
+      
+         // 重新获取个人信息
+            $user = DB::table('admin_users')->where('id',$id)->first();
+
+        if($res){
+          // 将个人信息重新赋值给session
+           session(['userinfo'=>$user]);
+          // dd(session('userinfo'));
+            return redirect('admin')->with('success','修改成功');
+        } else {
+            return back()->with('error','修改失败');
+        }
+     }
+
     /**
-     *   后台 管理员 修改头像
+     *  
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -192,25 +220,8 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 判断是否有文件上传
-        if($request->hasFile('profile')){
-            Storage::delete($request->input('uface_path'));
-            $profile = $request->file('profile')->store(date('Ymd'));
-        }else{
-            $profile = $request->input('uface_path');
-        }
 
-       $res = DB::table('admin_users')->where('id',$id)->update(['profile'=>$profile]);
-      
-     // 重新获取个人信息赋值给session
-     $user = DB::table('admin_users')->where('id',$id)->first();
-
-        if($res){
-             session(['userinfo'=>$user]);
-            return redirect('admin')->with('success','修改成功');
-        } else {
-            return back()->with('error','修改失败');
-        }
+       
     }
 
     /**

@@ -65,8 +65,11 @@
 
 					<li class="dropdown navbar-user">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-							<img src="/uploads/{{session('userinfo')->profile}}" alt="" /> 
+							<!-- 如果 登陆成功 显示管理员信息 -->
+							@if(session('userinfo'))
+							<img src="/uploads/{{session('userinfo')->profile or ''}}"  alt="" /> 							
 							<span class="hidden-xs">{{session('userinfo')->uname}}</span> <b class="caret"></b>
+							@endif
 						</a>
 						<ul class="dropdown-menu animated fadeInLeft">
 							<li class="arrow"></li>
@@ -92,11 +95,13 @@
 				<!-- 侧边栏用户头像 开始 -->
 				<ul class="nav">
 					<li class="nav-profile">
-						
+				<!-- 如果 登陆成功 显示信息 -->
+					@if(session('userinfo'))	
 						<div class="info">
 							管理员:{{session('userinfo')->uname}}
 							
 						</div>
+					@endif	
 					</li>
 				</ul>
 				<!-- 侧边栏用户头像 结束 -->
@@ -330,89 +335,72 @@
   ga('send', 'pageview');
 
 </script>
+<!-- 如果 登陆 可以操控修改头像 -->
+@if(session('userinfo'))
 	<!-- 修改头像的模态框开始 -->
-		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
- 		 <div class="modal-dialog" role="document">
-   		 <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">修改头像</h4>
-      </div>
-      <div class="modal-body">
-        
-				<div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
-						<div class="form-title">
-						
-						</div>
-						<div class="form-body">
-							<form action="/admin/users/{{session('userinfo')->id}}" method="post" enctype="multipart/form-data">
-									
-									{{ csrf_field() }}
-									{{ method_field('PUT') }}
-								 <div class="form-group"> 
-								 	<img style="width:100px;" src="/uploads/{{session('userinfo')->profile}}">
-									<label for="uface">上传头像</label> 									
-									<input type="file" class="form-control" name="profile" value="" placeholder="修改头像">
-									<input type="hidden" name="uface_path" value="{{session('userinfo')->profile}}">
-								 </div> 								  
-								 	   
-				<input type="submit" class="btn btn-info" value="提交">
-
-							</form> 
-						</div>
-					</div>
-      </div>
-      <div class="modal-footer">
-        
-      </div>
-   		 </div>
-  		</div>
-	</div>
+	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">修改头像</h4></div>
+		      <div class="modal-body">
+		        <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+		          <div class="form-body">
+		            <form action="/admin/users/update_profile/{{session('userinfo')->id}}" method="post" enctype="multipart/form-data">{{ csrf_field() }}
+		              <div class="form-group">
+		                <img style="width:100px;" src="/uploads/{{session('userinfo')->profile}}">
+		                <label for="uface">上传头像</label>
+		                <input type="file" class="form-control" name="profile" value="" placeholder="修改头像">
+		                <input type="hidden" name="uface_path" value="{{session('userinfo')->profile}}"></div>
+		              <input type="submit" class="btn btn-info" value="提交"></form>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="modal-footer"></div>
+		    </div>
+		  </div>
+		</div>
+	@endif
 	 <!-- 修改头像的模态框 结束 -->
-	 		<!-- 修改密码的模态框开始 -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
- 		 <div class="modal-dialog" role="document">
-   		 <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">修改密码</h4>
-      </div>
-      <div class="modal-body">
-        
-				<div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
-						<div class="form-title">
-						
-						</div>
-						<div class="form-body">
-							<form action="/admin/users/update_upass/{{session('userinfo')->id}}" method="post" enctype="multipart/form-data">
-									
-									{{ csrf_field() }}
-								
-									 <div class="form-group"> 
-									<label for="upass">原始密码</label> 									
-									<input type="password" class="form-control" name="upass" value="" placeholder="原始密码">
-								 </div> 
-								  <div class="form-group"> 
-									<label for="new_upwd1">新密码</label> 									
-									<input type="password" class="form-control" name="new_upwd1" value="" placeholder="新密码">
-								 </div> 
-								 <div class="form-group"> 
-									<label for="new_upwd2">确认密码</label> 									
-									<input type="password" class="form-control" name="new_upwd2" value="" placeholder="确认密码">
-								 </div> 
-								 	   
-							<button type="submit" class="btn btn-info">提交</button>
 
-							</form> 
-						</div>
-					</div>
-      </div>
-      <div class="modal-footer">
-        
-      </div>
-   		 </div>
-  		</div>
-	</div>
+	
+	 <!-- 如果 登陆 可以操作修改密码 -->
+	 @if(session('userinfo'))
+	  <!-- 修改密码的模态框开始 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">修改密码</h4></div>
+		      <div class="modal-body">
+		        <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+		          <div class="form-title"></div>
+		          <div class="form-body">
+		            <form action="/admin/users/update_upass/{{session('userinfo')->id}}" method="post" enctype="multipart/form-data">{{ csrf_field() }}
+		              <div class="form-group">
+		                <label for="upass">原始密码</label>
+		                <input type="password" class="form-control" name="upass" value="" placeholder="原始密码"></div>
+		              <div class="form-group">
+		                <label for="new_upwd1">新密码</label>
+		                <input type="password" class="form-control" name="new_upwd1" value="" placeholder="新密码"></div>
+		              <div class="form-group">
+		                <label for="new_upwd2">确认密码</label>
+		                <input type="password" class="form-control" name="new_upwd2" value="" placeholder="确认密码"></div>
+		              <button type="submit" class="btn btn-info">提交</button></form>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="modal-footer"></div>
+		    </div>
+		  </div>
+		</div>
+	  </div>
+   </div>
+	@endif
 </body>
 
 </html>

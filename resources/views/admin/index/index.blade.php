@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('content')
-{{dump($data)}}
+{{--{{dump($data)}}--}}
 <table class="table table-striped">
   <tr>
   	<th>id</th>

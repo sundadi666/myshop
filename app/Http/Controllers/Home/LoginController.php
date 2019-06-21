@@ -90,7 +90,7 @@ class LoginController extends Controller
          // 将 session 值 设为null
         session(['home_login'=>false]);
         session(['userinfo'=>false]);
-        return redirect('home/login');
+        return redirect('home');
     }
 
     /**
