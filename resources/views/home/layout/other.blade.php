@@ -19,6 +19,10 @@
 		<script src="/h/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script src="/h/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 		<link rel="stylesheet" href="/layui/css/layui.css">
       	<script src="/layui/layui.js"></script>
 		
@@ -28,6 +32,7 @@
 		      var layer = layui.layer
 		    });
 		</script> 
+
 
 	</head>
 

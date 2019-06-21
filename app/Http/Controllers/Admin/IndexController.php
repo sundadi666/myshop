@@ -16,8 +16,9 @@ class IndexController extends Controller
     public function index()
     {
         //
+        $data = $_SERVER;
        
-        return view('admin.index.index');
+        return view('admin.index.index',['data'=>$data]);
     }
 
     /**

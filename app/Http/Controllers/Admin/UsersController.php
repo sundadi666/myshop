@@ -9,6 +9,7 @@ use App\Models\Users;
 use App\Models\UsersInfos;
 use Hash;
 use DB;
+use Illuminate\Support\Facades\Storage;
 class UsersController extends Controller
 {
     /**
@@ -142,12 +143,48 @@ class UsersController extends Controller
     public function edit($id)
     {
         
-       
+     
         
     }
 
+    // 后台 管理员 修改 密码
+     public function update_upass(Request $request,$id)
+     {
+       // 接收 参数 
+       $upass = $request->input('upass');
+       $new_upwd1 = $request->input('new_upwd1');
+       $new_upwd2 = $request->input('new_upwd2');
+       // 判断 密码不能为空
+       if(empty($new_upwd1) || empty($new_upwd2)){
+        return back()->with('error','密码不能为空');
+       }
+       // 判断 两次密码是否一致
+       if($new_upwd1 != $new_upwd2){
+        return back()->with('error','两次密码不正确');
+       }
+     
+       // 获取 用户 的详情 信息
+       $user = session('userinfo');
+       // 判断 和数据库的密码 进行判断是否一致
+       $res = password_verify($upass,$user->upass);
+      if(!$res){
+        return back()->with('error','原始密码不正确');
+      }
+        $new_upwd1 = Hash::make($new_upwd1);
+        $res = DB::table('admin_users')->where('id',$id)->update(['upass'=>$new_upwd1]);
+         // 重新获取个人信息赋值给session
+         $user = DB::table('admin_users')->where('id',$id)->first();
+       if($res){
+              session(['userinfo'=>$user]);
+            return redirect('admin')->with('success','修改密码成功');
+        } else {
+            return back()->with('error','修改密码失败');
+        }
+
+     }
+
     /**
-     * 用户 执行 确定修改 并 保存到 数据库
+     *   后台 管理员 修改头像
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -155,7 +192,25 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 判断是否有文件上传
+        if($request->hasFile('profile')){
+            Storage::delete($request->input('uface_path'));
+            $profile = $request->file('profile')->store(date('Ymd'));
+        }else{
+            $profile = $request->input('uface_path');
+        }
+
+       $res = DB::table('admin_users')->where('id',$id)->update(['profile'=>$profile]);
+      
+     // 重新获取个人信息赋值给session
+     $user = DB::table('admin_users')->where('id',$id)->first();
+
+        if($res){
+             session(['userinfo'=>$user]);
+            return redirect('admin')->with('success','修改成功');
+        } else {
+            return back()->with('error','修改失败');
+        }
     }
 
     /**
@@ -170,6 +225,7 @@ class UsersController extends Controller
        
     }
 
+
     /**
      * 修改 用户 权限
      *
@@ -181,10 +237,11 @@ class UsersController extends Controller
       // 接收状态值
       $status = $request->input('status');
       $id = $request->input('id');
+     
       $res = DB::table('users')->where('id',$id)->update(['status'=>$status]);
       if($res){
         // 成功返回
-        return back()->with('success','修改状态成功');
+        return redirect('admin/users')->with('success','修改状态成功');
       }else{
         // 失败返回
         return back()->with('error','修改状态失败');

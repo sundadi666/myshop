@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Users; 
+use App\Models\UsersInfos; 
 use App\Models\Navigates;
+use DB;
+// use App\Http\Requests\StoreUsers;
 class PersonalController extends Controller
 {
     // 个人 详情 方法
@@ -58,7 +61,66 @@ class PersonalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // 开始 实务
+        DB::beginTransaction();
+        // 字段 验证
+        $this->validate($request, [
+            'uname' => 'regex:/^[a-zA-Z]{1}[\w]{5,17}$/',          
+           'phone' => 'regex:/^1{1}[3-8]{1}[\d]{9}$/',           
+            'email' => 'email',
+            
+        ],[
+           
+           'uname.regex'=>'用户名格式错误',            
+            'phone.regex'=>'手机号码格式错误',
+            'email.email'=>'邮箱格式错误',                      
+        ]);
+         // 检测 是否 有 头像 上传
+       if($request->hasFile('profile')){
+        $file_path = $request->file('profile')->store(date('Ymd'));
+       }else{
+        $file_path = $request->input('profile_path');
+       }
+
+        // 接收 用户id
+        $id = $request->input('id',0);
+        $token = $request->input('token','');
+
+       $user = Users::find($id);       
+       $user->uname = $request->input('uname');
+       $user->token = str_random(50);
+       $user->phone = $request->input('phone');
+       $user->email = $request->input('email');    
+       // 将数据 存入到 数据库
+       $res1 = $user->save();
+       // 如果 插入成功 获取 uid
+       if($res1){
+        // 获取 uid
+        $uid = $user->id;
+       }
+
+       // 将 头像 插入 到 用户详情表里
+       $userinfo = UsersInfos::where('uid',$id)->first();     
+       $userinfo->uid = $uid;
+       $userinfo->profile = $file_path; 
+       $userinfo->sex = $request->input('sex','');
+      
+       // 执行 插入 到数据库
+       $res2 = $userinfo->save();
+       // 判断 两个表 是否同部  添加 实务
+       if($res1 && $res2){
+       // 确定 提交
+       DB::commit();
+       // 提示 是否 添加成功 跳转到 列表页
+       return back()->with('success','修改成功');
+       }else{
+        // 实务 回滚
+        DB::rollBack();
+        // 如果 失败 跳转到原先 的位置
+        return back()->with('error','修改失败');
+       }
+
     }
 
     /**

@@ -18,7 +18,8 @@ class LoginController extends Controller
         // 显示 登陆 模板
          return view('home.login.index');
     }
-       //  登陆 验证 
+
+       //  登陆 验证 方法
     public function login(Request $request)
     {
      // dump($request->all());
@@ -80,6 +81,16 @@ class LoginController extends Controller
             session(['home_login'=>true]);
             session(['userinfo'=>$user_data]);
             echo json_encode(['msg'=>'ok','info'=>'登陆成功']);
+    }
+
+
+    // 前台 退出 方法
+    public function logout()
+    {
+         // 将 session 值 设为null
+        session(['home_login'=>false]);
+        session(['userinfo'=>false]);
+        return redirect('home/login');
     }
 
     /**

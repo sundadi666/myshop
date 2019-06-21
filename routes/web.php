@@ -236,8 +236,13 @@ Route::resource('home/personal','Home\PersonalController');
 
 // 前台 登陆 路由
 Route::resource('home/login','Home\LoginController');
+
+// 前台 退出 路由
+Route::get('home/logout','Home\LoginController@logout');
+
 // 前台 登陆验证路由
 Route::post('home/login/login','Home\LoginController@login');
+
 // 前台 激活 用户(邮箱) 路由
 Route::get('home/register/chengeStatus/{id}/{token}','Home\RegisterController@chengeStatus');
 
@@ -252,20 +257,26 @@ Route::resource('home/register','Home\RegisterController');
 
 // 后台 登陆 路由
 Route::get('admin/login','Admin\LoginController@login');
+// 后台 退 出 路由
+Route::get('admin/logout','Admin\LoginController@logout');
 // 后台 登陆验证路由
 Route::post('admin/dologin','Admin\LoginController@dologin');
+
+
 // 后台 登陆中间件
 Route::group(['middleware'=>'login'],function(){
 
-
-// 后台 修改 用户状态 路由
-Route::get('admin/users/status','Admin\UsersController@status');
-
+// 后台 修改 管理员密码 路由
+Route::post('admin/users/update_upass/{id}','Admin\UsersController@update_upass');
 //  后台用户 路由
 Route::resource('admin/users','Admin\UsersController');
 
 // 后台 底部 路由
 Route::resource('admin/footer','Admin\FooterController');
+// 后台 修改 用户状态 路由
+Route::get('admin/users/status/{id}','Admin\UsersController@status');
+// 进入 后台页面
+Route::resource('admin','Admin\IndexController');
 
 });
 
@@ -307,8 +318,7 @@ Route::resource('admin/footer','Admin\FooterController');
 
 
 
-// 进入 后台页面
-Route::resource('admin','Admin\IndexController');
+
 
 Route::resource('/','Home\IndexController');
 
