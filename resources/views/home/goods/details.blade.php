@@ -168,12 +168,8 @@
 							<!--价格-->
 							<div class="tb-detail-price">
 								<li class="price iteminfo_price">
-									<dt>促销价</dt>
-									<dd><em>¥</em><b class="sys_item_price">56.90</b>  </dd>          
-								</li>
-								<li class="price iteminfo_mktprice">
-									<dt>原价</dt>
-									<dd><em>¥</em><b class="sys_item_mktprice">98.00</b></dd>									
+									<dt>价格</dt>
+									<dd><em>¥</em><b class="sys_item_price">{{ $goods->goodsmodel[0]->modelsize[0]->money }}</b>  </dd>
 								</li>
 								<div class="clear"></div>
 							</div>
@@ -239,18 +235,16 @@
 														<div class="cart-title">型号</div>
 														<ul>
 															@foreach($goods->goodsmodel as $k=>$v)
-															<li class="sku-line">{{ $v->mname }}<i></i></li>
+															<li class="sku-line" name="{{ $v->id }}" onclick="getSize({{ $v->id }})">{{ $v->mname }}<i></i></li>
 															@endforeach
 														</ul>
 													</div>
 													<div class="theme-options">
 														<div class="cart-title">大小</div>
-														<ul>
-															@foreach($goods->goodsmodel as $k=>$v)
-																@foreach($v->modelsize as $kk=>$vv)
-																	<li class="sku-line">{{ $vv->sname }}<i></i></li>
-																@endforeach
-															@endforeach
+														<ul id="size">
+															
+														<li class="sku-line"><i></i></li>
+																
 														</ul>
 													</div>
 													<div class="theme-options">
@@ -286,6 +280,25 @@
 
 								</dd>
 							</dl>
+							<script type="text/javascript">
+								function getSize(id)
+								{
+									$.get('/home/goods/getsize',{id},function(res){
+										var str="";
+							            $.each(res,function(index,val){
+							               str+=`<li class="sku-line" name="${val.id}" onclick="getsizeid(${val.id})">`+val.sname+"<i></i></li>"
+							            })
+							             $("#size").empty();
+           								 $("#size").append(str);
+									},'json')
+								}
+
+								function getsizeid(id)
+								{
+									$('#size').find('li').removeClass('selected');
+									$('#size').find(`li[name="${id}"]`).addClass('selected');
+								}
+							</script>
 							<div class="clear"></div>
 							<!--活动	-->
 							<div class="shopPromotion gold">
@@ -322,6 +335,7 @@
 							</li>
 							<li>
 								<div class="clearfix tb-btn tb-btn-basket theme-login">
+								<!-- 	<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a> -->
 									<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a>
 								</div>
 							</li>
@@ -333,10 +347,6 @@
 
 				</div>
 				<script type="text/javascript">
-					function addCart(id)
-					{
-						console.log(id);
-					}
 				</script>
 				<!--优惠套装-->
 				<div class="match">

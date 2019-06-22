@@ -176,7 +176,8 @@ Route::get('home/list/index','Home\ListController@index');
 // 前台商品详情页 显示 路由
 Route::get('home/goods/details','Home\GoodsController@index');
 
-
+// 前台获取 商品 大小
+Route::get('home/goods/getsize','Home\GoodsController@getsize');
 
 
 
