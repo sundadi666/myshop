@@ -8,6 +8,7 @@ use App\Models\Users;
 use App\Models\UsersInfos; 
 use App\Models\Navigates;
 use DB;
+use Hash;
 // use App\Http\Requests\StoreUsers;
 class PersonalController extends Controller
 {
@@ -121,6 +122,49 @@ class PersonalController extends Controller
         return back()->with('error','修改失败');
        }
 
+    }
+
+    // 修改密码 页面
+    public function upass()
+    {
+         // 判断 用户是否登录
+        if(!session('home_login')){
+            return redirect('/home/login')->with('error','请先登录');
+        }
+        // 获取 用户id
+        $id = session('userinfo')->id;
+        // 通过id 查找用户 详细信息
+        $user = Users::find($id);
+       // 加载 修改密码 页面
+       return view('home.personal.upass',['user'=>$user]);
+    }
+    // 修改 密码 方法
+    public function updata_upass(Request $request,$id)
+    {
+      // 接收 参数 
+       $upass = $request->input('upass');
+       $new_upwd1 = $request->input('new_upass1');
+      
+       // 获取 用户信息
+       $user = Users::find($id);
+       // 判断 和数据库密码是否一致
+       $res = password_verify($upass,$user->upass);
+      if(!$res){
+        echo json_encode(['msg'=>'error','info'=>'原始密码不正确']);
+        exit;
+      }
+        $new_upwd1 = Hash::make($new_upwd1);
+       $res = DB::table('users')->where('id',$id)->update(['upass'=>$new_upwd1]);
+       if($res){
+            
+            echo json_encode(['msg'=>'ok','info'=>'修改密码成功']);
+        } else {
+            
+            echo json_encode(['msg'=>'error','info'=>'修改密码失败']);
+            exit;
+        }
+
+     
     }
 
     /**

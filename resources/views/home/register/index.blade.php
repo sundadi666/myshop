@@ -185,15 +185,15 @@
 								            return false;
 								        }
 								      
-								        	// 引入 ajax 插件
-											 $.ajaxSetup({
-										            headers: {
-										                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-										            }
-										        });
+						        	// 引入 ajax 插件
+									 $.ajaxSetup({
+								            headers: {
+								                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+								            }
+								        });
 										// 发送ajax
 										$.post('/home/register',{uname,upass,code,phone},function(res){
-											console.log(res);
+											
 											if(res.msg == 'ok') {
 												layer.msg('注册成功,');
 											// 等 2秒钟之后 再 跳转

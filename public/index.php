@@ -5,7 +5,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylor@laravel.com>
  */
-
+session_start();
 define('LARAVEL_START', microtime(true));
 
 /*

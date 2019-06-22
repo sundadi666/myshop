@@ -179,11 +179,16 @@ Route::resource('home/replys','Home\ReplysController');
 
 
 
+// 前台 加入购物车 路由
+Route::get('home/carts/addcart','Home\CartsController@addCart');
 
+// 前台 购物车路由
+Route::resource('home/carts','Home\CartsController');
 
-
-
-
+// 前台 修改密码页面 路由
+Route::get('home/personal/upass','Home\PersonalController@upass');
+// 前台 修改密码 方法
+Route::post('home/personal/updata_upass/{id}','Home\PersonalController@updata_upass');
 // 前台 个人资料 路由
 Route::get('home/personal/info/{id}','Home\PersonalController@personalInfo');
 // 前台 个人中心 路由

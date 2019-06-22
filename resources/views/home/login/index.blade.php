@@ -135,9 +135,11 @@
 				        });
 				// 发送 ajax 
 				$.post('/home/login/login',{login,upass},function(res){
-					if(res.msg == 'err'){				   		
+					if(res.msg == 'err'){	
+							console.log(res)			   		
 					   		 layer.msg('账号或密码不正确');
 					   	}else{
+					   		 console.log(res)
 					   		 layer.msg(res.info);
 					   		 window.location.href = "/home";
 					   	}		
