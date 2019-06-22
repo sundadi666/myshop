@@ -177,7 +177,7 @@
 								</li>
 								<div class="clear"></div>
 							</div>
-
+							
 							<!--地址-->
 							<dl class="iteminfo_parameter freight">
 								<dt>配送至</dt>
@@ -334,8 +334,13 @@
 				</div>
 				<script type="text/javascript">
 					function addCart(id)
-					{
-						console.log(id);
+					{   
+						
+
+						$.get('/home/carts/addcart/'+id,function(res){
+							console.log(res)
+						},'json')
+						
 					}
 				</script>
 				<!--优惠套装-->

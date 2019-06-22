@@ -17,7 +17,7 @@ class ListController extends Controller
     {
 
         $cid = $request->input('cid');
-        
+
         $goods = Goods::where('cid',$cid)->get();
 
         return view('home.list.index',['goods'=>$goods]);

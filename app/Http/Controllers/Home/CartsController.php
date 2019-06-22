@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Goods;
+use App\Models\Models;
+use App\Models\Sizes;
+use DB;
 class CartsController extends Controller
 {
     /**
@@ -23,10 +26,11 @@ class CartsController extends Controller
     }
 
     // 加入 购物车 方法
-    public function addCart()
-    {
-        echo 'aaaaa';
-    }
+    public function addCart(Request $request,$id)
+     {
+        echo $id;
+         
+     }
 
     /**
      * Show the form for creating a new resource.
