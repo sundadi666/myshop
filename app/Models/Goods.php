@@ -14,4 +14,16 @@ class Goods extends Model
     {
     	return $this->belongsTo('App\Models\Brands','bid');
     }
+
+    // 建立商品 和 型号 一对多
+    public function goodsmodel()
+    {
+    	return $this->hasMany('App\Models\Models','gid');
+    }
+
+    // 建立商品 和 属性 一对多
+    public function goodsattribute()
+    {
+    	return $this->hasMany('App\Models\Attributes','gid');
+    }
 }

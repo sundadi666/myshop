@@ -12,7 +12,7 @@
 
 		<link href="/h/css/personal.css" rel="stylesheet" type="text/css">
 		<link href="/h/css/orstyle.css" rel="stylesheet" type="text/css">
-<<<<<<< HEAD
+
 		
 		<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -39,7 +39,7 @@
 	@section('content')
 			
 	@show
-=======
+
 
 		<script src="/h/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 		<script src="/h/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
@@ -122,6 +122,6 @@
 		</div>
 
 	</body>
->>>>>>> origin/liu
+
 
 </html>

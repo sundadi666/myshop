@@ -30,7 +30,7 @@
 									@foreach($cates_data as $k=>$v)
 									<li class="appliance js_toggle relative first">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="/h/images/cake.png"></i><a class="ml-22" title="点心">{{$v->cname}}</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="/h/images/cake.png"></i><a class="ml-22" title="点心" href="/home/list?cid={{ $v->id }}">{{$v->cname}}</a></h3>
 											<em>&gt;</em></div>
 										<div class="menu-item menu-in top">
 											<div class="area-in">
@@ -39,9 +39,9 @@
 														@foreach($v->sub as $kk=>$vv)
 														<div class="sort-side">
 															<dl class="dl-sort">
-																<dt><span title="蛋糕">{{$vv->cname}}</span></dt>
+																<dt><span title="蛋糕"><a href="/home/list?cid={{ $vv->id }}">{{$vv->cname}}</a></span></dt>
 																@foreach($vv->sub as $kkk=>$vvv)
-																<dd><a title="{{$vvv->cname}}" href="#"><span>{{$vvv->cname}}</span></a></dd>
+																<dd><a title="{{$vvv->cname}}" href="/home/list?cid={{ $vvv->id }}"><span>{{$vvv->cname}}</span></a></dd>
 																@endforeach
 															</dl>
 														</div>

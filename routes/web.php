@@ -167,6 +167,16 @@ Route::resource('home/addrs','Home\AddrsController');
 
 
 
+// 前台列表页 查询 数据 路由
+Route::get('home/list','Home\ListController@index');
+
+// 前台列表页 显示 数据 路由
+Route::get('home/list/index','Home\ListController@index');
+
+// 前台商品详情页 显示 路由
+Route::get('home/goods/details','Home\GoodsController@index');
+
+
 
 
 
@@ -246,6 +256,12 @@ Route::group(['middleware'=>'login'],function(){
    // 商品大小执行添加 路由
    Route::post('admin/sizes/store','Admin\SizesController@store');
 
+   // 后台商品属性 添加页面 路由
+   Route::get('admin/attributes/create/{id}','Admin\AttributesController@create');
+
+   // 后台商品属性 执行添加 路由
+   Route::post('admin/attributes/store/{id}','Admin\AttributesController@store');
+
    // 后台用户留言列表 显示 路由
    Route::get('admin/replys/index','Admin\ReplysController@index');
 
@@ -303,6 +319,8 @@ Route::group(['middleware'=>'login'],function(){
 
    //轮播图 路由
    Route::resource('admin/banners','Admin\BannersController');
+
+
 
 
 });

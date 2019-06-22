@@ -20,6 +20,8 @@ class IndexController extends Controller
         // $data = Cates::where('pid',$pid)->get();
         $data = DB::table('cates')->where('pid',$pid)->get();
         // dd($data);
+        $data = Cates::where('pid',$pid)->get();
+
         foreach ($data as $k => $v) {
 
             $v->sub = self::getPidCatesData($v->id);

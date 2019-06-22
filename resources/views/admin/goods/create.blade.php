@@ -26,26 +26,33 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">商品名称</label>
                 <div class="col-md-9">
-                    <input name="title" type="text" class="form-control" placeholder="商品名称">
+                    <input name="title" type="text" class="form-control" placeholder="商品名称" value="{{ old('title') }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">商品描述</label>
                 <div class="col-md-9">
-                    <input name="desc" type="text" class="form-control" placeholder="商品描述">
+                    <input name="desc" type="text" class="form-control" placeholder="商品描述" value="{{ old('desc') }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">商品推荐信息(上)</label>
                 <div class="col-md-9">
-                    <input name="goods_info_top" type="text" class="form-control" placeholder="不能超过10个字符">
+                    <input name="goods_info_top" type="text" class="form-control" value="{{ old('goods_info_top') }}" placeholder="不能超过10个字符">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">商品推荐信息(下)</label>
                 <div class="col-md-9">
-                    <input name="goods_info_bottom" type="text" class="form-control" placeholder="不能超过10个字符">
+                    <input name="goods_info_bottom" type="text" class="form-control" value="{{ old('goods_info_bottom') }}" placeholder="不能超过10个字符">
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">商品属性</label>
+                <div class="col-md-9">
+                    <input name="attr_name" type="text" class="form-control" value="{{ old('attr_name') }}" placeholder="">
+                </div>
+                <label style="color:red;position: relative;left: 290px;" for="exampleInputEmail1">注意：商品属性必须以英文" , "逗号隔开 , 不能含有任何特殊字符</label><br>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">商品分类</label>
@@ -71,7 +78,7 @@
             </div>
             <div class="form-group">
                     <label class="col-md-3 control-label">图片上传</label>
-                    <input name="img" type="file" id="exampleInputFile">
+                    <input name="img[]" type="file" id="exampleInputFile" multiple>
                     <p class="help-block">在此上传图片</p>
             </div>
             <div class="form-group">
@@ -87,6 +94,13 @@
                     </label>
                 </div>
             </div>
+            <div class="form-group" style="width: 880px;margin-left: 150px;">
+                <!-- <label class="col-md-3 control-label">文章内容</label> -->
+                <!-- 加载编辑器的容器 -->
+                <script id="container" name="content" type="text/plain">
+                {!! old('content') !!}
+                </script>
+            </div>
             <div class="form-group">
                 <label class="col-md-3 control-label"></label>
                 <div class="col-md-9">
@@ -96,4 +110,12 @@
         </form>
     </div>
 </div>
+<!-- 配置文件 -->
+<script type="text/javascript" src="/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container');
+</script>
 @endsection

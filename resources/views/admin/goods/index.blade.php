@@ -39,13 +39,14 @@
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 327px;">id</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品名称</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品描述</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品状态</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 200px;">商品状态</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品品牌</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">缩略图</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">型号</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">大小</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">是否推荐</th>
-                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 164px;">操作</th></tr>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 60px;">缩略图</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">型号</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">大小</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">属性</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">是否推荐</th>
+                            <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 108px;">操作</th></tr>
                         </thead>
                         <tbody>
                             @foreach($goods_data as $k=>$v)
@@ -62,11 +63,12 @@
                                 <td><img src="/{{ $v->img_small }}"></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd({{ $v->id }})">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd({{ $v->id }})">添加</button></td>
+                          <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="attrAdd({{ $v->id }})">添加</button></td>
                                 <td>
                                   @if($v->is_recommend == 0)
-                                  <button type="button" class="btn btn-danger m-r-5 m-b-5" onclick="setRecommend({{ $v->id }})">设为推荐</button>
+                                  <button type="button" class="btn btn-danger m-r-5 m-b-5" onclick="setRecommend({{ $v->id }})">是</button>
                                   @else 
-                                  <button type="button" class="btn btn-warning m-r-5 m-b-5" onclick="setRecommend({{ $v->id }})">取消推荐</button>
+                                  <button type="button" class="btn btn-warning m-r-5 m-b-5" onclick="setRecommend({{ $v->id }})">否</button>
                                   @endif
                                 </td>
                                 <td style="width: 15%;">
@@ -119,7 +121,7 @@
 
 <!-- 修改 模态框 开始 -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog" role="document" style="width: 960px;">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -171,6 +173,13 @@
               @endforeach
             </select>
           </div>
+            <div class="form-group" style="width: 880px;>
+                <!-- <label class="col-md-3 control-label">文章内容</label> -->
+                <!-- 加载编辑器的容器 -->
+                <script id="container" name="content" type="text/plain">
+                {!! old('content') !!}
+                </script>
+            </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-success"  value="确认修改">
           </div>
@@ -248,6 +257,38 @@
   </div>
 </div>
 <!-- 大小 模态框 结束 -->
+
+<!-- 属性 模态框 开始 -->
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加属性</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form4" action="" method="POST">
+            {{ csrf_field() }}
+            <span>商品属性:</span>
+            <select id="attributes_data" name="mid" class="form-control" style="width: 100px;display: inline-block;">
+              <option>请选择</option>
+            </select><br><br>
+
+            <span>属性值:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" name="attr_val" class="form-control" id="title" placeholder="属性值" style="width: 100px;display: inline-block;">
+            <label for="exampleInputEmail1" style="color: red;position: relative;left:0px;">
+            注意：商品属性值不能含有任何特殊字符</label><br><br>
+          <!-- <input type="hidden" name="goods_id" id="goods_id"> -->
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-success"  value="确认修改">
+          </div>
+        </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 属性 模态框 结束 -->
 <script type="text/javascript">
 	function showContent(id)
 	{
@@ -269,6 +310,17 @@
             $("input[name=goods_status][value="+res.goods.goods_status+"]").attr("checked",true);
             $('#old_pic').attr('src','/'+res.goods.img_small);
             $('input[name="img_small"]').val(res.goods.img_small);
+
+            var ue = UE.getEditor('container');//初始化对象
+              $(document).ready(function(){
+                var ue = UE.getEditor('container');
+                var proinfo = res.goods.content;
+                
+                ue.ready(function() {//编辑器初始化完成再赋值
+                  ue.setContent(proinfo);  //赋值给UEditor
+                });
+                
+              });
 
             $('#form1').attr('action',newurl);
 
@@ -330,9 +382,26 @@
         },'json')
     }
 
-    function getMid(models_value)
+    function attrAdd(id)
     {
+        $('#myModal4').modal('show');
+        $.get('/admin/attributes/create/'+id,{id},function(res){
+            if(res.msg == 'ok') {
 
+            var str="";
+            str += "<option value=''>请选择</option>"
+            $.each(res.attributes_data,function(index,val){
+               str+="<option value='"+val.id+"'>"+val.attr_name+"</option>"
+            })
+             $("#attributes_data").empty();
+             $("#attributes_data").append(str);
+
+            let newurl = '/admin/attributes/store/'+id;
+            
+            $('#form4').attr('action',newurl);
+
+            }
+        },'json')
     }
 
     function destroy(id,obj)
@@ -368,5 +437,13 @@
         }
       },'json')
     }
+</script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container');
 </script>
 @endsection
