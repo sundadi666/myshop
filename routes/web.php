@@ -157,7 +157,8 @@ Route::get('home/addmsg','Home\ReplysController@create');
 Route::resource('home/replys','Home\ReplysController');
 
 
-
+// 前台 用户 收货地址管理
+Route::resource('home/addrs','Home\AddrsController');
 
 
 
@@ -188,6 +189,8 @@ Route::resource('home/replys','Home\ReplysController');
 Route::get('home/personal/info/{id}','Home\PersonalController@personalInfo');
 // 前台 个人中心 路由
 Route::resource('home/personal','Home\PersonalController');
+
+
 
 
 // 前台 登陆 路由
