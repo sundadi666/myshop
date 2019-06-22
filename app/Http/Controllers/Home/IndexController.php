@@ -17,6 +17,7 @@ class IndexController extends Controller
    {
         // 获取一级分类
         $data = Cates::where('pid',$pid)->get();
+
         foreach ($data as $k => $v) {
 
             $v->sub = self::getPidCatesData($v->id);
