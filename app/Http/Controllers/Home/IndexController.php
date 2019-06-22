@@ -15,8 +15,11 @@ class IndexController extends Controller
 {
    public static function getPidCatesData($pid = 0)
    {
+
         // 获取一级分类
-        $data = Cates::where('pid',$pid)->get();
+        // $data = Cates::where('pid',$pid)->get();
+        $data = DB::table('cates')->where('pid',$pid)->get();
+        // dd($data);
         foreach ($data as $k => $v) {
 
             $v->sub = self::getPidCatesData($v->id);

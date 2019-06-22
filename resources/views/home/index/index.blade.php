@@ -120,19 +120,24 @@
 
 							<ul>
 								<div class="mod-vip">
+							<!-- 判断 是否登陆成功 成功就显示用户信息 否则显示登录按钮 -->
+							@if(session('home_login'))
 							<div class="m-baseinfo">
-								<a href="person/index.html">
-									<img src="/h/images/getAvatar.do.jpg">
+								<a href="">
+									
+									<img src="/uploads/{{session('userinfo1')->profile}}">
 								</a>
 								<em>
-									Hi,<span class="s-name">小叮当</span>
+									Hi,<span class="s-name">{{session('userinfo')->uname}}</span>
 									<a href="#"><p>点击更多优惠活动</p></a>									
 								</em>
 							</div>
+							@else
 							<div class="member-logout">
 								<a class="am-btn-warning btn" href="/home/login">登录</a>
 								<a class="am-btn-warning btn" href="/home/register">注册</a>
 							</div>
+							@endif
 							<div class="member-login">
 								<a href="#"><strong>0</strong>待收货</a>
 								<a href="#"><strong>0</strong>待发货</a>

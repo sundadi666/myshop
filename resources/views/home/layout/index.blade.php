@@ -32,7 +32,7 @@
 		                </div>
 		                @else
 		                <div class="menu-hd">
-		                  <a href="/home/login/login" target="_top" class="h">亲，请登录</a>
+		                  <a href="/home/login" target="_top" class="h">亲，请登录</a>
 		                  <a href="/home/register" target="_top">免费注册</a>
 		                </div>
 		                @endif
@@ -144,13 +144,15 @@
 							<span class="setting "></span>
 						</a>
 						<div class="ibar_login_box status_login ">
+							@if(session('home_login'))
 							<div class="avatar_box ">
-								<p class="avatar_imgbox "><img src="/h/images/no-img_mid_.jpg " /></p>
+								<p class="avatar_imgbox "><img src="/uploads/{{session('userinfo1')->profile}} " /></p>
 								<ul class="user_info ">
-									<li>用户名sl1903</li>
+									<li>用户名{{session('userinfo')->uname}}</li>
 									<li>级&nbsp;别普通会员</li>
 								</ul>
 							</div>
+							@endif
 							<div class="login_btnbox ">
 								<a href="# " class="login_order ">我的订单</a>
 								<a href="# " class="login_favorite ">我的收藏</a>
@@ -160,7 +162,7 @@
 
 					</div>
 					<div id="shopCart " class="item ">
-						<a href="# ">
+						<a href="/home/carts">
 							<span class="message "></span>
 						</a>
 						<p>

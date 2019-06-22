@@ -1,24 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
-
-class IndexController extends Controller
+use App\Models\Goods;
+class CartsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 购物车 列表页
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data = $_SERVER;
+        // 获取 商品数据 goods
+      
 
-        // 加载 后台 首页视图            
-        return view('admin.index.index',['data'=>$data]);
+        // 显示 购物车页面
+        return view('home.carts.index');
+        
+    }
+
+    // 加入 购物车 方法
+    public function addCart()
+    {
+        echo 'aaaaa';
     }
 
     /**
