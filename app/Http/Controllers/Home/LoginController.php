@@ -86,6 +86,7 @@ class LoginController extends Controller
             //session 压入session
             session(['home_login'=>true]);
             session(['userinfo'=>$user_data]);
+
             // 将 用户详情 压入到session1中
             session(['userinfo1'=>$uinfo]);
             echo json_encode(['msg'=>'ok','info'=>'登陆成功']);
@@ -99,6 +100,9 @@ class LoginController extends Controller
         session(['home_login'=>false]);
         session(['userinfo'=>false]);
         session(['userinfo1'=>false]);
+
+        // 用户退出的时候 清除收藏 标识
+        $_SESSION['is_collect'] = null;
 
         return redirect('home');
     }

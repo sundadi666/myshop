@@ -11,6 +11,7 @@
 
 		<link href="/h/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
 		<link href="/h/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+<<<<<<< HEAD
 		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet">
 
 		<link href="/h/css/personal.css" rel="stylesheet" type="text/css">
@@ -20,6 +21,14 @@
 		<script src="\h\js\jsAddress.js"></script>
 		<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+=======
+
+		<link href="/h/css/personal.css" rel="stylesheet" type="text/css">
+		<link href="/h/css/addstyle.css" rel="stylesheet" type="text/css">
+		<script src="/h/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
+		<script src="/h/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+		<script src="\h\js\jsAddress.js"></script>
+>>>>>>> origin/liu
 
 	</head>
 
@@ -62,7 +71,14 @@
 
 							<div class="search-bar pr">
 								<a name="index_none_header_sysc" href="#"></a>
+<<<<<<< HEAD
 								
+=======
+								<form>
+									<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
+									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+								</form>
+>>>>>>> origin/liu
 							</div>
 						</div>
 
@@ -103,9 +119,14 @@
 						<ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
 							
 							@foreach($addrs_data as $k=>$v)
+<<<<<<< HEAD
 							<li class="user-addresslist {{$v->default == '1' ? 'defaultAddr' : ''}}" name="{{$v->id}}">
 								<span class="new-option-r" name="{{$v->id}}"><i class="am-icon-check-circle"></i>默认地址</span>
 								<input type="hidden" name="id" value="{{$v->id}}">
+=======
+							<li class="user-addresslist {{$v->default == '1' ? 'defaultAddr' : ''}}">
+								<span class="new-option-r"><i class="am-icon-check-circle"></i>默认地址</span>
+>>>>>>> origin/liu
 								<p class="new-tit new-p-re">
 									<span class="new-txt">{{$v->uname}}</span>
 									<span class="new-txt-rd2">{{$v->phone}}</span>
@@ -119,7 +140,11 @@
 										<span class="street">{{$v->details}}</span></p>
 								</div>
 								<div class="new-addr-btn">
+<<<<<<< HEAD
 									<a href="javascript:;" onclick="edit({{$v->id}})"><i class="am-icon-edit"></i>编辑</a>
+=======
+									<a href="#"><i class="am-icon-edit"></i>编辑</a>
+>>>>>>> origin/liu
 									<span class="new-addr-bar">|</span>
 									<a href="javascript:;" onclick="destroy({{$v->id}},this)"><i class="am-icon-trash"></i>删除</a>
 								</div>
@@ -128,7 +153,11 @@
 							
 						</ul>
 						<script type="text/javascript">
+<<<<<<< HEAD
 							// 执行 删除 操作
+=======
+
+>>>>>>> origin/liu
 							function destroy(id,obj)
 							{	
 								 $.ajaxSetup({
@@ -150,6 +179,7 @@
 						            });
 							}
 
+<<<<<<< HEAD
 							// 执行 修改 操作
 							function edit(id)
 							{
@@ -200,6 +230,9 @@
 						  </div>
 						</div>
 						<!-- 修改地址 模态框 结束  -->
+=======
+						</script>
+>>>>>>> origin/liu
 						<div class="clear"></div>
 						<a class="new-abtn-type" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">添加新地址</a>
 						<!--例子-->
@@ -273,6 +306,7 @@
 					<script type="text/javascript">
 						$(document).ready(function() {							
 							$(".new-option-r").click(function() {
+<<<<<<< HEAD
 								var oldid = $('.user-address').find('li.defaultAddr').attr('name');
 								var newid = $(this).attr('name');
 								$.get('/home/addrs/editaddrs',{oldid,newid},(res)=>{
@@ -281,6 +315,9 @@
 									}
 								},'json');
 								
+=======
+								$(this).parent('.user-addresslist').addClass("defaultAddr").siblings().removeClass("defaultAddr");
+>>>>>>> origin/liu
 							});
 							
 							var $ww = $(window).width();

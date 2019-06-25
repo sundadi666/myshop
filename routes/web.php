@@ -160,8 +160,12 @@ Route::resource('home/replys','Home\ReplysController');
 
 
 
+// 前台用户 收藏 商品 路由
+Route::get('home/goods/addLike','Home\GoodsController@addLike');
 
 
+// 前台用户 删除 收藏 商品 路由
+Route::get('home/goods/cancelLike','Home\GoodsController@cancelLike');
 
 
 
@@ -177,8 +181,8 @@ Route::get('home/goods/details','Home\GoodsController@index');
 // 前台获取 商品 大小
 Route::get('home/goods/getsize','Home\GoodsController@getsize');
 
-
-
+// 前台获取商品价格 路由
+Route::get('home/goods/getMoney','Home\GoodsController@getMoney');
 
 
 
@@ -237,7 +241,8 @@ Route::post('home/register/phone','Home\RegisterController@phone');
 // 前台 手机 邮箱 注册路由
 Route::resource('home/register','Home\RegisterController');
 
-
+// 前台 购物车路由
+Route::resource('home/addrs','Home\AddrsController');
 
 // 后台 登陆 路由
 Route::get('admin/login','Admin\LoginController@login');

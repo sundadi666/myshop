@@ -123,12 +123,17 @@
 							<!-- 判断 是否登陆成功 成功就显示用户信息 否则显示登录按钮 -->
 							@if(session('home_login'))
 							<div class="m-baseinfo">
-								<a href="">
-									
+								<a href="">									
 									<img src="/uploads/{{session('userinfo1')->profile}}">
 								</a>
 								<em>
 									Hi,<span class="s-name">{{session('userinfo')->uname}}</span>
+									@if(session('userinfo1'))
+									<img src="/uploads/{{session('userinfo1')->profile}}">
+									@endif
+								</a>
+								<em>
+									Hi,<span class="s-name">{{session('userinfo')->uname ? session('userinfo')->uname : ''}}</span>
 									<a href="#"><p>点击更多优惠活动</p></a>									
 								</em>
 							</div>

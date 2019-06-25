@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Addrs;
 use DB;
 
+
+
 class AddrsController extends Controller
 {
     /**
@@ -83,7 +85,11 @@ class AddrsController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * 查询 要修改的 参数
+=======
+     * Show the form for editing the specified resource.
+>>>>>>> origin/liu
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -101,6 +107,11 @@ class AddrsController extends Controller
 
     /**
      * 保存 要修改的 数据
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -124,6 +135,7 @@ class AddrsController extends Controller
         }else{
             return back()->with('error','修改失败');
         }
+        //
     }
 
     /**

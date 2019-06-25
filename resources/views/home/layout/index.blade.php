@@ -147,6 +147,11 @@
 							@if(session('home_login'))
 							<div class="avatar_box ">
 								<p class="avatar_imgbox "><img src="/uploads/{{session('userinfo1')->profile}} " /></p>
+								<p class="avatar_imgbox ">
+									@if(session('userinfo1'))
+									<img src="/uploads/{{session('userinfo1')->profile}} " />
+									@endif
+								</p>
 								<ul class="user_info ">
 									<li>用户名{{session('userinfo')->uname}}</li>
 									<li>级&nbsp;别普通会员</li>
