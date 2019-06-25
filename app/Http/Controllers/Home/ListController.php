@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Goods;
+use App\Http\Controllers\Home\CartsController;
 
 class ListController extends Controller
 {
@@ -19,8 +20,10 @@ class ListController extends Controller
         $cid = $request->input('cid');
 
         $goods = Goods::where('cid',$cid)->get();
-
-        return view('home.list.index',['goods'=>$goods]);
+         // 获取 购物车 数量
+        $num = CartsController::getNum();
+       
+        return view('home.list.index',['goods'=>$goods,'num'=>$num]);
     }
 
     /**

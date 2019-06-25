@@ -46,7 +46,9 @@
 						<div class="menu-hd MyShangcheng"><a href="/home/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 					</div>
 					<div class="topMessage mini-cart">
-						<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+						<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">
+					
+					</strong></a></div>
 					</div>
 					<div class="topMessage favorite">
 						<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -128,9 +130,9 @@
 		</div>
 		<!--引导 -->
 		<div class="navCir">
-			<li class="active"><a href="home.html"><i class="am-icon-home "></i>首页</a></li>
+			<li class="active"><a href="/home"><i class="am-icon-home "></i>首页</a></li>
 			<li><a href="sort.html"><i class="am-icon-list"></i>分类</a></li>
-			<li><a href="shopcart.html"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
+			<li><a href="/home/carts"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
 			<li><a href="person/index.html"><i class="am-icon-user"></i>我的</a></li>					
 		</div>
 
@@ -146,7 +148,11 @@
 						<div class="ibar_login_box status_login ">
 							@if(session('home_login'))
 							<div class="avatar_box ">
-								<p class="avatar_imgbox "><img src="/uploads/{{session('userinfo1')->profile}} " /></p>
+								<p class="avatar_imgbox ">
+									@if(session('userinfo1'))
+									<img src="/uploads/{{session('userinfo1')->profile ? session('userinfo1')->profile : ''}} " />
+									@endif
+								</p>
 								<ul class="user_info ">
 									<li>用户名{{session('userinfo')->uname}}</li>
 									<li>级&nbsp;别普通会员</li>
@@ -168,7 +174,7 @@
 						<p>
 							购物车
 						</p>
-						<p class="cart_num ">0</p>
+						<p class="cart_num "></p>
 					</div>
 					<div id="asset " class="item ">
 						<a href="# ">

@@ -9,6 +9,7 @@ use App\Models\UsersInfos;
 use App\Models\Navigates;
 use DB;
 use Hash;
+use App\Http\Controllers\Home\CartsController;
 // use App\Http\Requests\StoreUsers;
 class PersonalController extends Controller
 {
@@ -20,8 +21,10 @@ class PersonalController extends Controller
         // 获取用户的个人详情 信息
         $user_data = Users::find($id);
         // dd($user_data->usersinfos);
+        // 获取 购物车 数量
+        $num = CartsController::getNum();
         // 加载 个人详情 页面
-        return view('home.personal.info',['navigates_data'=>$navigates_data,'user_data'=>$user_data]);
+        return view('home.personal.info',['navigates_data'=>$navigates_data,'user_data'=>$user_data,'num'=>$num]);
     }
     /**
      * 个人中心 列表
@@ -39,9 +42,10 @@ class PersonalController extends Controller
         $id = session('userinfo')->id;
         // 通过id 查找用户 详细信息
         $user = Users::find($id);
-        
+        // 获取 购物车 数量
+        $num = CartsController::getNum();
         // 显示 模板 将$user 分配模板
-        return view('home.personal.index',['navigates_data'=>$navigates_data,'user'=>$user]);
+        return view('home.personal.index',['navigates_data'=>$navigates_data,'user'=>$user,'num'=>$num]);
     }
 
     /**
@@ -135,8 +139,10 @@ class PersonalController extends Controller
         $id = session('userinfo')->id;
         // 通过id 查找用户 详细信息
         $user = Users::find($id);
+        // 获取 购物车 数量
+        $num = CartsController::getNum();
        // 加载 修改密码 页面
-       return view('home.personal.upass',['user'=>$user]);
+       return view('home.personal.upass',['user'=>$user,'num'=>$num]);
     }
     // 修改 密码 方法
     public function updata_upass(Request $request,$id)

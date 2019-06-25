@@ -190,7 +190,13 @@ Route::get('home/goods/getsize','Home\GoodsController@getsize');
 
 
 // 前台 加入购物车 路由
-Route::get('home/carts/addcart/{id}','Home\CartsController@addCart');
+Route::get('home/carts/addcart','Home\CartsController@addCart');
+// 前台 购物车 加1路由
+Route::get('home/carts/jia','Home\CartsController@addnum');
+// 前台 购物车 减1 路由
+Route::get('home/carts/jian','Home\CartsController@jiannum');
+// 前台 购物车 删除 路由
+Route::get('home/carts/del','Home\CartsController@delete');
  
 // 前台 购物车路由
 Route::resource('home/carts','Home\CartsController');
