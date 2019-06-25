@@ -18,7 +18,8 @@ class LoginController extends Controller
         // 显示 登陆 模板
          return view('home.login.index');
     }
-       //  登陆 验证 
+
+       //  登陆 验证 方法
     public function login(Request $request)
     {
      // dump($request->all());
@@ -33,8 +34,9 @@ class LoginController extends Controller
      // 判断输入框的内容
      if(preg_match($email, $data)){
         
-        $user_data = DB::table('users')->where('email',$data)->first();        
-          //判断用户名是否存在
+        $user_data = DB::table('users')->where('email',$data)->first(); 
+
+          //判断邮箱名是否存在
         if(empty($user_data->email)){
             echo json_encode(['msg'=>'error','info'=>'邮箱不存在']);
             exit;
@@ -63,7 +65,7 @@ class LoginController extends Controller
      } else if(preg_match($uname, $data)){
         $user_data = DB::table('users')->where('uname',$data)->first();
         
-         // 判断 手机是否存在
+         // 判断 用户名是否存在
            if(empty($user_data->uname)){
             echo json_encode(['msg'=>'error','info'=>'用户名不存在']);
             exit;
@@ -75,11 +77,34 @@ class LoginController extends Controller
             exit;
         }
      }
+            // 获取uid
+            $uid = $user_data->id;
 
+            // 查询 用户详情信息
+            $uinfo = DB::table('users_infos')->where('id',$uid)->first();
+            
             //session 压入session
             session(['home_login'=>true]);
             session(['userinfo'=>$user_data]);
+
+            // 将 用户详情 压入到session1中
+            session(['userinfo1'=>$uinfo]);
             echo json_encode(['msg'=>'ok','info'=>'登陆成功']);
+    }
+
+
+    // 前台 退出 方法
+    public function logout()
+    {
+         // 将 session 值 设为null
+        session(['home_login'=>false]);
+        session(['userinfo'=>false]);
+        session(['userinfo1'=>false]);
+
+        // 用户退出的时候 清除收藏 标识
+        $_SESSION['is_collect'] = null;
+
+        return redirect('home');
     }
 
     /**

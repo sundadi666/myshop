@@ -156,14 +156,12 @@ Route::get('home/addmsg','Home\ReplysController@create');
 // 前台用户提交留言 路由
 Route::resource('home/replys','Home\ReplysController');
 
-
-// 前台 用户 收货地址管理
-Route::resource('home/addrs','Home\AddrsController');
-
+// 前台用户 收藏 商品 路由
+Route::get('home/goods/addLike','Home\GoodsController@addLike');
 
 
-
-
+// 前台用户 删除 收藏 商品 路由
+Route::get('home/goods/cancelLike','Home\GoodsController@cancelLike');
 
 
 
@@ -179,8 +177,8 @@ Route::get('home/goods/details','Home\GoodsController@index');
 // 前台获取 商品 大小
 Route::get('home/goods/getsize','Home\GoodsController@getsize');
 
-
-
+// 前台获取商品价格 路由
+Route::get('home/goods/getMoney','Home\GoodsController@getMoney');
 
 
 
@@ -192,8 +190,8 @@ Route::get('home/goods/getsize','Home\GoodsController@getsize');
 
 
 // 前台 加入购物车 路由
-Route::get('home/carts/addcart','Home\CartsController@addCart');
-
+Route::get('home/carts/addcart/{id}','Home\CartsController@addCart');
+ 
 // 前台 购物车路由
 Route::resource('home/carts','Home\CartsController');
 
@@ -206,8 +204,14 @@ Route::get('home/personal/info/{id}','Home\PersonalController@personalInfo');
 // 前台 个人中心 路由
 Route::resource('home/personal','Home\PersonalController');
 
+// 前台列表页 查询 数据 路由
+Route::get('home/list','Home\ListController@index');
 
+// 前台列表页 显示 数据 路由
+Route::get('home/list/index','Home\ListController@index');
 
+// 前台商品详情页 显示 路由
+Route::get('home/goods/details','Home\GoodsController@index');
 
 // 前台 登陆 路由
 Route::resource('home/login','Home\LoginController');
@@ -230,7 +234,8 @@ Route::post('home/register/phone','Home\RegisterController@phone');
 // 前台 手机 邮箱 注册路由
 Route::resource('home/register','Home\RegisterController');
 
-
+// 前台 购物车路由
+Route::resource('home/addrs','Home\AddrsController');
 
 // 后台 登陆 路由
 Route::get('admin/login','Admin\LoginController@login');
@@ -257,15 +262,8 @@ Route::group(['middleware'=>'login'],function(){
    // 商品大小执行添加 路由
    Route::post('admin/sizes/store','Admin\SizesController@store');
 
-   // 后台商品属性 添加页面 路由
-   Route::get('admin/attributes/create/{id}','Admin\AttributesController@create');
-
-   // 后台商品属性 执行添加 路由
-   Route::post('admin/attributes/store/{id}','Admin\AttributesController@store');
-
    // 后台用户留言列表 显示 路由
    Route::get('admin/replys/index','Admin\ReplysController@index');
-
 
    // 后台查看用户留言详情 路由
    Route::get('admin/replys/{id}','Admin\ReplysController@show');
@@ -320,8 +318,6 @@ Route::group(['middleware'=>'login'],function(){
 
    //轮播图 路由
    Route::resource('admin/banners','Admin\BannersController');
-
-
 
 
 });

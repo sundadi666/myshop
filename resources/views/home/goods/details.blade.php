@@ -1,4 +1,7 @@
 
+
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -22,6 +25,15 @@
 		<script type="text/javascript" src="/h/js/jquery.flexslider.js"></script>
 		<script type="text/javascript" src="/h/js/list.js"></script>
 
+		<link rel="stylesheet" href="/layui/css/layui.css">
+      	<script src="/layui/layui.js"></script>
+
+		<script>
+		//一般直接写在一个js文件中
+		    layui.use(['layer', 'form'], function(){
+		      var layer = layui.layer
+		    });
+		</script> 
 	</head>
 
 	<body>
@@ -31,10 +43,17 @@
 		<div class="am-container header">
 			<ul class="message-l">
 				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
-					</div>
+						@if(session('home_login'))
+		                <div class="menu-hd">
+		                  <a href="#" target="_top" class="h">你好!{{session('userinfo')->uname}}</a>
+		                  <a href="/home/logout">退出</a>
+		                </div>
+		                @else
+		                <div class="menu-hd">
+		                  <a href="/home/login" target="_top" class="h">亲，请登录</a>
+		                  <a href="/home/register" target="_top">免费注册</a>
+		                </div>
+		                @endif
 				</div>
 			</ul>
 			<ul class="message-r">
@@ -160,20 +179,18 @@
 						<!--规格属性-->
 						<!--名称-->
 						<div class="tb-detail-hd">
-							<h1>	
-				 				{{ $goods->title }}
-	          				</h1>
+							<h1>{{ $goods->title }}</h1>
 						</div>
 						<div class="tb-detail-list">
 							<!--价格-->
 							<div class="tb-detail-price">
 								<li class="price iteminfo_price">
 									<dt>价格</dt>
-									<dd><em>¥</em><b class="sys_item_price">{{ $goods->goodsmodel[0]->modelsize[0]->money }}</b>  </dd>
+									<dd><em>¥</em><b class="sys_item_price"></b>  </dd>
 								</li>
 								<div class="clear"></div>
 							</div>
-
+							
 							<!--地址-->
 							<dl class="iteminfo_parameter freight">
 								<dt>配送至</dt>
@@ -233,7 +250,7 @@
 
 													<div class="theme-options">
 														<div class="cart-title">型号</div>
-														<ul>
+														<ul id="model_id">
 															@foreach($goods->goodsmodel as $k=>$v)
 															<li class="sku-line" name="{{ $v->id }}" onclick="getSize({{ $v->id }})">{{ $v->mname }}<i></i></li>
 															@endforeach
@@ -243,7 +260,7 @@
 														<div class="cart-title">大小</div>
 														<ul id="size">
 															
-														<li class="sku-line"><i></i></li>
+														<li class="sku-line">请选择型号<i></i></li>
 																
 														</ul>
 													</div>
@@ -297,7 +314,49 @@
 								{
 									$('#size').find('li').removeClass('selected');
 									$('#size').find(`li[name="${id}"]`).addClass('selected');
+
+
+									$.get('/home/goods/getMoney',{id},function(res){
+										$('.sys_item_price').html(res.val.money);
+									},'json')
 								}
+
+								function setCollect(id)
+								{
+									if($('.collect').find('span').eq(0).text()=='收藏') {
+										$.get('/home/goods/addLike',{id},function(res){
+											if(res.msg == 'ok') {
+												$('.collect').find('img').eq(0).attr('src','/h/images/heart1.jpeg');
+												$('.collect').find('span').eq(0).html('取消收藏');
+												layer.msg(res.info);
+											} else {
+												layer.msg(res.info);
+											}
+										},'json')
+									} else {
+										$.get('/home/goods/cancelLike',{id},function(res){
+											if(res.msg == 'ok') {
+												$('.collect').find('img').eq(0).attr('src','/h/images/heart2.jpeg');
+												$('.collect').find('span').eq(0).html('收藏');
+												layer.msg(res.info);
+											}
+										},'json')
+									}
+								}
+
+								// function cancelLike(id)
+								// {
+								// 	$.get('/home/goods/cancelLike',{id},function(res){
+								// 		if(res.msg == 'ok') {
+								// 			// console.log(1);	
+								// 			// $("#quxiaoshoucang").attr('onclick', 'cancelLike('+id+')');
+								// 			$('#quxiaoshoucang').find('img').eq(0).attr('src','/h/images/heart2.jpeg');
+								// 			$('#quxiaoshoucang').find('span').eq(0).html('收藏');
+								// 			$("#quxiaoshoucang").attr('onclick', 'addLike('+id+')');
+								// 			layer.msg(res.info);
+								// 		}
+								// 	},'json')
+								// }
 							</script>
 							<div class="clear"></div>
 							<!--活动	-->
@@ -326,6 +385,7 @@
 							<div class="pay-opt">
 							<a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
 							<a><span class="am-icon-heart am-icon-fw">收藏</span></a>
+
 							
 							</div>
 							<li>
@@ -336,8 +396,21 @@
 							<li>
 								<div class="clearfix tb-btn tb-btn-basket theme-login">
 								<!-- 	<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a> -->
-									<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a>
+									<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								</div>
+							</li>
+							<li style="text-align: center;">
+								@if(!empty($_SESSION['is_collect']))
+								<a href="javascript:;" class="collect" onclick="setCollect({{ $goods->id }})">
+									<img style="width: 15px;" src="/h/images/heart1.jpeg">
+								<span style="color: #666;font-size: 10px;width: 100%;margin:0px;padding: 0px;">取消收藏</span>
+								</a>
+								@else
+								<a href="javascript:;" class="collect" onclick="setCollect({{ $goods->id }})">
+									<img style="width: 15px;text-align: 100px;" src="/h/images/heart2.jpeg">
+								<span style="color: #666;font-size: 10px;width: 100%;margin:0px;padding: 0px;">收藏</span>
+								</a>
+								@endif
 							</li>
 						</div>
 
@@ -347,6 +420,7 @@
 
 				</div>
 				<script type="text/javascript">
+
 				</script>
 				<!--优惠套装-->
 				<div class="match">

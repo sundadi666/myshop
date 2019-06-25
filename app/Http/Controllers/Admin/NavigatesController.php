@@ -15,6 +15,7 @@ class NavigatesController extends Controller
      */
     public function index(Request $request)
     {   
+
         // 接收要 查询的数据
         $search_title = $request->input('search_title','');
 

@@ -81,14 +81,14 @@
 					        <h4 class="modal-title" id="myModalLabel">用户权限状态</h4>
 					      </div>
 					      <div class="modal-body">
-					        <form action="/admin/users/status" method="get{{$v->id}}">
+					        <form action="/admin/users/status/{{$v->id}}" method="get">
 					        	<input type="hidden" name="id" value="">	
 
 					        	<div class="form-group"> 
 									
 														<br>
 										
-									未开启:<input type="radio" name="status" checked value="0">
+									未开启:<input type="radio" name="status" value="0">
 														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									开启:<input type="radio" name="status" value="1">
 									<input type="submit" value="提交" class="btn btn-success">
@@ -106,18 +106,17 @@
 
 			<script type="text/javascript">
 
-							// 修改 状态
-							function status(id,sta)
-							{
-
-								if(sta == 1){
-			$('#myModal form input[type=radio]').eq(1).attr('checked',true);
-								}else{
-			$('#myModal form input[type=radio]').eq(0).attr('checked', true)
-								}
-								$('#myModal form input[type=hidden]').eq(0).val(id)
-								$('#myModal').modal('show')
-							}
+			// 修改 状态
+			function status(id,sta)
+			{
+				if(sta == 1){
+						$('#myModal form input[type=radio]').eq(1).attr('checked',true);
+					}else{
+						$('#myModal form input[type=radio]').eq(0).attr('checked', true)
+					}
+				$('#myModal form input[type=hidden]').eq(0).val(id)
+				$('#myModal').modal('show')
+			}
 			</script>
 		</div>
 		{{$users_data->appends($params)->links()}}

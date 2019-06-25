@@ -193,10 +193,8 @@
             {
                 url: "/admin/banners/" + id,
                 type : "DELETE",
-                dataType: "json", 
-                success: function(data){
-                  console.log(data);
-                    if(data.msg == 'ok') {
+                success: function(res){
+                    if(res == 'ok') {
                       $(obj).parent().parent().remove();
                     }
                 },

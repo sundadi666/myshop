@@ -15,9 +15,10 @@ class IndexController extends Controller
      */
     public function index()
     {
-        //
-       
-        return view('admin.index.index');
+        $data = $_SERVER;
+
+        // 加载 后台 首页视图            
+        return view('admin.index.index',['data'=>$data]);
     }
 
     /**
