@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Addrs;
+use DB;
 
 class AddrsController extends Controller
 {
@@ -82,18 +83,24 @@ class AddrsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 查询 要修改的 参数
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $addrs_edit = Addrs::where('id',$id)->first();
+
+        // 判断 是否 查询到数值
+        if($addrs_edit){
+            echo json_encode($addrs_edit);
+        }
+
     }
 
     /**
-     * Update the specified resource in storage.
+     * 保存 要修改的 数据
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -101,7 +108,22 @@ class AddrsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $addrs_data = Addrs::find($id);
+
+        // 保存 数据
+        $addrs_data->uname = $request->input('uname','');
+        $addrs_data->phone = $request->input('phone','');
+        $addrs_data->details = $request->input('details','');
+
+        // 保存
+        $res = $addrs_data->save();
+
+        // 判断是否成功
+        if($res){
+            return back()->with('success','修改成功');
+        }else{
+            return back()->with('error','修改失败');
+        }
     }
 
     /**
@@ -122,4 +144,30 @@ class AddrsController extends Controller
             echo "error";
         }
     }
+
+    /* 修改用户的默认收货地址
+     *
+     */
+    public function editaddrs(Request $request)
+    {
+        DB::beginTransaction();
+
+        // 接收 要修改的数据
+        $oldid = $request->input('oldid');
+        $newid = $request->input('newid');
+
+        // 修改 要保存的数据
+        $oldres = DB::table('addrs')->where('id',$oldid)->update(['default' => '0']);
+        $newres = DB::table('addrs')->where('id',$newid)->update(['default' => '1']);
+        
+        // 判断是否成功
+        if ($oldres && $newres) {
+            DB::commit();
+            echo json_encode(['msg'=>'ok']);
+        } else {
+            DB::rollBack();
+        }
+
+    }
+
 }

@@ -183,8 +183,11 @@ Route::get('home/goods/getsize','Home\GoodsController@getsize');
 
 
 
+// 前台 用户修改默认收货地址
+Route::get('home/addrs/editaddrs','Home\AddrsController@editaddrs');
 
-
+// 前台 用户收货地址
+Route::resource('home/addrs','Home\AddrsController');
 
 
 
