@@ -25,6 +25,7 @@
 		<script type="text/javascript" src="/h/js/jquery.flexslider.js"></script>
 		<script type="text/javascript" src="/h/js/list.js"></script>
 
+
 		<link rel="stylesheet" href="/layui/css/layui.css">
       	<script src="/layui/layui.js"></script>
 
@@ -34,42 +35,41 @@
 		      var layer = layui.layer
 		    });
 		</script> 
-	</head>
-
 	<body>
 
 
-		<!--顶部导航条 -->
-		<div class="am-container header">
-			<ul class="message-l">
-				<div class="topMessage">
-						@if(session('home_login'))
-		                <div class="menu-hd">
-		                  <a href="#" target="_top" class="h">你好!{{session('userinfo')->uname}}</a>
-		                  <a href="/home/logout">退出</a>
-		                </div>
-		                @else
-		                <div class="menu-hd">
-		                  <a href="/home/login" target="_top" class="h">亲，请登录</a>
-		                  <a href="/home/register" target="_top">免费注册</a>
-		                </div>
-		                @endif
-				</div>
-			</ul>
+			<!--顶部导航条 -->
+		  <div class="am-container header">
+		   <ul class="message-l">
+		    <div class="topMessage">
+		      @if(session('home_login'))
+	              <div class="menu-hd">
+	                
+	                <a href="" target="_top" class="h">你好!{{session('userinfo')->uname}}</a>
+	                 <a href="/home/logout">退出</a>
+	              </div>
+	              @else
+	              <div class="menu-hd">
+	              	<a href="/home/login/login" target="_top" class="h">亲，请登录</a>
+	              	<a href="/home/registe" target="_top">免费注册</a>
+	              </div>
+	              @endif
+		    </div>
+		   </ul>
 			<ul class="message-r">
-				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-				</div>
-				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-				</div>
-				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-				</div>
-				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-			</ul>
-			</div>
+		    <div class="topMessage home">
+		     <div class="menu-hd"><a href="/home" target="_top" class="h">商城首页</ a></div>
+		    </div>
+		    <div class="topMessage my-shangcheng">
+		     <div class="menu-hd MyShangcheng"><a href="/home/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</ a></div>
+		    </div>
+		    <div class="topMessage mini-cart">
+		     <div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+		    </div>
+		    <div class="topMessage favorite">
+		     <div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></ a></div>
+		   </ul>
+		   </div>
 
 			<!--悬浮搜索框-->
 
@@ -165,7 +165,7 @@
 							<ul class="tb-thumb" id="thumblist">
 								<li class="tb-selected">
 									<div class="tb-pic tb-s40">
-										<a href="#"><img src="/{{ $goods->img_small }}" mid="images/01_mid.jpg" big="/h/images/01.jpg"></a>
+										<a href="#"><img id="getimg" src="/{{ $goods->img_small }}" mid="images/01_mid.jpg" big="/h/images/01.jpg"></a>
 									</div>
 								</li>
 							</ul>
@@ -252,7 +252,7 @@
 														<div class="cart-title">型号</div>
 														<ul id="model_id">
 															@foreach($goods->goodsmodel as $k=>$v)
-															<li class="sku-line" name="{{ $v->id }}" onclick="getSize({{ $v->id }})">{{ $v->mname }}<i></i></li>
+															<li class="sku-line"  name="{{ $v->id }}" onclick="getSize({{ $v->id }})">{{ $v->mname }}<i></i></li>
 															@endforeach
 														</ul>
 													</div>
@@ -300,6 +300,7 @@
 							<script type="text/javascript">
 								function getSize(id)
 								{
+
 									$.get('/home/goods/getsize',{id},function(res){
 										var str="";
 							            $.each(res,function(index,val){
@@ -308,6 +309,7 @@
 							             $("#size").empty();
            								 $("#size").append(str);
 									},'json')
+
 								}
 
 								function getsizeid(id)
@@ -395,8 +397,8 @@
 							</li>
 							<li>
 								<div class="clearfix tb-btn tb-btn-basket theme-login">
-								<!-- 	<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a> -->
-									<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="addCart({{ $goods->id }})"><i></i>加入购物车</a>
+
 								</div>
 							</li>
 							<li style="text-align: center;">
@@ -420,12 +422,25 @@
 
 				</div>
 				<script type="text/javascript">
+
 					function addCart(id)
 					{   
+						let mid = $('#model_id').find('li.selected').attr('name');
+						let sid = $('#size').find('li.selected').attr('name');
+						let price = $('.sys_item_price').text();
+						let title = $('.tb-detail-hd').text();
 						
-
-						$.get('/home/carts/addcart/'+id,function(res){
-							console.log(res)
+						let nums = $('#text_box').val();
+						let xiaoji = price * nums;
+						// console.log(id);
+						let imgs = ($("#getimg")[0].src)
+							
+						$.get('/home/carts/addcart',{id,mid,sid,price,title,imgs,nums,xiaoji},function(res){
+							if(res.msg == 'ok'){
+								layer.msg(res.info)
+							}else{
+								layer.msg(res.info)
+							}
 						},'json')
 						
 					}
@@ -1261,13 +1276,19 @@
 								<span class="setting"></span>
 							</a>
 							<div class="ibar_login_box status_login">
+								@if(session('home_login'))
 								<div class="avatar_box">
-									<p class="avatar_imgbox"><img src="/h/images/no-img_mid_.jpg" /></p>
+									<p class="avatar_imgbox">
+										@if(session('userinfo1'))
+										<img src="/uploads/{{session('userinfo1')->profile ? session('userinfo1')->profile : ''}}" />
+										@endif
+									</p>
 									<ul class="user_info">
-										<li>用户名：sl1903</li>
+										<li>用户名：{{session('userinfo')->uname}}</li>
 										<li>级&nbsp;别：普通会员</li>
 									</ul>
 								</div>
+								@endif
 								<div class="login_btnbox">
 									<a href="#" class="login_order">我的订单</a>
 									<a href="#" class="login_favorite">我的收藏</a>
@@ -1277,7 +1298,7 @@
 
 						</div>
 						<div id="shopCart" class="item">
-							<a href="#">
+							<a href="/home/carts">
 								<span class="message"></span>
 							</a>
 							<p>

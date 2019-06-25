@@ -14,9 +14,15 @@
 		<link href="/h/css/optstyle.css" rel="stylesheet" type="text/css" />
 
 		<script type="text/javascript" src="/h/js/jquery.js"></script>
-
+		<link rel="stylesheet" href="/layui/css/layui.css">
+     	<script src="/layui/layui.js"></script>
 	</head>
-
+	<script>
+//一般直接写在一个js文件中
+    layui.use(['layer', 'form'], function(){
+      var layer = layui.layer
+    });
+</script> 
 	<body>
 
 		<!--顶部导航条 -->
@@ -44,7 +50,7 @@
 					<div class="menu-hd MyShangcheng"><a href="/home/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span><a href="/home/carts">购物车</a></span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span><a href="/home/carts">购物车</a></span><strong id="J_MiniCartNum" class="h">({{$num}})</strong></a></div>
 				</div>
 				<div class="topMessage favorite">
 					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -80,6 +86,11 @@
 
 								</div>
 							</div>
+							@if(!$cart_data)
+							<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561388835400&di=858ae2e96fbae501ae7903310fbb325f&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fe1b1467beea0a9c7d6a56b32bac6d7e5dcd914f7c3e6-YTwUd6_fw658">
+							<button><a href="/home/list">去逛逛吧</a></button>
+							
+							@else
 							<div class="th th-item">
 								<div class="td-inner">商品信息</div>
 							</div>
@@ -102,12 +113,13 @@
 					<div class="clear"></div>
 
 					<tr class="item-list">
+						@foreach($cart_data as $k=>$v)
 						<div class="bundle  bundle-last ">
 							<div class="bundle-hd">
 								<div class="bd-promos">
 									<div class="bd-has-promo">商品图片<span class="bd-has-promo-content"></span>&nbsp;&nbsp;</div>
 									<div class="act-promo">
-										<a href="#" target="_blank">第二支半价，第三支免费<span class="gt">&gt;&gt;</span></a>
+										<a href="" target="_blank">第二件8折<span class="gt">&gt;&gt;</span></a>
 									</div>
 									<span class="list-change theme-login">编辑</span>
 								</div>
@@ -121,30 +133,27 @@
 									<li class="td td-item">
 										<div class="item-pic">
 											<a href="#" target="_blank" data-title="美康粉黛醉美东方唇膏口红正品 持久保湿滋润防水不掉色护唇彩妆" class="J_MakePoint" data-point="tbcart.8.12">
-												<img src="/h/images/kouhong.jpg_80x80.jpg" class="itempic J_ItemImg"></a>
+												<img style="width:79px;height:79px;" src="{{$v->imgs}}" class="itempic J_ItemImg"></a>
 										</div>
 										<div class="item-info">
 											<div class="item-basic-info">
-												<a href="#" target="_blank" title="美康粉黛醉美唇膏 持久保湿滋润防水不掉色" class="item-title J_MakePoint" data-point="tbcart.8.11">美康粉黛醉美唇膏 持久保湿滋润防水不掉色</a>
+												<a href="#" target="_blank" title="{{$v->title}}" class="item-title J_MakePoint" data-point="tbcart.8.11">{{$v->title}}</a>
 											</div>
 										</div>
 									</li>
 									<li class="td td-info">
-										<div class="item-props item-props-can">
-											<span class=""></span>
-											<span class=""></span>
-											<span tabindex="0" class=""></span>
-											<i class="theme-login am-icon-sort-desc"></i>
+										<div class="item-props ">
+											
 										</div>
 									</li>
 									<li class="td td-price">
 										<div class="item-price price-promo-promo">
 											<div class="price-content">
 												<div class="price-line">
-													<em class="price-original">78.00</em>
+													<em class="price-original"></em>
 												</div>
 												<div class="price-line">
-													<em class="J_Price price-now" tabindex="0">39.00</em>
+													<em id="price{{$v->id}}" class="J_Price price-now" tabindex="0">{{$v->price}}</em>
 												</div>
 											</div>
 										</div>
@@ -153,11 +162,14 @@
 										<div class="amount-wrapper ">
 											<div class="item-amount ">
 												<div class="sl">
-													<button><a href="">-</a></button>
+													<!-- <button><a href="/home/carts/jian/{{$v->id}}">-</a></button> -->
+
+											<button><a href="javascript:;" onclick="jian({{$v->id}})">一</a></button>		
 													
 													
-													<input class="text_box"  type="text" value="5" style="width:30px;" />
-													<button><a href="">+</a></button>
+													<input class="text_box" id="numbers{{ $v->id }}" type="text" value="{{$v->nums}}" style="width:30px;" />
+													
+											<button><a href="javascript:;" onclick="jia({{$v->id}})">＋</a></button>												
 
 												</div>
 											</div>
@@ -165,22 +177,80 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<em tabindex="0" class="J_ItemSum number">117.00</em>
+											<em tabindex="0" id="xiaoji{{$v->id}}" class="J_ItemSum number">{{$v->xiaoji}}</em>
 										</div>
 									</li>
 									<li class="td td-op">
 										<div class="td-inner">
 											<a title="移入收藏夹" class="btn-fav" href="#">
                   移入收藏夹</a>
-											<a href="javascript:;" data-point-url="#" class="delete">
+											<a href="javascript:;" onclick="del({{$v->id}},this)" data-point-url="" class="delete">
                   删除</a>
 										</div>
 									</li>
 								</ul>
 							</div>
 						</div>
+						@endforeach
+						@endif
 					</tr>
 				</div>
+				<script type="text/javascript">
+					function jian(id){
+						$.get('/home/carts/jian',{id},function(res){
+							if(res.msg == 'ok'){
+								 $('#numbers'+id).val(parseInt($('#numbers'+id).val())-1)
+							    let price = $('#price'+id).html()
+						        let xiaoji = $('#xiaoji'+id).html()
+						        // 将小计减去单价
+						        let addprice = parseInt(xiaoji)-parseInt(price)
+						        // 改变dom的值
+						          $('#xiaoji'+id).html(addprice)
+						           $('#J_Total').html(res.zongjia)
+						       
+								 layer.msg('-1');
+							}
+						},'json')
+					}
+
+					function jia(id){
+						$.get('/home/carts/jia',{id},function(res){
+							if(res.msg == 'ok'){
+								 //获取dom节点 +1						          
+						         $('#numbers'+id).val(parseInt($('#numbers'+id).val())+1)
+						         // 获取单价的dom 节点
+						        let price = $('#price'+id).html()
+						         // 获取小计的dom节点
+						        let xiaoji = $('#xiaoji'+id).html()
+						        let jianprice = parseInt(xiaoji)+parseInt(price)
+						        // 把结果重新赋值给小计 改变dom的值
+						          $('#xiaoji'+id).html(jianprice)
+						          // 把结果重新赋值给总价 改变dom的值
+						          $('#J_Total').html(res.zongjia)
+						       
+								layer.msg('+1')
+							}
+							
+						},'json')
+					}
+					function del(id,obj)
+					{
+							// 提醒是否要删除
+							if(!window.confirm('确定要删除商品吗')){
+								return false;
+							}
+
+						$.get('/home/carts/del',{id},function(res){
+							if(res=='ok'){
+								$(obj).parent().parent().parent().parent().parent().remove();
+								layer.msg('删除成功')
+							}else{
+								layer.msg('删除失败')
+							}
+							console.log(res)
+						},'html')
+					}
+				</script>
 				<div class="clear"></div>
 
 				<div class="float-bar-wrapper">
@@ -200,7 +270,7 @@
 						</div>
 						<div class="price-sum">
 							<span class="txt">合计:</span>
-							<strong class="price">¥<em id="J_Total">0.00</em></strong>
+							<strong class="price">¥<em id="J_Total">{{$zongjia}}</em></strong>
 						</div>
 						<div class="btn-area">
 							<a href="pay.html" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
