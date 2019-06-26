@@ -129,7 +129,7 @@
 									@endif
 								</a>
 								<em>
-									Hi,<span class="s-name">{{session('userinfo')->uname ? session('userinfo')->uname : ''}}</span>
+									Hi,<span class="s-name"></span>
 									<a href="#"><p>点击更多优惠活动</p></a>									
 								</em>
 							</div>
