@@ -260,7 +260,7 @@
 														<div class="cart-title">大小</div>
 														<ul id="size">
 															
-														<li class="sku-line">请选择型号<i></i></li>
+														<!-- <li class="sku-line">请选择型号<i></i></li> -->
 																
 														</ul>
 													</div>
@@ -298,10 +298,38 @@
 								</dd>
 							</dl>
 							<script type="text/javascript">
-								function getSize(id)
+								$(document).ready(function () {
+									let mid = $('#model_id').find('li').eq(0).attr('name');
+						            $('#model_id').find('li').eq(0).addClass('selected');
+						            
+
+						            $.get('/home/goods/getsize',{mid},function(res){
+										var str="";
+							            $.each(res,function(index,val){
+							               str+=`<li class="sku-line" name="${val.id}" onclick="getsizeid(${val.id})">`+val.sname+"<i></i></li>"
+							            })
+							             $("#size").empty();
+           								 $("#size").append(str);
+
+           								 let sid = $('#size').find('li').eq(0).attr('name');
+           								 $('#size').find('li').eq(0).addClass('selected');
+
+           								 $.get('/home/goods/getMoney',{sid},function(res){
+											$('.sys_item_price').html(res.val.money);
+											$('.stock').html(res.val.inventory);
+										 },'json')
+
+
+									},'json')
+
+
+						        });
+
+
+								function getSize(mid)
 								{
 
-									$.get('/home/goods/getsize',{id},function(res){
+									$.get('/home/goods/getsize',{mid},function(res){
 										var str="";
 							            $.each(res,function(index,val){
 							               str+=`<li class="sku-line" name="${val.id}" onclick="getsizeid(${val.id})">`+val.sname+"<i></i></li>"
@@ -312,14 +340,15 @@
 
 								}
 
-								function getsizeid(id)
+								function getsizeid(sid)
 								{
 									$('#size').find('li').removeClass('selected');
-									$('#size').find(`li[name="${id}"]`).addClass('selected');
+									$('#size').find(`li[name="${sid}"]`).addClass('selected');
 
 
-									$.get('/home/goods/getMoney',{id},function(res){
+									$.get('/home/goods/getMoney',{sid},function(res){
 										$('.sys_item_price').html(res.val.money);
+										$('.stock').html(res.val.inventory);
 									},'json')
 								}
 
@@ -1071,144 +1100,24 @@
 								<div class="am-tab-panel am-fade">
 									<div class="like">
 										<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+											@foreach($goods_data as $k=>$v)
 											<li>
 												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
+													<a href="/home/goods/details?cid={{ $v->cid }}&gid={{ $v->id }}"><img src="/{{ $v->img_big }}" /></a>
+													<a href="/home/goods/details?cid={{ $v->cid }}&gid={{ $v->id }}"><p>{{ $v->title }}</p></a>
 													<p class="price fl">
 														<b>¥</b>
-														<strong>298.00</strong>
+														<strong>{{ $v->goodsmodel[0]->modelsize[0]->money }}</strong>
 													</p>
 												</div>
 											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
-											<li>
-												<div class="i-pic limit">
-													<img src="/h/images/imgsearch1.jpg" />
-													<p>【良品铺子_开口松子】零食坚果特产炒货
-														<span>东北红松子奶油味</span></p>
-													<p class="price fl">
-														<b>¥</b>
-														<strong>298.00</strong>
-													</p>
-												</div>
-											</li>
+											@endforeach
 										</ul>
 									</div>
 									<div class="clear"></div>
 
 									<!--分页 -->
-									<ul class="am-pagination am-pagination-right">
+			<!-- 						<ul class="am-pagination am-pagination-right">
 										<li class="am-disabled"><a href="#">&laquo;</a></li>
 										<li class="am-active"><a href="#">1</a></li>
 										<li><a href="#">2</a></li>
@@ -1216,7 +1125,7 @@
 										<li><a href="#">4</a></li>
 										<li><a href="#">5</a></li>
 										<li><a href="#">&raquo;</a></li>
-									</ul>
+									</ul> -->
 									<div class="clear"></div>
 
 								</div>
