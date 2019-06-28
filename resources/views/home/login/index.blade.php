@@ -135,11 +135,15 @@
 				        });
 				// 发送 ajax 
 				$.post('/home/login/login',{login,upass},function(res){
-					if(res.msg == 'err'){	
-							console.log(res)			   		
+					if(res.msg == 'err' || res.msg == 'error'){	
+
 					   		 layer.msg('账号或密码不正确');
+					   		 // 等 2秒钟之后 再 跳转
+								setTimeout(function(){	    
+			                	 window.location.href = '/home/login';
+			               		 },1500);					   							   		 
 					   	}else{
-					   		 console.log(res)
+					   		
 					   		 layer.msg(res.info);
 					   		 window.location.href = "/home";
 					   	}		

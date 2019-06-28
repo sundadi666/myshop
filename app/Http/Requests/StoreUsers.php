@@ -27,8 +27,8 @@ class StoreUsers extends FormRequest
         return [
             'uname' => 'required|unique:users|regex:/^[a-zA-Z]{1}[\w]{5,17}$/',            
             'phone' => 'required|regex:/^1{1}[3-8]{1}[\d]{9}$/',
-            'profile' => 'required',
-            'email' => 'required|email',
+            // 'profile' => 'required',
+            // 'email' => 'required|email',
             
         ];
     }
@@ -45,9 +45,9 @@ class StoreUsers extends FormRequest
              'uname.unique'=>'用户名已存在',             
              'phone.required'=>'手机号码必填',
              'phone.regex'=>'手机号码格式错误',
-              'email.required'=>'邮箱必填',
-              'email.email'=>'邮箱格式错误',            
-             'profile.required'=>'头像必填',
+              // 'email.required'=>'邮箱必填',
+              // 'email.email'=>'邮箱格式错误',            
+             // 'profile.required'=>'头像必填',
          ];
      }
 }
