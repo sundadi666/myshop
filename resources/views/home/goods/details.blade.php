@@ -345,20 +345,6 @@
 										},'json')
 									}
 								}
-
-								// function cancelLike(id)
-								// {
-								// 	$.get('/home/goods/cancelLike',{id},function(res){
-								// 		if(res.msg == 'ok') {
-								// 			// console.log(1);	
-								// 			// $("#quxiaoshoucang").attr('onclick', 'cancelLike('+id+')');
-								// 			$('#quxiaoshoucang').find('img').eq(0).attr('src','/h/images/heart2.jpeg');
-								// 			$('#quxiaoshoucang').find('span').eq(0).html('收藏');
-								// 			$("#quxiaoshoucang").attr('onclick', 'addLike('+id+')');
-								// 			layer.msg(res.info);
-								// 		}
-								// 	},'json')
-								// }
 							</script>
 							<div class="clear"></div>
 							<!--活动	-->
