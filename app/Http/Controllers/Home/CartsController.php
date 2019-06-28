@@ -164,6 +164,8 @@ class CartsController extends Controller
             $imgs = $request->input('imgs');
             $title = $request->input('title');
            // 将接收的数据 添加到 数据库中
+        
+                     
             $data = DB::table('carts')->insert(['gid'=>$id,'uid'=>$uid,'mid'=>$mid,'sid'=>$sid,'price'=>$price,'nums'=>$nums,'xiaoji'=>$xiaoji,'imgs'=>$imgs,'title'=>$title]);
            // 判断 是否成功
           if($data){

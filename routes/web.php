@@ -136,16 +136,26 @@
 
 
 
+// 支付成功 清除session
+Route::get('home/clearsession','Home\PaysuccessController@clearsession');
+
+// 前台 订单详情
+Route::resource('home/order','Home\OrderController');
 
 
 
+// 前台 购物车 数量减
+Route::get('home/pay/zong','Home\PayController@zong');
 
 
+// 前台 购物车 支付
+Route::resource('home/pay','Home\PayController');
+
+   
 
 
-
-
-
+// 支付成功
+Route::resource('home/paysuccess','Home\PaysuccessController');
 
 
 

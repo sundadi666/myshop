@@ -4,16 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Orders extends Model
-{	
-	
-    // 查找用户名称的名称
-    public function users()
-    {
-    	 return $this->belongsTo('App\Models\Users','uid');
-    }
-   	
-  
+class Ordersinfo extends Model
+{
+    // 声明 一下是操作那个表的
+    public $table = "orders_info";
 
    	// 查找 商品 名称
    	public function goods()
@@ -32,11 +26,4 @@ class Orders extends Model
    	{
    		return $this->belongsTo('App\Models\Sizes','sid');
    	}
-
-    // 查找orderinfo 数据
-    public function orderinfo()
-    {
-      return $this->hasMany('App\Models\Ordersinfo','oid');
-    }
-
 }
