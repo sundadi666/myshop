@@ -170,7 +170,7 @@
 											<p class="title fl">{{ $v->title }}</p>
 											<p class="price fl">
 												<b>¥</b>
-												<strong>56.90</strong>
+												<strong>{{ $v->goodsmodel[0]->modelsize[0]->money }}</strong>
 											</p>
 											<p class="number fl">
 												销量<span>1110</span>

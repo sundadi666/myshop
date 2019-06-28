@@ -43,7 +43,9 @@ class GoodsController extends Controller
                 } 
             }
 
-    	return view('home.goods.details',['goods'=>$goods]);
+            $goods_data = Goods::where('cid',$request->input('cid'))->get();
+
+    	return view('home.goods.details',['goods'=>$goods,'goods_data'=>$goods_data]);
 
     }	
 
@@ -51,7 +53,7 @@ class GoodsController extends Controller
     public function getSize(Request $request)
     {
     	// 接收 型号 id
-    	$id = $request->input('id');
+    	$id = $request->input('mid');
     	// 所有商品 大小
     	$sizes = Sizes::where('mid',$id)->get();
 
@@ -147,7 +149,7 @@ class GoodsController extends Controller
     public function getMoney(Request $request)
     {
         // 获取该商品大小id
-        $id = $request->input('id');
+        $id = $request->input('sid');
         // 根据大小id 查询 价格
         $money = Sizes::find($id);
 
