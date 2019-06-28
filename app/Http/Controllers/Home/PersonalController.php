@@ -10,7 +10,8 @@ use App\Models\Navigates;
 use DB;
 use Hash;
 use App\Http\Controllers\Home\CartsController;
-// use App\Http\Requests\StoreUsers;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Footer;
 class PersonalController extends Controller
 {
     // 个人 详情 方法
@@ -23,8 +24,10 @@ class PersonalController extends Controller
         // dd($user_data->usersinfos);
         // 获取 购物车 数量
         $num = CartsController::getNum();
+        // 获取 网站底部 数据
+        $footer_data = Footer::first();
         // 加载 个人详情 页面
-        return view('home.personal.info',['navigates_data'=>$navigates_data,'user_data'=>$user_data,'num'=>$num]);
+        return view('home.personal.info',['navigates_data'=>$navigates_data,'user_data'=>$user_data,'num'=>$num,'footer_data'=>$footer_data]);
     }
     /**
      * 个人中心 列表
@@ -44,8 +47,10 @@ class PersonalController extends Controller
         $user = Users::find($id);
         // 获取 购物车 数量
         $num = CartsController::getNum();
+        // 获取 网站底部 数据
+        $footer_data = Footer::first();
         // 显示 模板 将$user 分配模板
-        return view('home.personal.index',['navigates_data'=>$navigates_data,'user'=>$user,'num'=>$num]);
+        return view('home.personal.index',['navigates_data'=>$navigates_data,'user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
     }
 
     /**
@@ -83,7 +88,9 @@ class PersonalController extends Controller
         ]);
          // 检测 是否 有 头像 上传
        if($request->hasFile('profile')){
-        $file_path = $request->file('profile')->store(date('Ymd'));
+         // 把原先的旧图删除
+          Storage::delete($request->input('profile_path'));
+          $file_path = $request->file('profile')->store(date('Ymd'));
        }else{
         $file_path = $request->input('profile_path');
        }
@@ -141,8 +148,10 @@ class PersonalController extends Controller
         $user = Users::find($id);
         // 获取 购物车 数量
         $num = CartsController::getNum();
+        // 获取 网站底部 数据
+        $footer_data = Footer::first();
        // 加载 修改密码 页面
-       return view('home.personal.upass',['user'=>$user,'num'=>$num]);
+       return view('home.personal.upass',['user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
     }
     // 修改 密码 方法
     public function updata_upass(Request $request,$id)

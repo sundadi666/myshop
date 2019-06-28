@@ -16,6 +16,84 @@
 		<script type="text/javascript" src="/h/js/jquery.js"></script>
 		<link rel="stylesheet" href="/layui/css/layui.css">
      	<script src="/layui/layui.js"></script>
+     	<style type="text/css">
+    #nav{
+       width:750px;
+    }
+    
+		#pull_right{
+            text-align:center;
+        }
+        .pull-right {
+            /*float: left!important;*/
+        }
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 0;
+            border-radius: 4px;
+        }
+        .pagination > li {
+            display: inline;
+        }
+        .pagination > li > a,
+        .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #428bca;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        .pagination > li:first-child > a,
+        .pagination > li:first-child > span {
+            margin-left: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .pagination > li:last-child > a,
+        .pagination > li:last-child > span {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .pagination > li > a:hover,
+        .pagination > li > span:hover,
+        .pagination > li > a:focus,
+        .pagination > li > span:focus {
+            color: #2a6496;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #428bca;
+            border-color: #428bca;
+        }
+        .pagination > .disabled > span,
+        .pagination > .disabled > span:hover,
+        .pagination > .disabled > span:focus,
+        .pagination > .disabled > a,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > a:focus {
+            color: #777;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+        .clear{
+            clear: both;
+        }
+  </style>
 	</head>
 	<script>
 //一般直接写在一个js文件中
@@ -206,8 +284,10 @@
 						        let addprice = parseInt(xiaoji)-parseInt(price)
 						        // 改变dom的值
 						          $('#xiaoji'+id).html(addprice)
-						           $('#J_Total').html(res.zongjia)
-						       
+						          // 改变总价的dom值
+						          $('#J_Total').html(res.zongjia)
+						           // 改变总数量的dom值
+						       	  $('#J_MiniCartNum').html(res.num)
 								 layer.msg('-1');
 							}
 						},'json')
@@ -227,7 +307,8 @@
 						          $('#xiaoji'+id).html(jianprice)
 						          // 把结果重新赋值给总价 改变dom的值
 						          $('#J_Total').html(res.zongjia)
-						       
+						          // 改变总数量的dom值
+						       	  $('#J_MiniCartNum').html(res.num)
 								layer.msg('+1')
 							}
 							
@@ -235,10 +316,10 @@
 					}
 					function del(id,obj)
 					{
-							// 提醒是否要删除
-							if(!window.confirm('确定要删除商品吗')){
-								return false;
-							}
+						// 提醒是否要删除
+						if(!window.confirm('确定要删除商品吗')){
+							return false;
+						}
 
 						$.get('/home/carts/del',{id},function(res){
 							if(res=='ok'){
@@ -280,6 +361,18 @@
 
 				</div>
 
+				<br>
+
+				<!-- 分页 开始 -->                                                                      
+			       <div id="pull_right">
+			         <div class="pull-right">
+			          {{$cart_data->links()}}
+			         </div>
+			       </div>                                                                                                                                             
+      			 <!-- 分页 结束 -->
+				
+				
+
 				<div class="footer">
 					<div class="footer-hd">
 						<p>
@@ -298,7 +391,7 @@
 							<a href="#">合作伙伴</a>
 							<a href="#">联系我们</a>
 							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+							<em>{{$footer_data->copy}} {{$footer_data->filing}}  {{$footer_data->company}}</em>
 						</p>
 					</div>
 				</div>

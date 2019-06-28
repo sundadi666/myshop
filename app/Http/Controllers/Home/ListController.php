@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Goods;
 use App\Http\Controllers\Home\CartsController;
+use App\Models\Footer;
 
 class ListController extends Controller
 {
@@ -22,8 +23,10 @@ class ListController extends Controller
         $goods = Goods::where('cid',$cid)->get();
          // 获取 购物车 数量
         $num = CartsController::getNum();
-       
-        return view('home.list.index',['goods'=>$goods,'num'=>$num]);
+         // 获取 网站底部 数据
+        $footer_data = Footer::first();
+        
+        return view('home.list.index',['goods'=>$goods,'num'=>$num,'footer_data'=>$footer_data]);
     }
 
     /**

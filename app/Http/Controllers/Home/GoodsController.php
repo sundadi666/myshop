@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Goods;
 use App\Models\Sizes;
 use App\Models\Collects;
+use App\Models\Footer;
 
 class GoodsController extends Controller
 {
@@ -16,7 +17,7 @@ class GoodsController extends Controller
     	// dd(session(['home_login'=>true]));
     	// 获取商品分类id
     	$gid = $request->input('gid');
-    	//
+    	
     	$goods = Goods::find($gid);
     	
     	//    
@@ -43,7 +44,10 @@ class GoodsController extends Controller
                 } 
             }
 
-    	return view('home.goods.details',['goods'=>$goods]);
+        // 获取 网站底部 数据
+        $footer_data = Footer::first();
+
+    	return view('home.goods.details',['goods'=>$goods,'footer_data'=>$footer_data]);
 
     }	
 

@@ -12,6 +12,7 @@ use App\Models\Cates;
 use App\Models\Brands;
 use App\Models\Models;
 use App\Models\Sizes;
+use App\Models\Attributes;
 use DB;
 
 

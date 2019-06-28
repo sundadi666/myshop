@@ -66,9 +66,9 @@
 					<li class="dropdown navbar-user">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 							<!-- 如果 登陆成功 显示管理员信息 -->
-							@if(session('userinfo'))
-							<img src="/uploads/{{session('userinfo')->profile or ''}}"  alt="" /> 							
-							<span class="hidden-xs">{{session('userinfo')->uname}}</span> <b class="caret"></b>
+							@if(session('admin_userinfo'))
+							<img src="/uploads/{{session('admin_userinfo')->profile or ''}}"  alt="" /> 							
+							<span class="hidden-xs">{{session('admin_userinfo')->uname}}</span> <b class="caret"></b>
 							@endif
 						</a>
 						<ul class="dropdown-menu animated fadeInLeft">
@@ -96,9 +96,9 @@
 				<ul class="nav">
 					<li class="nav-profile">
 				<!-- 如果 登陆成功 显示信息 -->
-					@if(session('userinfo'))	
+					@if(session('admin_userinfo'))	
 						<div class="info">
-							管理员:{{session('userinfo')->uname}}
+							管理员:{{session('admin_userinfo')->uname}}
 							
 						</div>
 					@endif	
@@ -112,7 +112,7 @@
 					<li class="has-sub active">
 						<a href="javascript:;">
 						    <b class="caret pull-right"></b>
-						    <i class="fa fa-2x fa-users"></i>
+						   <i class="fa fa-2x fa-user"></i>
 						    <span>用户管理</span>
 					    </a>
 						<ul class="sub-menu">
@@ -239,6 +239,42 @@
 						</ul>
 					</li>
 
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-male"></i>
+						    <span>管理员</span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/adminuser">管理员列表</a></li>
+							<li><a href="/admin/adminuser/create">管理员添加</a></li>
+						</ul>
+					</li>
+
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-sitemap"></i>
+						    <span>角色管理</span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/roles">角色列表</a></li>
+							<li><a href="/admin/roles/create">角色添加</a></li>
+						</ul>
+					</li>
+					<li class="has-sub">
+						<a href="javascript:;">
+						    <b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-sitemap"></i>
+						    <span>权限管理</span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/nodes">权限列表</a></li>
+							<li><a href="/admin/nodes/create">权限添加</a></li>
+						</ul>
+					</li>
+
+
 					<!-- 侧边栏 缩放按钮 开始 -->
 					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 					<!-- 侧边栏 缩放按钮 结束 -->
@@ -336,7 +372,7 @@
 
 </script>
 <!-- 如果 登陆 可以操控修改头像 -->
-@if(session('userinfo'))
+@if(session('admin_userinfo'))
 	<!-- 修改头像的模态框开始 -->
 	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -348,12 +384,12 @@
 		      <div class="modal-body">
 		        <div class="form-grids row widget-shadow" data-example-id="basic-forms">
 		          <div class="form-body">
-		            <form action="/admin/users/update_profile/{{session('userinfo')->id}}" method="post" enctype="multipart/form-data">{{ csrf_field() }}
+		            <form action="/admin/users/update_profile/{{session('admin_userinfo')->id}}" method="post" enctype="multipart/form-data">{{ csrf_field() }}
 		              <div class="form-group">
-		                <img style="width:100px;" src="/uploads/{{session('userinfo')->profile}}">
+		                <img style="width:100px;" src="/uploads/{{session('admin_userinfo')->profile}}">
 		                <label for="uface">上传头像</label>
 		                <input type="file" class="form-control" name="profile" value="" placeholder="修改头像">
-		                <input type="hidden" name="uface_path" value="{{session('userinfo')->profile}}"></div>
+		                <input type="hidden" name="uface_path" value="{{session('admin_userinfo')->profile}}"></div>
 		              <input type="submit" class="btn btn-info" value="提交"></form>
 		          </div>
 		        </div>
@@ -367,7 +403,7 @@
 
 	
 	 <!-- 如果 登陆 可以操作修改密码 -->
-	 @if(session('userinfo'))
+	 @if(session('admin_userinfo'))
 	  <!-- 修改密码的模态框开始 -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -380,7 +416,7 @@
 		        <div class="form-grids row widget-shadow" data-example-id="basic-forms">
 		          <div class="form-title"></div>
 		          <div class="form-body">
-		            <form action="/admin/users/update_upass/{{session('userinfo')->id}}" method="post" enctype="multipart/form-data">{{ csrf_field() }}
+		            <form action="/admin/users/update_upass/{{session('admin_userinfo')->id}}" method="post" enctype="multipart/form-data">{{ csrf_field() }}
 		              <div class="form-group">
 		                <label for="upass">原始密码</label>
 		                <input type="password" class="form-control" name="upass" value="" placeholder="原始密码"></div>

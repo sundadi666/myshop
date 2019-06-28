@@ -185,8 +185,6 @@ Route::get('home/goods/getsize','Home\GoodsController@getsize');
 Route::get('home/goods/getMoney','Home\GoodsController@getMoney');
 
 
-
-
 // 前台 用户修改默认收货地址
 Route::get('home/addrs/editaddrs','Home\AddrsController@editaddrs');
 
@@ -259,9 +257,13 @@ Route::get('admin/logout','Admin\LoginController@logout');
 // 后台 登陆验证路由
 Route::post('admin/dologin','Admin\LoginController@dologin');
 
+// 后台 没有 权限 路由
+Route::get('admin/rbac',function(){
+   return view('admin.adminuser.nodes');
+});
 
 // 后台 登陆中间件
-Route::group(['middleware'=>'login'],function(){
+Route::group(['middleware'=>['login','nodes']],function(){
 
    // 进入 后台页面
    Route::get('admin','Admin\IndexController@index');
@@ -274,6 +276,9 @@ Route::group(['middleware'=>'login'],function(){
 
    // 商品大小执行添加 路由
    Route::post('admin/sizes/store','Admin\SizesController@store');
+   
+   // 后台 商品值 添加 路由
+   Route::get('admin/attributes/create/{id}','Admin\AttributesController@create');
 
    // 后台用户留言列表 显示 路由
    Route::get('admin/replys/index','Admin\ReplysController@index');
@@ -332,6 +337,12 @@ Route::group(['middleware'=>'login'],function(){
    //轮播图 路由
    Route::resource('admin/banners','Admin\BannersController');
 
+   // 后台 管理员路由
+   Route::resource('admin/adminuser','Admin\AdminuserController');
+   // 后台 角色 路由
+   Route::resource('admin/roles','Admin\RolesController');
+   // 后台 权限 路由
+   Route::resource('admin/nodes','Admin\NodesController');
 
 });
 

@@ -50,7 +50,7 @@
 	              </div>
 	              @else
 	              <div class="menu-hd">
-	              	<a href="/home/login/login" target="_top" class="h">亲，请登录</a>
+	              	<a href="/home/login" target="_top" class="h">亲，请登录</a>
 	              	<a href="/home/registe" target="_top">免费注册</a>
 	              </div>
 	              @endif
@@ -1259,7 +1259,7 @@
 									<a href="#">合作伙伴</a>
 									<a href="#">联系我们</a>
 									<a href="#">网站地图</a>
-									<em>© 2015-2025 Hengwang.com 版权所有</em>
+									<em>{{$footer_data->copy}} {{$footer_data->filing}}  {{$footer_data->company}}</em>
 								</p>
 							</div>
 						</div>

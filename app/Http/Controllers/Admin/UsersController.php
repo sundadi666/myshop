@@ -60,8 +60,8 @@ class UsersController extends Controller
             'upass' => 'required|regex:/^[\w]{6,18}$/',
             'repass' => 'required|same:upass',
            // 'phone' => 'required|regex:/^1{1}[3-8]{1}[\d]{9}$/',
-           // 'profile' => 'required',
-            //'email' => 'required|email',
+           'profile' => 'required',
+            'email' => 'required|email',
             
         ],[
            // 'uname.required'=>'用户名必填',
@@ -72,16 +72,17 @@ class UsersController extends Controller
             'repass.same'=>'两次密码不一致',
             //'phone.required'=>'手机号码必填',
             //'phone.regex'=>'手机号码格式错误',
-            // 'email.required'=>'邮箱必填',
-            // 'email.email'=>'邮箱格式错误',            
-           // 'profile.required'=>'头像必填',
+            'email.required'=>'邮箱必填',
+            'email.email'=>'邮箱格式错误',            
+           'profile.required'=>'头像必填',
         ]);
 
        // 检测 是否 有 头像 上传
        if($request->hasFile('profile')){
         $file_path = $request->file('profile')->store(date('Ymd'));
        }else{
-        $file_path = '';
+        // 默认 图片
+        $file_path = '20190625/18GmSoKZNMdYZ7WycJQe1TknRnE8xsXqRTZaPBpC.jpeg';
        }
        // 接收 所有的 值
        $data = $request->all();
@@ -164,7 +165,7 @@ class UsersController extends Controller
        }
      
        // 获取 用户 的详情 信息
-       $user = session('userinfo');
+       $user = session('admin_userinfo');
        // 判断 和数据库的密码 进行判断是否一致
        $res = password_verify($upass,$user->upass);
       if(!$res){
@@ -175,7 +176,7 @@ class UsersController extends Controller
          // 重新获取个人信息赋值给session
          $user = DB::table('admin_users')->where('id',$id)->first();
        if($res){
-              session(['userinfo'=>$user]);
+              session(['admin_userinfo'=>$user]);
             return redirect('admin')->with('success','修改密码成功');
         } else {
             return back()->with('error','修改密码失败');
@@ -203,7 +204,7 @@ class UsersController extends Controller
 
         if($res){
           // 将个人信息重新赋值给session
-           session(['userinfo'=>$user]);
+           session(['admin_userinfo'=>$user]);
           // dd(session('userinfo'));
             return redirect('admin')->with('success','修改成功');
         } else {
