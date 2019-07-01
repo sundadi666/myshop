@@ -9,8 +9,9 @@ use App\Models\Navigates;
 use App\Models\Links;
 use App\Models\Brands;
 use App\Models\Banners;
+use App\Models\Footer;
 use DB;
-
+use App\Http\Controllers\Home\CartsController;
 class IndexController extends Controller
 {
    public static function getPidCatesData($pid = 0)
@@ -51,7 +52,6 @@ class IndexController extends Controller
         // 获取商品 的数据
         $branks_data = Brands::all();
 
-
         foreach ($branks_data as $key => $value) {
             $branks_data[$key]['goods_data'] = DB::table('goods')->where('bid',$value->id)->paginate(4);  
         }
@@ -62,7 +62,12 @@ class IndexController extends Controller
         // 今日推荐
         $recommends = DB::table('goods')->where('is_recommend','=','1')->select('goods_info_top','goods_info_bottom','img')->get();
 
-        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends,'links_data'=>$links_data,'branks_data'=>$branks_data]);
+         // 获取 购物车 数量
+        $num = CartsController::getNum();
+         // 获取 网站底部 数据
+        $footer_data = Footer::first();
+        
+        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends,'links_data'=>$links_data,'branks_data'=>$branks_data,'num'=>$num,'footer_data'=>$footer_data]);
     }
 
     /**

@@ -11,12 +11,14 @@
 
 		<link href="/h/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
 		<link href="/h/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet">
 
 		<link href="/h/css/personal.css" rel="stylesheet" type="text/css">
 		<link href="/h/css/addstyle.css" rel="stylesheet" type="text/css">
-		<script src="/h/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 		<script src="/h/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 		<script src="\h\js\jsAddress.js"></script>
+		<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 	</head>
 
@@ -59,10 +61,6 @@
 
 							<div class="search-bar pr">
 								<a name="index_none_header_sysc" href="#"></a>
-								<form>
-									<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-								</form>
 							</div>
 						</div>
 
@@ -103,8 +101,9 @@
 						<ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
 							
 							@foreach($addrs_data as $k=>$v)
-							<li class="user-addresslist {{$v->default == '1' ? 'defaultAddr' : ''}}">
-								<span class="new-option-r"><i class="am-icon-check-circle"></i>默认地址</span>
+							<li class="user-addresslist {{$v->default == '1' ? 'defaultAddr' : ''}}" name="{{$v->id}}">
+								<span class="new-option-r" name="{{$v->id}}"><i class="am-icon-check-circle"></i>默认地址</span>
+								<input type="hidden" name="id" value="{{$v->id}}">
 								<p class="new-tit new-p-re">
 									<span class="new-txt">{{$v->uname}}</span>
 									<span class="new-txt-rd2">{{$v->phone}}</span>
@@ -118,7 +117,7 @@
 										<span class="street">{{$v->details}}</span></p>
 								</div>
 								<div class="new-addr-btn">
-									<a href="#"><i class="am-icon-edit"></i>编辑</a>
+									<a href="javascript:;" onclick="edit({{$v->id}})"><i class="am-icon-edit"></i>编辑</a>
 									<span class="new-addr-bar">|</span>
 									<a href="javascript:;" onclick="destroy({{$v->id}},this)"><i class="am-icon-trash"></i>删除</a>
 								</div>
@@ -127,7 +126,7 @@
 							
 						</ul>
 						<script type="text/javascript">
-
+							// 执行 删除 操作
 							function destroy(id,obj)
 							{	
 								 $.ajaxSetup({
@@ -149,7 +148,57 @@
 						            });
 							}
 
+							// 执行 修改 操作
+							function edit(id)
+							{
+								// console.log(id);
+								$.get('/home/addrs/'+id+'/edit',function(res){
+									$('#exampleModal').find('form #uname').val(res.uname);
+									$('#exampleModal').find('form #phone').val(res.phone);
+									$('#exampleModal #cmbProvince').find(`option[value="${res.province}"]`).attr('selected',true);
+									$('#exampleModal').find('form #details').val(res.details);
+									$('#exampleModal').find('form').attr('action','/home/addrs/'+res.id);
+									$('#exampleModal').modal('show');
+								},'json');
+							}
+
 						</script>
+						<!-- 修改地址 模态框 开始  -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="exampleModalLabel">更改地址</h4>
+						      </div>
+						      <div class="modal-body">
+						        <form action="/home/addrs" method="post">
+						        	{{ csrf_field() }}
+	        						{{ method_field('PUT') }}
+						          <div class="form-group">
+						            <label for="uname" class="control-label">收货人:</label>
+						            <input type="text" name="uname" class="form-control" id="uname">
+						          </div>
+
+						          <div class="form-group">
+						            <label for="phone" class="control-label">手机号码:</label>
+						            <input type="text" name="phone" class="form-control" id="phone">
+						          </div>
+						          <div class="form-group">
+						            <label for="details" class="control-label">详细地址:</label>
+						            <textarea name="details" class="form-control" id="details"></textarea>
+						          </div>
+						          <div class="modal-footer">
+							        <input type="submit" class="btn btn-primary" name="">
+							      </div>
+						        </form>
+						      </div>
+						      
+						    </div>
+						  </div>
+						</div>
+						<!-- 修改地址 模态框 结束  -->
+
 						<div class="clear"></div>
 						<a class="new-abtn-type" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">添加新地址</a>
 						<!--例子-->
@@ -223,7 +272,14 @@
 					<script type="text/javascript">
 						$(document).ready(function() {							
 							$(".new-option-r").click(function() {
-								$(this).parent('.user-addresslist').addClass("defaultAddr").siblings().removeClass("defaultAddr");
+								var oldid = $('.user-address').find('li.defaultAddr').attr('name');
+								var newid = $(this).attr('name');
+								$.get('/home/addrs/editaddrs',{oldid,newid},(res)=>{
+									if (res.msg == "ok") {
+										$(this).parent('.user-addresslist').addClass("defaultAddr").siblings().removeClass("defaultAddr");
+									}
+								},'json');
+								
 							});
 							
 							var $ww = $(window).width();

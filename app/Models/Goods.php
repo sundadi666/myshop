@@ -26,4 +26,12 @@ class Goods extends Model
     {
     	return $this->hasMany('App\Models\Attributes','gid');
     }
+
+    // 建立商品 和 订单详情 一对一关系
+    public function goodsorderinfo()
+    {
+        return $this->hasOne('App\Models\Ordersinfo','gid');
+    }
+
+    // 建立 商品 和 型号 属于关系
 }

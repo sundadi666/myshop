@@ -7,45 +7,48 @@ use App\Http\Controllers\Controller;
 use App\Models\Goods;
 use App\Models\Sizes;
 use App\Models\Collects;
+use App\Models\Footer;
+use App\Models\Replys;
+use DB;
 
 class GoodsController extends Controller
 {
     //获取商品详情 
     public function index(Request $request)
     {
-    	// dd(session(['home_login'=>true]));
     	// 获取商品分类id
     	$gid = $request->input('gid');
-    	//
-    	$goods = Goods::find($gid);
     	
-    	//    
+    	$goods = Goods::find($gid);
 
+        if(session('home_login')) {
+            $_SESSION['user_id'] = session('userinfo')->id;
 
-            if(session('home_login')) {
-                $_SESSION['user_id'] = session('userinfo')->id;
+            // 查询该用户是否收藏过该商品
+            $user_collect = Collects::where('uid',$_SESSION['user_id'])->where('gid',$gid)->first();
 
-                // dd($_SESSION['user_id']);
+            // 如果用户没收藏
+            if(!$user_collect) {
 
-                // 查询该用户是否收藏过该商品
-                $user_collect = Collects::where('uid',$_SESSION['user_id'])->where('gid',$gid)->first();
+                $_SESSION['is_collect'] = null;
+            } else if($_SESSION['user_id'] == $user_collect->uid) { // 判断当前登录用户id 和 收藏表用户的id是否 一致
 
-                // dd($user_collect);
+                $_SESSION['is_collect'] = true;
+            } 
+        }
 
-                if(!$user_collect) {
-                    $_SESSION['is_collect'] = null;
+        // 获取 网站底部 数据
+        $footer_data = Footer::first();
 
-                    // dd($_SESSION['is_collect']);
-                } else if($_SESSION['user_id'] == $user_collect->uid) { // 判断当前登录用户id 和 收藏表用户的id是否 一致
-                    // 压入session
-                    // session(['is_collect'=>true]);
-                    $_SESSION['is_collect'] = true;
-                } 
-            }
+        $goods_data = Goods::where('cid',$request->input('cid'))->get();
 
-            $goods_data = Goods::where('cid',$request->input('cid'))->get();
+        // 获取该商品所有评论
+        $replys = Replys::where('gid',$gid)->paginate(1);
 
-    	return view('home.goods.details',['goods'=>$goods,'goods_data'=>$goods_data]);
+        // 获取该商品的评价数量
+        $replys_nums = DB::table('replys')->where('gid','=',$gid)->count();
+
+    	return view('home.goods.details',['goods'=>$goods,'goods_data'=>$goods_data,'footer_data'=>$footer_data,'replys'=>$replys,'replys_nums'=>$replys_nums,'gid'=>$gid]);
 
     }	
 
@@ -67,21 +70,11 @@ class GoodsController extends Controller
     // 前台 商品 收藏
     public function addLike(Request $request)
     {
-        // session('is_collect',null);
-        // die;
-        // dd($request->session()->has('is_collect'));
-
     	// 获取当前登录 用户id
     	if(!session('home_login')) {
     		echo json_encode(['msg'=>'err','info'=>'您还未登录~']);
     		exit;
     	}
-
-    	// // 获取 商品 标题
-    	// $title = $request->input('title');
-
-    	// // 获取 商品 价格
-    	// $price = $request->input('');
 
         // 获取商品id
         $gid = $request->input('id');
@@ -89,12 +82,9 @@ class GoodsController extends Controller
         // 获取用户 id
         $uid = session('userinfo')->id;
 
-        // dd($uid);
-
         // 查询该用户id 和 已收藏过该商品的id
     	$collect = Collects::where('uid',$uid)->where('gid',$gid)->first();
 
-        // dd($collect);
         if(!$collect) {
             // 该用户未收藏该商品
             $collect = new Collects();
@@ -103,27 +93,17 @@ class GoodsController extends Controller
 
             $_SESSION['is_collect'] = true;
 
-            // dd($_SESSION['is_collect']);
-
             // 把当前用户id压入session
             $_SESSION['user_id'] = $uid;
 
-            // dd($_SESSION['user_id']);
-
             $row = $collect->save();
-            // dd($row);
+
             echo json_encode(['msg'=>'ok','info'=>'已收藏']);
         }
     }
 
     public function cancelLike(Request $request)
     {
-        // // 获取 商品 标题
-        // $title = $request->input('title');
-
-        // // 获取 商品 价格
-        // $price = $request->input('');
-
         // 获取商品id
         $gid = $request->input('id');
 
@@ -137,8 +117,7 @@ class GoodsController extends Controller
             // 该用户已收藏该商品
             $_SESSION['is_collect'] = null;
 
-            // dd($_SESSION['is_collect']);
-
+            // 取消该用户对该善品的 收藏 状态
             Collects::where('uid','=',$uid)->where('gid','=',$gid)->delete();
 
             echo json_encode(['msg'=>'ok','info'=>'已取消收藏']);
@@ -150,6 +129,7 @@ class GoodsController extends Controller
     {
         // 获取该商品大小id
         $id = $request->input('sid');
+
         // 根据大小id 查询 价格
         $money = Sizes::find($id);
 

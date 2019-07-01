@@ -57,7 +57,7 @@
 								<div class="menu-hd MyShangcheng"><a href="/home/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span><a href="/home/carts">购物车</a></span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span><a href="/home/carts">购物车</a></span><strong id="J_MiniCartNum" class="h">{{$num}}</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
 								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -220,7 +220,7 @@
 							<a href="#">合作伙伴</a>
 							<a href="#">联系我们</a>
 							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+							<em>{{$footer_data->copy}} {{$footer_data->filing}}  {{$footer_data->company}}</em>
 						</p>
 					</div>
 				</div>
@@ -260,7 +260,7 @@
 						<ul>
 							<li> <a href="collection.html">收藏</a></li>
 							<li> <a href="foot.html">足迹</a></li>
-							<li> <a href="comment.html">评价</a></li>
+							<li> <a href="/home/replys">评价</a></li>
 							<li> <a href="news.html">消息</a></li>
 						</ul>
 					</li>

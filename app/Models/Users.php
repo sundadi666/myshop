@@ -13,4 +13,16 @@ class Users extends Model
     {
     	return $this->hasOne('App\Models\UsersInfos','uid');
     }
+
+    // 建立商品 和 用户 和 收藏表 属于关系
+    public function usergoods()
+    {
+        return $this->belongsToMany('App\Models\Goods', 'collects', 'uid', 'gid');
+    }
+
+    // 建立 用户 和 订单 一对多关系
+    public function userorders()
+    {
+        return $this->hasMany('App\Models\Orders','uid');
+    }
 }

@@ -125,11 +125,11 @@
 							<div class="m-baseinfo">
 								<a href="">
 									@if(session('userinfo1'))
-									<img src="/uploads/{{session('userinfo1')->profile}}">
+									<img src="/uploads/{{session('userinfo1')->profile ? session('userinfo1')->profile : ''}}">
 									@endif
 								</a>
 								<em>
-									Hi,<span class="s-name"></span>
+									Hi,<span class="s-name">{{session('userinfo')->uname}}</span>
 									<a href="#"><p>点击更多优惠活动</p></a>									
 								</em>
 							</div>

@@ -51,7 +51,7 @@
                                 <td>{{ $v->replyuser->uname }}</td>
                                 <td>{{ $v->goodsuser->title }}</td>
                                 <td>{{ $v->content }}</td>
-                                <td>{{ $v->time }}</td>
+                                <td>{{ $v->created_at }}</td>
                                 <td>
                                     <a href="javascript:;" class="btn btn-info" onclick="showContent({{ $v->id }})">查看</a>
                                 </td>
@@ -115,7 +115,6 @@
     {
         $('#myModal').modal('show');
         $.get('/admin/replys/'+id,function(res){
-            console.log(res);
             if(res.msg == 'ok') {
                 $('#uname').html(res.info['uname']);
                 $('#gname').html(res.info['gname']);

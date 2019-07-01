@@ -59,7 +59,7 @@ class FooterController extends Controller
             'company.regex'=>'公司名称格式错误',
             
         ]);
-       // 获取 所有字段
+       // 获取 所有字段 除了token
        $data = $request->except('_token');
        //实例化 数据库对象
        $footer = new Footer;
