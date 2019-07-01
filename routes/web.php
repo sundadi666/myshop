@@ -299,6 +299,9 @@ Route::group(['middleware'=>['login','nodes']],function(){
    // 后台 商品值 添加 路由
    Route::get('admin/attributes/create/{id}','Admin\AttributesController@create');
 
+   // 后台 商品值 执行添加 路由
+   Route::post('admin/attributes/store/{id}','Admin\AttributesController@store');
+
    // 后台用户留言列表 显示 路由
    Route::get('admin/replys/index','Admin\ReplysController@index');
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use App\Models\Users;
+use App\Models\UsersInfos; 
 use App\Models\UserLogin;
 use Hash;
 use Mail;
@@ -43,7 +44,8 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
       // dd($request->token);
-       
+        // 开始 实务
+       // DB::beginTransaction();
         // 接收 所有 值
         $phone = $request->input('phone');
         $code = $request->input('code');
@@ -74,15 +76,43 @@ class RegisterController extends Controller
        $user->phone =$request->input('phone','');
        // 给 密码 加密
        $user->upass = Hash::make($data['upass']);
+
         // 将数据 存入到 数据库
        $res1 = $user->save();
-
-       if($res1){
        
-         // echo "<script>alert('注册成功');location.href='/home'</script>";
+        // 如果 插入成功 获取 uid
+       if($res1){
+        // 获取 uid
+        $uid = $user->id;
+       
+       }
+       //  // 将 头像 插入 到 用户详情表里
+    
+       $profile = '20190701/psnoeqchXeVQPJtVVY4xPybj1ZwW57H5SKq5emCI.jpeg'; 
+       
+      $res2 = DB::table('users_infos')->insert(['uid'=>$uid,'profile'=>$profile,'sex'=>'m']);
+       
+        // 判断 两个表 是否同部  添加 实务
+       if($res1 && $res2){
+       // 确定 提交
+       DB::commit();
+       // 提示 是否 添加成功 跳转到 列表页
          echo json_encode(['msg'=>'ok']);
          exit;
+       }else{
+        // 实务 回滚
+        DB::rollBack();
+        // 如果 失败 跳转到原先 的位置
+        echo json_encode(['msg'=>'err']);
+         exit;
        }
+
+
+       // if($res1){
+       //   // echo "<script>alert('注册成功');location.href='/home'</script>";
+       //   echo json_encode(['msg'=>'ok']);
+       //   exit;
+       // }
     }
 
     /**

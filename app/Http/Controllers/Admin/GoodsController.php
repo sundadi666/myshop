@@ -121,8 +121,8 @@ class GoodsController extends Controller
     {
         //表单验证
         $this->validate($request, [
-            'title' => 'required|max:35',
-            'desc' => 'required|max:20',
+            'title' => 'required|max:100',
+            'desc' => 'required|max:100',
             'img' => 'required',
             'goods_info_top' => 'required|max:10',
             'goods_info_bottom' => 'required|max:10',
@@ -146,7 +146,7 @@ class GoodsController extends Controller
         //     exit;
         // }
 
-        $goods = new Goods();
+        // $goods = new Goods();
 
         //接收图片
         if($request->hasFile('img')) {
@@ -173,43 +173,47 @@ class GoodsController extends Controller
 
         //把字符串转为数组
         $attr_name = explode(',', trim($request->input('attr_name'), ','));
+
+        // 保存商品标题
+        $goods['title'] = $request->input('title');
+        // 保存商品描述
+        $goods['desc'] = $request->input('desc');
+        // 保存商品状态
+        $goods['goods_status'] = $request->input('goods_status');
+        // 保存商品分类
+        $goods['cid'] = $request->input('cid','');
+        // 保存商品品牌
+        $goods['bid'] = $request->input('bid','');
+        // 自定义原图的路径
+        $goods['img'] = 'uploads/'.$path;
+        // 商品推荐信息上
+        $goods['goods_info_top'] = $request->input('goods_info_top');
+        // 商品推荐信息下
+        $goods['goods_info_bottom'] = $request->input('goods_info_bottom');
+        // 商品内容
+        $goods['content'] = $request->input('content');
+       
+        $goods['img_small'] = 'uploads/'.date('Ymd').'/'.'img_small_'.$filename;
+        $goods['img_big'] = 'uploads/'.date('Ymd').'/'.'img_big_'.$filename;
+        //执行添加数据
+
+        // $row = $goods->save();
+        // dd($goods);
         //循环插入数据库
-        // dd($mname_arr);
+        // dd($request->input('id'));
+        $id = DB::table('goods')->insertGetId($goods);
+
         foreach($attr_name as $k=>$v) {
             //实例化模型
             $attributes = new Attributes();
-            $attributes->gid = $request->input('id');
+            $attributes->gid = $id;
             $attributes->attr_name = $v;
             //添加数据
             $attributes->save();
         }
 
-        // 保存商品标题
-        $goods->title = $request->input('title');
-        // 保存商品描述
-        $goods->desc = $request->input('desc');
-        // 保存商品状态
-        $goods->goods_status = $request->input('goods_status');
-        // 保存商品分类
-        $goods->cid = $request->input('cid','');
-        // 保存商品品牌
-        $goods->bid = $request->input('bid','');
-        // 自定义原图的路径
-        $goods->img = 'uploads/'.$path;
-        // 商品推荐信息上
-        $goods->goods_info_top = $request->input('goods_info_top');
-        // 商品推荐信息下
-        $goods->goods_info_top = $request->input('goods_info_bottom');
-        // 商品内容
-        $goods->content = $request->input('content');
-       
-        $goods->img_small = 'uploads/'.date('Ymd').'/'.'img_small_'.$filename;
-        $goods->img_big = 'uploads/'.date('Ymd').'/'.'img_big_'.$filename;
-        //执行添加数据
-
-        $row = $goods->save();
         //返回受影响行数
-        if($row) {
+        if($id) {
             return redirect('admin/goods')->with('success','添加数据成功');
         } else {
             //添加失败
