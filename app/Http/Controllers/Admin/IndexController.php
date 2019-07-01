@@ -15,6 +15,7 @@ class IndexController extends Controller
      */
     public function index()
     {
+        // PHP超全局变量$_SERVER
         $data = $_SERVER;
 
         // 加载 后台 首页视图            

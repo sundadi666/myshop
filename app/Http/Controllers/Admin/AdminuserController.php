@@ -20,10 +20,6 @@ class AdminuserController extends Controller
     public function index()
     {
 
-        if(!session('admin_login')){
-            return redirect('admin/login');
-        }
-        $uid = session('admin_userinfo')->id;
         // 获取 管理员 所有数据
         $adminuser = Adminuser::paginate(5);
 

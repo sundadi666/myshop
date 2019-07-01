@@ -25,7 +25,7 @@ class CartsController extends Controller
         }
         $uid = session('userinfo')->id;
         // dd($uid);
-        // 获取 购物车数据 goods
+        // 获取 购物车数据 
         $cart_data = DB::table('carts')->where('uid',$uid)->orderBy('created_at','desc')->paginate(5);
         // 获取 网站底部 数据
         $footer_data = Footer::first();
@@ -174,7 +174,8 @@ class CartsController extends Controller
            // 将接收的数据 添加到 数据库中
         
                      
-            $data = DB::table('carts')->insert(['gid'=>$id,'uid'=>$uid,'mid'=>$mid,'sid'=>$sid,'price'=>$price,'nums'=>$nums,'xiaoji'=>$xiaoji,'imgs'=>$imgs,'title'=>$title]);
+            // $data = DB::table('carts')->insert(['gid'=>$id,'uid'=>$uid,'mid'=>$mid,'sid'=>$sid,'price'=>$price,'nums'=>$nums,'xiaoji'=>$xiaoji,'imgs'=>$imgs,'title'=>$title]);
+        
             $data = DB::table('carts')->insert(['gid'=>$id,'uid'=>$uid,'mid'=>$mid,'sid'=>$sid,'price'=>$price,'nums'=>$nums,'xiaoji'=>$xiaoji,'imgs'=>$imgs,'title'=>$title,'created_at'=>$created_at]);
            
            // 判断 是否成功

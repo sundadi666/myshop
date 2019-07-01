@@ -9,6 +9,8 @@ use DB;
 use App\Models\Links;
 use App\Models\Footer;
 use App\Models\Navigates;
+use App\Models\Users;
+use App\Http\Controllers\Home\CartsController;
 
 
 class OrderController extends Controller
@@ -20,7 +22,13 @@ class OrderController extends Controller
      */
     public function index()
     {
+        // 判断 用户 是否登录
+        if (!session('home_login')) {
+            return redirect('home/login');
+        }
 
+        $id = session('userinfo')->id;
+        
         // 查询 订单表里面的数据
         $order_data = Orders::get();
 
@@ -33,8 +41,14 @@ class OrderController extends Controller
         // 获取 导航栏 数据
         $navigates_data = Navigates::all();
 
+         // 获取 购物车 数量
+        $num = CartsController::getNum();
 
-        return view('home.orders.index',['navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'links_data'=>$links_data,'order_data'=>$order_data]);
+        // 通过id 查找用户 详细信息
+        $user = Users::find($id);
+
+
+        return view('home.orders.index',['user'=>$user,'num'=>$num,'navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'links_data'=>$links_data,'order_data'=>$order_data]);
 
     }
 

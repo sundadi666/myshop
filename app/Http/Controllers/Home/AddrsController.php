@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Addrs;
+use App\Models\Users;
 use DB;
+
 use App\Models\Links;
 use App\Models\Footer;
 use App\Models\Navigates;
+use App\Http\Controllers\Home\CartsController;
 
 
 class AddrsController extends Controller
@@ -30,6 +33,7 @@ class AddrsController extends Controller
         $addrs_data = Addrs::where('uid',$id)->get();
 
         // dd($addrs_data);
+
         
         // 友情连接 的数据
         $links_data = Links::all();
@@ -40,7 +44,17 @@ class AddrsController extends Controller
         // 获取 导航栏 数据
         $navigates_data = Navigates::all();
 
-        return view('home.addrs.index',['navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'links_data'=>$links_data,'addrs_data'=>$addrs_data]);
+        // 通过id 查找用户 详细信息
+        $user = Users::find($id);
+
+         // 获取 购物车 数量
+        $num = CartsController::getNum();
+
+        return view('home.addrs.index',['user'=>$user,'num'=>$num,'navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'links_data'=>$links_data,'addrs_data'=>$addrs_data]);
+
+         
+
+
     }
 
     /**

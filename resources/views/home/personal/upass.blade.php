@@ -43,7 +43,7 @@
 					                </div>
 					                @else
 					                <div class="menu-hd">
-					                  <a href="/home/login/login" target="_top" class="h">亲，请登录</a>
+					                  <a href="/home/login" target="_top" class="h">亲，请登录</a>
 					                  <a href="/home/register" target="_top">免费注册</a>
 					                </div>
 					            @endif
@@ -236,13 +236,13 @@
 						<ul>
 							<li> <a href="/home/personal/upass">修改密码</a></li>
 							<li> <a href="">安全设置</a></li>
-							<li> <a href="">收货地址</a></li>
+							<li> <a href="/home/addrs">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
 						<a href="#">我的交易</a>
 						<ul>
-							<li><a href="">订单管理</a></li>
+							<li><a href="/home/order">订单管理</a></li>
 							<li> <a href="">退款售后</a></li>
 						</ul>
 					</li>

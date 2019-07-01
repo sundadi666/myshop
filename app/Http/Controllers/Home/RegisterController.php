@@ -218,7 +218,7 @@ class RegisterController extends Controller
         $phone = $request->input('phone');
        
         // 验证码随机数
-        $code = rand(1234,4321);
+        $code = rand(123456,654321);
         // 将 验证码存入到session中
         $k = $phone.'_code';
          session([$k=>$code]);
