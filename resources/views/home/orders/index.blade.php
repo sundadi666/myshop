@@ -253,7 +253,7 @@
 								type:"DELETE",
 								url:"/home/order/"+id,
 								success:function(res){
-									$(omg).parent().parent().parent().parent().parent().parent().remove();
+									$(omg).parent().parent().parent().parent().parent().remove();
 								}	
 							})
 						}

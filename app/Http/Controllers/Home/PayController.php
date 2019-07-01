@@ -141,11 +141,6 @@ class PayController extends Controller
                     $orderinfo_data['xiaoji'] = $vvv->xiaoji;
                     $orderinfo_data['price'] = $vvv->price;
                     $orderinfo_data['nums'] = $vvv->nums;
-<<<<<<< HEAD
-                        
-=======
-
->>>>>>> origin/liu
                     $orderinfo_res = DB::table('orders_info')->insert($orderinfo_data);
                 }
             }
