@@ -41,30 +41,20 @@
 						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">订单编号</th>
 						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">提交时间</th>
 						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">用户</th>	
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">商品</th>
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">商品型号</th>	
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">商品大小</th>
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">数量</th>
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">单价</th>
+						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">总价</th>
 						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">状态</th>
 						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">商品快递号</th>
-						    <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 218px;">收货的地址</th>						
                         </thead>
                         <tbody>
                         	@foreach($orders_data as $k=>$v)
                             <tr class="gradeA odd" role="row">
                                 <td class="sorting_1" tabindex="0">{{ $v->id }}</td>
                                 <td>{{ $v->oid }}</td>
-                                <td>{{ $v->created_at }}</td>
+                                <td>{{ $v->time }}</td>
                                 <td>{{ $v->users->uname }}</td>
-                                <td>{{ $v->goods->title }}</td>
-                                <td>{{ $v->models->mname }}</td>
-                                <td>{{ $v->sizes->sname }}</td>
-                                <td>{{ $v->nums }}</td>
                                 <td>{{ $v->price }}</td>
                                 <td>{{ $v->status }}</td>
                                 <td>{{ $v->logistics }}</td>
-                                <td>{{ $v->aid }}</td>
                             </tr>
                             @endforeach
                         </tbody>

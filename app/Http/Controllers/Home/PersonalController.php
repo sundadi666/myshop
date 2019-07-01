@@ -12,6 +12,7 @@ use Hash;
 use App\Http\Controllers\Home\CartsController;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Footer;
+use App\Models\Links;
 class PersonalController extends Controller
 {
     // 个人 详情 方法
@@ -49,8 +50,12 @@ class PersonalController extends Controller
         $num = CartsController::getNum();
         // 获取 网站底部 数据
         $footer_data = Footer::first();
+
+        // 友情连接 的数据
+        $links_data = Links::all();
+
         // 显示 模板 将$user 分配模板
-        return view('home.personal.index',['navigates_data'=>$navigates_data,'user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
+        return view('home.personal.index',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
     }
 
     /**

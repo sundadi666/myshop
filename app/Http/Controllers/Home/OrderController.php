@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Orders;
 use DB;
+use App\Models\Links;
+use App\Models\Footer;
+use App\Models\Navigates;
+
 class OrderController extends Controller
 {
     /**
@@ -19,8 +23,17 @@ class OrderController extends Controller
         // 查询 订单表里面的数据
         $order_data = Orders::get();
 
+        // 友情连接 的数据
+        $links_data = Links::all();
 
-        return view('home.orders.index',['order_data'=>$order_data]);
+        // 获取 网站底部 数据
+        $footer_data = Footer::first();
+
+        // 获取 导航栏 数据
+        $navigates_data = Navigates::all();
+
+
+        return view('home.orders.index',['navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'links_data'=>$links_data,'order_data'=>$order_data]);
     }
 
     /**

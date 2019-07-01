@@ -74,11 +74,9 @@
 			<div class="long-title"><span class="all-goods">全部分类</span></div>
 			<div class="nav-cont">
 				<ul>
-					<li class="index"><a href="#">首页</a></li>
-					<li class="qc"><a href="#">闪购</a></li>
-					<li class="qc"><a href="#">限时抢</a></li>
-					<li class="qc"><a href="#">团购</a></li>
-					<li class="qc last"><a href="#">大包装</a></li>
+					@foreach($navigates_data as $k=>$v)
+						<li class="index"><a href="#">{{$v->title}}</a></li>
+                    @endforeach	
 				</ul>
 				<div class="nav-extra">
 					<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
@@ -295,25 +293,24 @@
 				</div>
 				<!--底部-->
 				<div class="footer">
-					<div class="footer-hd">
+					<div class="footer-hd ">
 						<p>
-							<a href="#">恒望科技</a>
+							@foreach($links_data as $k=>$v)
+							<a href="{{$v->url}}">{{ $v->title}}</a>
 							<b>|</b>
-							<a href="#">商城首页</a>
-							<b>|</b>
-							<a href="#">支付宝</a>
-							<b>|</b>
-							<a href="#">物流</a>
+							@endforeach
 						</p>
 					</div>
-					<div class="footer-bd">
+					<div class="footer-bd ">
+						
 						<p>
-							<a href="#">关于恒望</a>
-							<a href="#">合作伙伴</a>
-							<a href="#">联系我们</a>
-							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+							<a href="# ">关于恒望</a>
+							<a href="# ">合作伙伴</a>
+							<a href="# ">联系我们</a>
+							<a href="# ">网站地图</a>
+						<em>{{$footer_data->copy}} {{$footer_data->filing}}  {{$footer_data->company}}</em>
 						</p>
+						
 					</div>
 				</div>
 			</div>
@@ -328,14 +325,14 @@
 						<ul>
 							<li> <a href="information.html">个人信息</a></li>
 							<li> <a href="safety.html">安全设置</a></li>
-							<li class="active"> <a href="address.html">收货地址</a></li>
+							<li class="active"> <a href="/home/addrs">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
 						<a href="#">我的交易</a>
 						<ul>
-							<li><a href="order.html">订单管理</a></li>
-							<li> <a href="change.html">退款售后</a></li>
+							<li><a href="/home/order">订单管理</a></li>
+
 						</ul>
 					</li>
 					<li class="person">

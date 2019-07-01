@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Addrs;
 use DB;
-
-
+use App\Models\Links;
+use App\Models\Footer;
+use App\Models\Navigates;
 
 class AddrsController extends Controller
 {
@@ -28,8 +29,17 @@ class AddrsController extends Controller
         $addrs_data = Addrs::where('uid',$id)->get();
 
         // dd($addrs_data);
+        
+        // 友情连接 的数据
+        $links_data = Links::all();
 
-        return view('home.addrs.index',['addrs_data'=>$addrs_data]);
+        // 获取 网站底部 数据
+        $footer_data = Footer::first();
+
+        // 获取 导航栏 数据
+        $navigates_data = Navigates::all();
+
+        return view('home.addrs.index',['navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'links_data'=>$links_data,'addrs_data'=>$addrs_data]);
     }
 
     /**
