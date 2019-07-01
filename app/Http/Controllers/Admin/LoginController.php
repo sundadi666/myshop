@@ -52,14 +52,16 @@ class LoginController extends Controller
         if($v->aname == 'index'){
            $temp[$v->cname][] = 'show';
         }
-        // 如果 是修改 就 在压入 一个 update 方法
-         if($v->aname == 'edit'){
-           $temp[$v->cname][] = 'update';
-        } 
         // 如果 是添加 就 在压入 一个 store 方法
         if($v->aname == 'create'){
            $temp[$v->cname][] = 'store';
         }
+        // 如果 是修改 就 在压入 一个 update 方法
+         if($v->aname == 'edit'){
+           $temp[$v->cname][] = 'update';
+           // $temp[$v->cname][] = 'setRecommend';
+        } 
+        
       }
 
       // 将 数据 压入到 session 中

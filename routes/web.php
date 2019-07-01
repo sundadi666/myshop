@@ -288,7 +288,7 @@ Route::group(['middleware'=>['login','nodes']],function(){
    Route::get('admin','Admin\IndexController@index');
 
    // 商品推荐 路由
-   Route::get('admin/goods/setRecommend/{id}','Admin\GoodsController@setRecommend');
+   Route::get('admin/goods/setRecommend/{id}','Admin\GoodsController@setrecommend');
 
    // 商品大小显示页面 路由
    Route::get('admin/sizes/create/{id}','Admin\SizesController@create');
@@ -297,7 +297,7 @@ Route::group(['middleware'=>['login','nodes']],function(){
    Route::post('admin/sizes/store','Admin\SizesController@store');
    
    // 后台 商品值 添加 路由
-   Route::get('admin/attributes/create/{id}','Admin\AttributesController@create');
+   Route::get('admin/attributes/create','Admin\AttributesController@create');
 
    // 后台 商品值 执行添加 路由
    Route::post('admin/attributes/store/{id}','Admin\AttributesController@store');

@@ -372,8 +372,6 @@
              $("#goods_models").empty();
             $("#goods_models").append(str);
 
-            // let newurl = '/admin/sizes/update?gid='+id+'mid='+$("#goods_models").find("option:selected").val();
-
             let newurl = '/admin/sizes/store';
             
             $('#form2').attr('action',newurl);
@@ -385,7 +383,7 @@
     function attrAdd(id)
     {
         $('#myModal4').modal('show');
-        $.get('/admin/attributes/create/'+id,{id},function(res){
+        $.get('/admin/attributes/create',{id},function(res){
             if(res.msg == 'ok') {
 
             var str="";

@@ -29,6 +29,8 @@ class RolesController extends Controller
                 'indexcontroller'=>'后台首页',
                 'sizescontroller'=>'后台商品大小',
                 'attributescontroller'=>'后台商品值添加',
+                'modelscontroller'=>'后台商品型号添加',
+                'goodscontroller'=>'前台商品推荐',
 
                ];
     }

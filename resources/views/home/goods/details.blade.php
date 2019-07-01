@@ -869,7 +869,7 @@
 								<div class="avatar_box">
 									<p class="avatar_imgbox">
 										@if(session('userinfo1'))
-										<img style="width:80px;" src="/uploads/{{session('userinfo1')->profile ? session('userinfo1')->profile : ''}}" />
+										<img  style="width:80px;" src="/uploads/{{session('userinfo1')->profile ? session('userinfo1')->profile : '20190701/psnoeqchXeVQPJtVVY4xPybj1ZwW57H5SKq5emCI.jpeg'}}" />
 										@endif
 									</p>
 									<ul class="user_info">

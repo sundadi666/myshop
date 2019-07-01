@@ -61,7 +61,7 @@ class IndexController extends Controller
 
         // 今日推荐
         $recommends = DB::table('goods')->where('is_recommend','=','1')->select('goods_info_top','goods_info_bottom','img')->get();
-
+        // dd($recommends);
          // 获取 购物车 数量
         $num = CartsController::getNum();
          // 获取 网站底部 数据
