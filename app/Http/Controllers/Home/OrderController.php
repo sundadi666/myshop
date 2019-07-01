@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Orders;
+use App\Models\Users;
+use App\Models\Footer;
 use DB;
+use App\Http\Controllers\Home\CartsController;
 class OrderController extends Controller
 {
     /**
@@ -15,12 +18,26 @@ class OrderController extends Controller
      */
     public function index()
     {
+         // 判断 用户 是否登录
+        if (!session('home_login')) {
+            return redirect('home/login');
+        }
+
+        $id = session('userinfo')->id;
+
+         // 通过id 查找用户 详细信息
+        $user = Users::find($id);
+
+          // 获取 购物车 数量
+        $num = CartsController::getNum();
 
         // 查询 订单表里面的数据
         $order_data = Orders::get();
 
+          // 获取 网站底部 数据
+        $footer_data = Footer::first();
 
-        return view('home.orders.index',['order_data'=>$order_data]);
+        return view('home.orders.index',['order_data'=>$order_data,'user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Models\Footer;
 class PaysuccessController extends Controller
 {
     /**
@@ -25,7 +25,11 @@ class PaysuccessController extends Controller
 
         // dump($data['user']['addrs']->uname);die;
 
-        return view('home.pay.success',['data'=>$data]);
+
+          // 获取 网站底部 数据
+        $footer_data = Footer::first();
+
+        return view('home.pay.success',['data'=>$data,'footer_data'=>$footer_data]);
     }
 
     /**

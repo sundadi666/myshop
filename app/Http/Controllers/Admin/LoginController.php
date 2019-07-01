@@ -27,7 +27,7 @@ class LoginController extends Controller
     	//判断验证
     	if(empty($user->uname)){
     		 echo json_encode(['msg'=>'err','info'=>'用户名或密码错误']);
-    		exit;
+    		 exit;
     	}
         // 密码对比...
     	if (!Hash::check($upass, $user->upass)) {   	

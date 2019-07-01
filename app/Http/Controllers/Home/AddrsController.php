@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Addrs;
+use App\Models\Users;
 use DB;
-
-
+use App\Http\Controllers\Home\CartsController;
+use App\Models\Footer;
 
 class AddrsController extends Controller
 {
@@ -28,8 +29,15 @@ class AddrsController extends Controller
         $addrs_data = Addrs::where('uid',$id)->get();
 
         // dd($addrs_data);
+         // 通过id 查找用户 详细信息
+        $user = Users::find($id);
 
-        return view('home.addrs.index',['addrs_data'=>$addrs_data]);
+         // 获取 购物车 数量
+        $num = CartsController::getNum();
+
+         // 获取 网站底部 数据
+        $footer_data = Footer::first();
+        return view('home.addrs.index',['addrs_data'=>$addrs_data,'user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
     }
 
     /**

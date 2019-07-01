@@ -31,21 +31,28 @@
 					<div class="am-container header">
 						<ul class="message-l">
 							<div class="topMessage">
-								<div class="menu-hd">
-									<a href="#" target="_top" class="h">亲，请登录</a>
-									<a href="#" target="_top">免费注册</a>
-								</div>
+								@if(session('home_login'))
+					                <div class="menu-hd">
+					                  <a href="#" target="_top" class="h">你好!{{session('userinfo')->uname}}</a>
+					                  <a href="/home/logout">退出</a>
+					                </div>
+					                @else
+					                <div class="menu-hd">
+					                  <a href="/home/login" target="_top" class="h">亲，请登录</a>
+					                  <a href="/home/register" target="_top">免费注册</a>
+					                </div>
+					            @endif
 							</div>
 						</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/home" target="_top" class="h">商城首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								<div class="menu-hd MyShangcheng"><a href="/home/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+								<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">{{$num}}</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
 								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -270,7 +277,7 @@
 							<a href="#">合作伙伴</a>
 							<a href="#">联系我们</a>
 							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+							 <em>{{$footer_data->copy}} {{$footer_data->filing}}  {{$footer_data->company}}</em>
 						</p>
 					</div>
 
@@ -279,14 +286,14 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="index.html">个人中心</a>
+						<a href="/home/personal">个人中心</a>
 					</li>
 					<li class="person">
-						<a href="#">个人资料</a>
+						<a href="/home/personal">个人资料</a>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="safety.html">安全设置</a></li>
-							<li> <a href="address.html">收货地址</a></li>
+							<a href="/home/personal/info/{{$user->id}}">修改资料</a>
+							 <li> <a href="/home/personal/upass">修改密码</a></li>
+							<li> <a href="/home/addrs">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
