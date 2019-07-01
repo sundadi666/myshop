@@ -151,7 +151,9 @@ Route::get('home/pay/zong','Home\PayController@zong');
 // 前台 购物车 支付
 Route::resource('home/pay','Home\PayController');
 
-   
+
+// 前台 全局搜索 路由   
+Route::get('home/lists/index','Home\ListController@index');
 
 
 // 支付成功
@@ -167,12 +169,16 @@ Route::get('home/addmsg','Home\ReplysController@create');
 Route::resource('home/replys','Home\ReplysController');
 
 
+// 前台 执行 保存评价 路由
+// Route::resource('home/replys/store','Home\ReplysController@store');
 
 
 
 // 前台用户 收藏 商品 路由
-Route::get('home/goods/addLike','Home\GoodsController@addLike');
+Route::get('home/replys/create/{id}/{oid}','Home\ReplysController@create');
 
+// 前台用户 删除 收藏 商品 路由
+Route::get('home/goods/addLike','Home\GoodsController@addLike');
 
 // 前台用户 删除 收藏 商品 路由
 Route::get('home/goods/cancelLike','Home\GoodsController@cancelLike');
@@ -257,6 +263,9 @@ Route::resource('home/register','Home\RegisterController');
 
 // 前台 购物车路由
 Route::resource('home/addrs','Home\AddrsController');
+
+// 前台 收藏夹 路由
+Route::get('home/collects/index','Home\CollectsController@index');
 
 // 后台 登陆 路由
 Route::get('admin/login','Admin\LoginController@login');

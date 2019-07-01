@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Goods;
 use App\Http\Controllers\Home\CartsController;
 use App\Models\Footer;
+use App\Models\Ordersinfo;
+use DB;
 
 class ListController extends Controller
 {
@@ -18,15 +20,35 @@ class ListController extends Controller
     public function index(Request $request)
     {
 
-        $cid = $request->input('cid');
+        $cid = $request->input('cid','');
 
         $goods = Goods::where('cid',$cid)->get();
+
+        $keywords = $request->input('keywords','');
+        if($cid) {
+            // 根据分类查询商品
+            $goods = Goods::where('cid',$cid)->paginate(2);
+        } else {
+            // 根据 搜索关键字搜索商品
+            $goods = Goods::where('title','like','%'.$keywords.'%')->paginate(2);
+        }
+        // 定义一个商品数据空数组
+        $goods_data = [];
+        foreach($goods as $k=>$v) {
+            // 计算出每条商品的销量 赋值
+            $v->nums = Ordersinfo::where('gid', $v->id)->sum('nums');
+            // 保存到 新数组
+            $goods_data[] = $goods[$k]; 
+        }
+
+
          // 获取 购物车 数量
         $num = CartsController::getNum();
          // 获取 网站底部 数据
         $footer_data = Footer::first();
         
-        return view('home.list.index',['goods'=>$goods,'num'=>$num,'footer_data'=>$footer_data]);
+        return view('home.list.index',['goods'=>$goods,'goods_data'=>$goods_data,'num'=>$num,'footer_data'=>$footer_data,'cid'=>$cid,'keywords'=>$keywords]);
+
     }
 
     /**
@@ -96,3 +118,4 @@ class ListController extends Controller
         //
     }
 }
+    

@@ -80,6 +80,7 @@
 								@foreach($navigates_data as $k=>$v)
 									<li class="index"><a href="#">{{$v->title}}</a></li>
 			                    @endforeach	
+
 							</ul>
 						    <div class="nav-extra">
 						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
@@ -159,8 +160,9 @@
 																	<div class="item-basic-info">
 																		<a href="#">
 																			<p>{{$vv->goods->title}}</p>
-																			<p class="info-little">颜色：{{$vv->models->mname}}
-																				<br/>包装：{{$vv->sizes->sname}} </p>
+
+																			<p class="info-little">型号：{{$vv->models->mname}}
+																				<br/>大小：{{$vv->sizes->sname}} </p>
 																		</a>
 																	</div>
 																</div>
@@ -203,7 +205,9 @@
 															<li class="td td-change">
 																
 																<a href="javascript:;" class="btn btn-info" onclick="destroy({{$v->id}},this)">删除订单</a>
-																<a href="javascript:;" style="margin-top: 10px;" class="btn btn-danger">评价订单</a>
+																@foreach($v->orderinfo as $kk=>$vv)
+																<a href="/home/replys/create/{{ $vv->gid }}/{{ $vv->id }}" style="margin-top: 10px;" class="btn btn-danger">评价订单</a>
+																@endforeach
 															</li>
 														</div>
 													</div>
@@ -270,6 +274,7 @@
 						</p>
 						
 					</div>
+
 				</div>
 			</div>
 			<aside class="menu">
@@ -283,6 +288,7 @@
 							<li> <a href="information.html">个人信息</a></li>
 							<li> <a href="safety.html">安全设置</a></li>
 							<li> <a href="/home/addrs">收货地址</a></li>
+
 						</ul>
 					</li>
 					<li class="person">

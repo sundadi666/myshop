@@ -6,14 +6,14 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-		<title>发表评论</title>
+		<title>我的收藏</title>
 
 		<link href="/h/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
 		<link href="/h/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
 		<link href="/h/css/personal.css" rel="stylesheet" type="text/css">
-		<link href="/h/css/appstyle.css" rel="stylesheet" type="text/css">
-		<script type="text/javascript" src="/h/js/jquery-1.7.2.min.js"></script>
+		<link href="/h/css/colstyle.css" rel="stylesheet" type="text/css">
+
 	</head>
 
 	<body>
@@ -23,14 +23,22 @@
 				<div class="mt-logo">
 					<!--顶部导航条 -->
 					<div class="am-container header">
-						<ul class="message-l">
-							<div class="topMessage">
-								<div class="menu-hd">
-									<a href="#" target="_top" class="h">亲，请登录</a>
-									<a href="#" target="_top">免费注册</a>
-								</div>
-							</div>
-						</ul>
+					<ul class="message-l">
+						<div class="topMessage">
+						@if(session('home_login'))
+		                <div class="menu-hd">
+		                  <a href="#" target="_top" class="h">
+		                  	你好!{{session('userinfo')->uname}}</a>
+		                  	<a href="/home/logout">退出</a>
+		                </div>
+		                @else
+		                <div class="menu-hd">
+		                  <a href="/home/login" target="_top" class="h">亲，请登录</a>
+		                  <a href="/home/register" target="_top">免费注册</a>
+		                </div>
+		                @endif
+						</div>
+					</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
 								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
@@ -42,7 +50,7 @@
 								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
-								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+								<div class="menu-hd"><a href="/home/collects/index" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 						</ul>
 						</div>
 
@@ -88,73 +96,47 @@
 			<div class="col-main">
 				<div class="main-wrap">
 
-					<div class="user-comment">
+					<div class="user-collection">
 						<!--标题 -->
 						<div class="am-cf am-padding">
-							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">发表评论</strong> / <small>Make&nbsp;Comments</small></div>
+							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的收藏</strong> / <small>My&nbsp;Collection</small></div>
 						</div>
 						<hr/>
-						<form action="/home/replys" method="POST">
-						{{ csrf_field() }}
-						<div class="comment-main">
-							<div class="comment-list">
-								<div class="item-pic">
-									<a href="#" class="J_MakePoint">
-										<img src="/{{ $orderinfo->goods->img_big }}" class="itempic">
-									</a>
-								</div>
 
-								<div class="item-title">
+						<div class="you-like">
+							<div class="s-bar">
+								我的收藏
+								<a class="am-badge am-badge-danger am-round">降价</a>
+								<a class="am-badge am-badge-danger am-round">下架</a>
+							</div>
+							<div class="s-content">
+								@foreach($user->usergoods as $k=>$v)
+								<div class="s-item-wrap">
+									<div class="s-item">
+										<div class="s-pic">
+											<a href="#" class="s-pic-link">
+												<img src="/{{ $v->img_big }}" class="s-pic-img s-guess-item-img">
+											<!-- @if($v->goods_status == '0')
+											<span class="tip-title">已下架</span>
+											@endif -->
+											</a>
+										</div>
+										<div class="s-info">
+											<div class="s-title"><a href="#" title="{{ $v->title }}">{{ $v->title }}</a></div>
+											<div class="s-price-box">
+												<span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->goodsmodel[0]->modelsize[0]->money }}</em></span>
+											</div>
+											<div class="s-extra-box">
+												<span class="s-sales">月销: 278</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								@endforeach
+							</div>
 
-									<div class="item-name">
-										<a href="#">
-											<p class="item-basic-info">{{ $orderinfo->goods->title }}</p>
-										</a>
-									</div>
-									<div class="item-info">
-										<div class="info-little">
-											<span>型号：{{ $orderinfo->models->mname }}</span>
-											<span>大小：{{ $orderinfo->sizes->sname }}</span>
-										</div>
-										<div class="item-price">
-											价格：<strong>{{ $orderinfo->price }}元</strong>
-										</div>
-									</div>
-								</div>
-								<div class="clear"></div>
-								<div class="item-comment">
-									<textarea name="content" placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
-								</div>
-								<div class="filePic">
-									<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*" >
-									<span>晒照片(0/5)</span>
-									<img src="/h/images/image.jpg" alt="">
-								</div>
-								<div class="item-opinion">
-									<li><i class="op1"></i>好评</li>
-									<li><i class="op2"></i>中评</li>
-									<li><i class="op3"></i>差评</li>
-								</div>
-							</div>							
-								<div class="info-btn">
-									<!-- <div class="am-btn am-btn-danger">发表评论</div> -->
-									<input type="submit" style="width: 100px;" class="am-btn am-btn-danger" value="发表评论">
-									<input type="hidden" name="gid" value="{{ $orderinfo->gid }}">
-								</div>	
-						</form>						
-					<script type="text/javascript">
-						$(document).ready(function() {
-							$(".comment-list .item-opinion li").click(function() {	
-								$(this).prevAll().children('i').removeClass("active");
-								$(this).nextAll().children('i').removeClass("active");
-								$(this).children('i').addClass("active");
-								
-							});
-				     })
-					</script>					
-					
-												
-							
+							<div class="s-more-btn i-load-more-item" data-screen="0"><i class="am-icon-refresh am-icon-fw"></i>更多</div>
+
 						</div>
 
 					</div>
@@ -217,9 +199,9 @@
 					<li class="person">
 						<a href="#">我的小窝</a>
 						<ul>
-							<li> <a href="collection.html">收藏</a></li>
+							<li class="active"> <a href="collection.html">收藏</a></li>
 							<li> <a href="foot.html">足迹</a></li>
-							<li class="active"> <a href="comment.html">评价</a></li>
+							<li> <a href="comment.html">评价</a></li>
 							<li> <a href="news.html">消息</a></li>
 						</ul>
 					</li>

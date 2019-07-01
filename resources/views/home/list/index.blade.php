@@ -17,6 +17,84 @@
 
 		<script type="text/javascript" src="/h/basic/js/jquery-1.7.min.js"></script>
 		<script type="text/javascript" src="/h/js/script.js"></script>
+<style type="text/css">
+    #nav{
+      	width:750px;
+    }
+    
+#pull_right{
+            text-align:center;
+        }
+        .pull-right {
+            /*float: left!important;*/
+        }
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 0;
+            border-radius: 4px;
+        }
+        .pagination > li {
+            display: inline;
+        }
+        .pagination > li > a,
+        .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #428bca;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        .pagination > li:first-child > a,
+        .pagination > li:first-child > span {
+            margin-left: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .pagination > li:last-child > a,
+        .pagination > li:last-child > span {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .pagination > li > a:hover,
+        .pagination > li > span:hover,
+        .pagination > li > a:focus,
+        .pagination > li > span:focus {
+            color: #2a6496;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #428bca;
+            border-color: #428bca;
+        }
+        .pagination > .disabled > span,
+        .pagination > .disabled > span:hover,
+        .pagination > .disabled > span:focus,
+        .pagination > .disabled > a,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > a:focus {
+            color: #777;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+        .clear{
+            clear: both;
+        }
+  </style> 
 	</head>
 
 	<body>
@@ -50,7 +128,7 @@
 					<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h"></strong></a></div>
 				</div>
 				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+					<div class="menu-hd"><a href="/home/collects/index" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 			</ul>
 			</div>
 
@@ -64,9 +142,9 @@
 
 				<div class="search-bar pr">
 					<a name="index_none_header_sysc" href="#"></a>
-					<form>
-						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-						<input id="ai-topsearch" class="submit am-btn"  value="搜索" index="1" type="submit">
+					<form action="/home/lists/index" method="GET">
+						<input id="searchInput" name="keywords" type="text" placeholder="搜索" autocomplete="off">
+						<input id="ai-topsearch" class="submit am-btn"  value="搜索" type="submit">
 					</form>
 				</div>
 			</div>
@@ -171,7 +249,7 @@
 								<div class="clear"></div>
 
 								<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-									@foreach($goods as $k=>$v)
+									@foreach($goods_data as $k=>$v)
 									<li>
 										<div class="i-pic limit">
 											<a href="/home/goods/details?cid={{ $v->cid }}&gid={{ $v->id }}"><img src="/{{ $v->img }}" /></a>
@@ -181,12 +259,19 @@
 												<strong>{{ $v->goodsmodel[0]->modelsize[0]->money }}</strong>
 											</p>
 											<p class="number fl">
-												销量<span>1110</span>
+												销量<span>{{ $v->nums }}</span>
 											</p>
 										</div>
 									</li>
 									@endforeach
 								</ul>
+						       <!-- 分页 开始 -->                                                                      
+						       <div id="pull_right" style="position: relative;left: 50%;">
+						         <div class="pull-right">
+						           {!! $goods->appends(['cid'=>$cid,'keywords'=>$keywords])->links() !!}
+						         </div>
+						       </div> 
+						       <!-- 分页 结束 --> 
 							</div>
 							<div class="search-side">
 
@@ -237,15 +322,6 @@
 							</div>
 							<div class="clear"></div>
 							<!--分页 -->
-							<ul class="am-pagination am-pagination-right">
-								<li class="am-disabled"><a href="#">&laquo;</a></li>
-								<li class="am-active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
 
 						</div>
 					</div>

@@ -10,6 +10,7 @@ use App\Models\Links;
 use App\Models\Footer;
 use App\Models\Navigates;
 
+
 class OrderController extends Controller
 {
     /**
@@ -34,6 +35,7 @@ class OrderController extends Controller
 
 
         return view('home.orders.index',['navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'links_data'=>$links_data,'order_data'=>$order_data]);
+
     }
 
     /**

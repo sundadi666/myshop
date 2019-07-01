@@ -26,4 +26,19 @@ class Ordersinfo extends Model
    	{
    		return $this->belongsTo('App\Models\Sizes','sid');
    	}
+
+   
+
+    // 建立 订单详情 和 型号 属于 关系
+    public function orderinfomodel()
+    {
+      return $this->belongsTo('App\Models\Models','mid');
+    }
+
+    // 建立 订单详情 和 大小 属于 关系
+    public function orderinfosize()
+    {
+      return $this->belongsTo('App\Models\Sizes','sid');
+    }
+
 }

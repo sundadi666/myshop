@@ -41,7 +41,7 @@ class ReplysController extends Controller
             // 该id用户购买商品名称
             $gname = Replys::find($id)->goodsuser->title;
             // 该用户留言时间
-            $time = Replys::find($id)->time;
+            $time = Replys::find($id)->created_at->format('Y-m-d H:i:s');
 
             echo json_encode(['msg'=>'ok','info'=>['content'=>$content,'uname'=>$uname,'gname'=>$gname,'time'=>$time]]);
         } else {

@@ -10,6 +10,7 @@ use App\Models\Links;
 use App\Models\Footer;
 use App\Models\Navigates;
 
+
 class AddrsController extends Controller
 {
     /**
@@ -95,11 +96,8 @@ class AddrsController extends Controller
     }
 
     /**
-<<<<<<< HEAD
      * 查询 要修改的 参数
-=======
      * Show the form for editing the specified resource.
->>>>>>> origin/liu
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

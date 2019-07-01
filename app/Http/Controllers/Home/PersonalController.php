@@ -56,6 +56,7 @@ class PersonalController extends Controller
 
         // 显示 模板 将$user 分配模板
         return view('home.personal.index',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
+
     }
 
     /**

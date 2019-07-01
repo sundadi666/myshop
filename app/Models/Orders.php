@@ -39,4 +39,9 @@ class Orders extends Model
       return $this->hasMany('App\Models\Ordersinfo','oid');
     }
 
+    // 建立 订单 和 订单详情 一对一 关系
+    public function orderorderinfo()
+    {
+       return $this->hasOne('App\Models\Ordersinfo','oid');
+    }
 }

@@ -94,36 +94,33 @@
 							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">发表评论</strong> / <small>Make&nbsp;Comments</small></div>
 						</div>
 						<hr/>
-						<form action="/home/replys" method="POST">
-						{{ csrf_field() }}
+						@foreach($user->userorders as $k=>$v)
 						<div class="comment-main">
 							<div class="comment-list">
 								<div class="item-pic">
 									<a href="#" class="J_MakePoint">
-										<img src="/{{ $orderinfo->goods->img_big }}" class="itempic">
+										<img src="/{{ $v->orderorderinfo->goods->img_big }}" class="itempic">
 									</a>
 								</div>
-
 								<div class="item-title">
-
 									<div class="item-name">
 										<a href="#">
-											<p class="item-basic-info">{{ $orderinfo->goods->title }}</p>
+											<p class="item-basic-info">{{ $v->orderorderinfo->goods->title }}</p>
 										</a>
 									</div>
 									<div class="item-info">
 										<div class="info-little">
-											<span>型号：{{ $orderinfo->models->mname }}</span>
-											<span>大小：{{ $orderinfo->sizes->sname }}</span>
+											<span>型号：{{ $v->orderorderinfo->models->mname }}</span>
+											<span>大小：{{ $v->orderorderinfo->sizes->sname }}</span>
 										</div>
 										<div class="item-price">
-											价格：<strong>{{ $orderinfo->price }}元</strong>
-										</div>
+											价格：<strong>{{ $v->orderorderinfo->price }}</strong>
+										</div>										
 									</div>
 								</div>
 								<div class="clear"></div>
 								<div class="item-comment">
-									<textarea name="content" placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
+									<textarea placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
 								</div>
 								<div class="filePic">
 									<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*" >
@@ -135,13 +132,10 @@
 									<li><i class="op2"></i>中评</li>
 									<li><i class="op3"></i>差评</li>
 								</div>
-							</div>							
+							</div>				
 								<div class="info-btn">
-									<!-- <div class="am-btn am-btn-danger">发表评论</div> -->
-									<input type="submit" style="width: 100px;" class="am-btn am-btn-danger" value="发表评论">
-									<input type="hidden" name="gid" value="{{ $orderinfo->gid }}">
-								</div>	
-						</form>						
+									<div class="am-btn am-btn-danger" onclick="submitReplys({{ $v->orderorderinfo->gid }})">发表评论</div>
+								</div>							
 					<script type="text/javascript">
 						$(document).ready(function() {
 							$(".comment-list .item-opinion li").click(function() {	
@@ -152,13 +146,15 @@
 							});
 				     })
 					</script>					
-					
-												
-							
-						</div>
-
 					</div>
-
+					@endforeach	
+					</div>
+					<script type="text/javascript">
+						function submitReplys(id)
+						{
+							console.log(id);
+						}
+					</script>
 				</div>
 				<!--底部-->
 				<div class="footer">
