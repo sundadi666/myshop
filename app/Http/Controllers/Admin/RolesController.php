@@ -16,7 +16,7 @@ class RolesController extends Controller
                 'catescontroller'=>'分类管理',
                 'footercontroller'=>'网站底部管理',
                 'bannerscontroller'=>'轮播图管理',
-                'navicatescontroller'=>'导航栏管理',
+                'navigatescontroller'=>'导航栏管理',
                 'linkscontroller'=>'友情链接管理',
                 'newscontroller'=>'公告管理',
                 'goodscontroller'=>'商品管理',

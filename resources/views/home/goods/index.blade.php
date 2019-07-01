@@ -25,7 +25,7 @@
 					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 				</div>
 				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+					<div class="menu-hd"><a href="/home/collects/index" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 			</div></ul>
 			</div>
 
@@ -54,7 +54,7 @@
 					   <div class="long-title"><span class="all-goods">全部分类</span></div>
 					   <div class="nav-cont">
 							<ul>
-								<li class="index"><a href="#">首页</a></li>
+								<li class="index"><a href="/home">首页</a></li>
                                 <li class="qc"><a href="#">闪购</a></li>
                                 <li class="qc"><a href="#">限时抢</a></li>
                                 <li class="qc"><a href="#">团购</a></li>
@@ -67,7 +67,7 @@
 						</div>
 			</div>
 				<ol class="am-breadcrumb am-breadcrumb-slash">
-					<li><a href="#">首页</a></li>
+					<li><a href="/home">首页</a></li>
 					<li><a href="#">分类</a></li>
 					<li class="am-active">内容</li>
 				</ol>
@@ -1160,23 +1160,28 @@
 								<span class="setting"></span>
 							</a>
 							<div class="ibar_login_box status_login">
+								@if(session('home_login'))
 								<div class="avatar_box">
-									<p class="avatar_imgbox"><img src="images/no-img_mid_.jpg"></p>
+									<p class="avatar_imgbox">
+										@if(session('userinfo1'))
+										<img src="/uploads/{{session('userinfo1')->profile ? session('userinfo1')->profile : ''}}" />
+										@endif
+
 									<ul class="user_info">
-										<li>用户名：sl1903</li>
+										<li>用户名：{{session('userinfo')->uname}}</li>
 										<li>级&nbsp;别：普通会员</li>
 									</ul>
 								</div>
 								<div class="login_btnbox">
-									<a href="#" class="login_order">我的订单</a>
-									<a href="#" class="login_favorite">我的收藏</a>
+									<a href="#" class="/home/order">我的订单</a>
+									<a href="#" class="/home/collects/index">我的收藏</a>
 								</div>
 								<i class="icon_arrow_white"></i>
 							</div>
 
 						</div>
 						<div id="shopCart" class="item">
-							<a href="#">
+							<a href="/home/carts">
 								<span class="message"></span>
 							</a>
 							<p>
@@ -1205,7 +1210,7 @@
 						</div>
 
 						<div id="brand" class="item">
-							<a href="#">
+							<a href="/home/collects/index">
 								<span class="wdsc"><img src="images/wdsc.png"></span>
 							</a>
 							<div class="mp_tooltip">

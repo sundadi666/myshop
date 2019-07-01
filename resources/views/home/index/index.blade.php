@@ -101,7 +101,7 @@
 							</a>
 						</div>
 						<div class="am-u-sm-3">
-							<a href="#"><img src="/h/images/mansmall.jpg" />
+							<a href="/home/personal"><img src="/h/images/mansmall.jpg" />
 								<div class="title">个人中心</div>
 							</a>
 						</div>

@@ -8,7 +8,7 @@ use App\Models\Replys;
 use App\Models\Users;
 use App\Models\Goods;
 use App\Models\Ordersinfo;
-
+use App\Models\Footer;
 class ReplysController extends Controller
 {
     // 我的评论 列表页 显示
@@ -34,7 +34,15 @@ class ReplysController extends Controller
 
         $orderinfo = Ordersinfo::find($oid);
 
-    	return view('home.replys.create',['gid'=>$gid,'orderinfo'=>$orderinfo]);
+         // 获取当前用户id
+        $uid = session('userinfo')->id;
+
+        // 查询当前用户信息
+        $user = Users::find($uid);
+
+         // 获取 网站底部 数据
+        $footer_data = Footer::first();
+    	return view('home.replys.create',['footer_data'=>$footer_data,'user'=>$user,'gid'=>$gid,'orderinfo'=>$orderinfo]);
     }
 
     // 执行 保存 留言 

@@ -419,7 +419,7 @@
 					</div>
 
 					<div id="brand" class="item">
-						<a href="#">
+						<a href="/home/replys">
 							<span class="wdsc"><img src="/h/images/wdsc.png" /></span>
 						</a>
 						<div class="mp_tooltip">
