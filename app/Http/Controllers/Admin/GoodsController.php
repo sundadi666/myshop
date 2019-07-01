@@ -148,6 +148,7 @@ class GoodsController extends Controller
 
         // $goods = new Goods();
 
+
         //接收图片
         if($request->hasFile('img')) {
                 //接收图片
@@ -203,6 +204,7 @@ class GoodsController extends Controller
         // dd($request->input('id'));
         $id = DB::table('goods')->insertGetId($goods);
 
+
         foreach($attr_name as $k=>$v) {
             //实例化模型
             $attributes = new Attributes();
@@ -256,23 +258,23 @@ class GoodsController extends Controller
     public function update(Request $request, $id)
     {
         //表单验证
-        // $this->validate($request, [
-        //     'title' => 'required|max:35',
-        //     'desc' => 'required|max:20',
-        //     'img' => 'required',
-        //     'goods_info_top' => 'required|max:10',
-        //     'goods_info_bottom' => 'required|max:10',
-        //     'content' => 'required'
-        // ],[
-        //     //表单规格被触发
-        //     'title.required'=>'标题必须填写',
-        //     'title.max'=>'标题不能超过35个字符',
-        //     'desc.required'=>'商品描述必须填写',
-        //     'img.required'=>'商品图片必须上传',
-        //     'goods_info_top.required'=>'商品推荐信息(上)必须填写',
-        //     'goods_info_bottom.required'=>'商品推荐信息(下)必须填写',
-        //     'content.required'=>'商品内容不能为空'
-        // ]);
+        $this->validate($request, [
+            'title' => 'required|max:100',
+            'desc' => 'required|max:100',
+            'img' => 'required',
+            'goods_info_top' => 'required|max:10',
+            'goods_info_bottom' => 'required|max:10',
+            'content' => 'required'
+        ],[
+            //表单规格被触发
+            'title.required'=>'标题必须填写',
+            'title.max'=>'标题不能超过35个字符',
+            'desc.required'=>'商品描述必须填写',
+            'img.required'=>'商品图片必须上传',
+            'goods_info_top.required'=>'商品推荐信息(上)必须填写',
+            'goods_info_bottom.required'=>'商品推荐信息(下)必须填写',
+            'content.required'=>'商品内容不能为空'
+        ]);
 
 
         $goods = Goods::find($id);
