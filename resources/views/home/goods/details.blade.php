@@ -674,13 +674,7 @@
 											<h4>商品细节</h4>
 										</div>
 										<div class="twlistNews">
-											<img src="/h/images/tw1.jpg" />
-											<img src="/h/images/tw2.jpg" />
-											<img src="/h/images/tw3.jpg" />
-											<img src="/h/images/tw4.jpg" />
-											<img src="/h/images/tw5.jpg" />
-											<img src="/h/images/tw6.jpg" />
-											<img src="/h/images/tw7.jpg" />
+											{!! $goods->content !!}
 										</div>
 									</div>
 									<div class="clear"></div>

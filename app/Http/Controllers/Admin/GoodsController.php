@@ -121,8 +121,8 @@ class GoodsController extends Controller
     {
         //表单验证
         $this->validate($request, [
-            'title' => 'required|max:35',
-            'desc' => 'required|max:20',
+            'title' => 'required|max:100',
+            'desc' => 'required|max:100',
             'img' => 'required',
             'goods_info_top' => 'required|max:10',
             'goods_info_bottom' => 'required|max:10',
@@ -146,7 +146,6 @@ class GoodsController extends Controller
         //     exit;
         // }
 
-        $goods = new Goods();
 
         //接收图片
         if($request->hasFile('img')) {
@@ -173,16 +172,6 @@ class GoodsController extends Controller
 
         //把字符串转为数组
         $attr_name = explode(',', trim($request->input('attr_name'), ','));
-        //循环插入数据库
-        // dd($mname_arr);
-        foreach($attr_name as $k=>$v) {
-            //实例化模型
-            $attributes = new Attributes();
-            $attributes->gid = $request->input('id');
-            $attributes->attr_name = $v;
-            //添加数据
-            $attributes->save();
-        }
 
         // 保存商品标题
         $goods->title = $request->input('title');
@@ -207,9 +196,21 @@ class GoodsController extends Controller
         $goods->img_big = 'uploads/'.date('Ymd').'/'.'img_big_'.$filename;
         //执行添加数据
 
-        $row = $goods->save();
+        $id = DB::table('goods')->insertGetId($goods);
+
+        //循环插入数据库
+        // dd($mname_arr);
+        foreach($attr_name as $k=>$v) {
+            //实例化模型
+            $attributes = new Attributes();
+            $attributes->gid = $id;
+            $attributes->attr_name = $v;
+            //添加数据
+            $attributes->save();
+        }
+
         //返回受影响行数
-        if($row) {
+        if($id) {
             return redirect('admin/goods')->with('success','添加数据成功');
         } else {
             //添加失败
@@ -252,23 +253,23 @@ class GoodsController extends Controller
     public function update(Request $request, $id)
     {
         //表单验证
-        // $this->validate($request, [
-        //     'title' => 'required|max:35',
-        //     'desc' => 'required|max:20',
-        //     'img' => 'required',
-        //     'goods_info_top' => 'required|max:10',
-        //     'goods_info_bottom' => 'required|max:10',
-        //     'content' => 'required'
-        // ],[
-        //     //表单规格被触发
-        //     'title.required'=>'标题必须填写',
-        //     'title.max'=>'标题不能超过35个字符',
-        //     'desc.required'=>'商品描述必须填写',
-        //     'img.required'=>'商品图片必须上传',
-        //     'goods_info_top.required'=>'商品推荐信息(上)必须填写',
-        //     'goods_info_bottom.required'=>'商品推荐信息(下)必须填写',
-        //     'content.required'=>'商品内容不能为空'
-        // ]);
+        $this->validate($request, [
+            'title' => 'required|max:100',
+            'desc' => 'required|max:100',
+            'img' => 'required',
+            'goods_info_top' => 'required|max:10',
+            'goods_info_bottom' => 'required|max:10',
+            'content' => 'required'
+        ],[
+            //表单规格被触发
+            'title.required'=>'标题必须填写',
+            'title.max'=>'标题不能超过35个字符',
+            'desc.required'=>'商品描述必须填写',
+            'img.required'=>'商品图片必须上传',
+            'goods_info_top.required'=>'商品推荐信息(上)必须填写',
+            'goods_info_bottom.required'=>'商品推荐信息(下)必须填写',
+            'content.required'=>'商品内容不能为空'
+        ]);
 
 
         $goods = Goods::find($id);
