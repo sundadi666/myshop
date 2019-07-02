@@ -138,6 +138,18 @@
 						<a href="javascript:;">
 							<b class="caret pull-right"></b>
 							<i class="fa fa-2x fa-bookmark"></i>
+						    <span>秒杀管理 <span class="label label-theme m-l-5">NEW</span></span> 
+						</a>
+						<ul class="sub-menu">
+							<li><a href="/admin/seckill">秒杀列表</a></li>
+							<li><a href="/admin/seckill/create">秒杀添加</a></li>
+						</ul>
+					</li>
+
+					<li class="has-sub">
+						<a href="javascript:;">
+							<b class="caret pull-right"></b>
+							<i class="fa fa-2x fa-bookmark"></i>
 						    <span>公告管理 <span class="label label-theme m-l-5">NEW</span></span> 
 						</a>
 						<ul class="sub-menu">

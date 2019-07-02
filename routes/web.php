@@ -365,6 +365,8 @@ Route::group(['middleware'=>['login','nodes']],function(){
    Route::resource('admin/roles','Admin\RolesController');
    // 后台 权限 路由
    Route::resource('admin/nodes','Admin\NodesController');
+   // 后台 秒杀 管理
+   Route::resource('admin/seckill','Admin\SeckillController');
 
 });
 

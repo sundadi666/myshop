@@ -21,7 +21,7 @@
 
 		<!-- 轮播图 -->
 		@section('header')
-			
+			<link rel="stylesheet" href="/h/ms/css/cdn.css">
         		<!--侧边导航 -->
 				<div id="nav" class="navfull">
 					<div class="area clearfix">
@@ -222,61 +222,84 @@
 
 					<div class="am-container activity ">
 						<div class="shopTitle ">
-							<h4>活动</h4>
-							<h3>每期活动 优惠享不停 </h3>
+							<h4>秒杀</h4>
+							<h3>凉凉秒杀,一抢就凉</h3>
 							<span class="more ">
                               <a href="# ">全部活动<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
                         </span>
 						</div>
 					  <div class="am-g am-g-fixed ">
 						<div class="am-u-sm-3 ">
-							<div class="icon-sale one "></div>	
-								<h4>秒杀</h4>							
-							<div class="activityMain ">
-								<img src="/h/images/activity1.jpg "></img>
-							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>
-							</div>														
+							<div class="se-kl">
+						        <div class="se-cn">凉凉秒杀</div>
+						        <div class="se-en">FLASH DEALS</div>
+						        <i class="se-io"></i>
+						        <div class="se-info">距离结束还剩</div>
+						        <div class="se-count">
+						            <div class="se-day"></div>
+						            <div class="se-hour"><span class="se-txt">00</span></div>
+						            <div class="se-min"><span class="se-txt">00</span></div>
+						            <div class="se-sec"><span class="se-txt">00</span></div>
+						        </div>
+						    </div>													
 						</div>
 						
-						<div class="am-u-sm-3 ">
-						  <div class="icon-sale two "></div>	
-							<h4>特惠</h4>
-							<div class="activityMain ">
-								<img src="/h/images/activity2.jpg "></img>
-							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>								
-							</div>							
-						</div>						
 						
-						<div class="am-u-sm-3 ">
-							<div class="icon-sale three "></div>
-							<h4>团购</h4>
-							<div class="activityMain ">
-								<img src="/h/images/activity3.jpg "></img>
-							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>
-							</div>							
-						</div>						
-
-						<div class="am-u-sm-3 last ">
-							<div class="icon-sale "></div>
-							<h4>超值</h4>
-							<div class="activityMain ">
-								<img src="/h/images/activity.jpg "></img>
-							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>
-							</div>													
-						</div>
 
 					  </div>
                    </div>
 					<div class="clear "></div>
-	
+					<script type="text/javascript">
+       
+					   function tow(n) {
+				            return n >= 0 && n < 10 ? '0' + n : '' + n;
+				        }
+						
+						var msdate = new Date("2019-07-02 13:34:42");
+						function showtime(){
+							
+							var end = msdate;//到结束时间
+							
+							var dangqian = new Date();
+							
+							var lefttime = parseInt( (end.getTime()- dangqian.getTime() )/1000) ;
+								   var d = parseInt( lefttime/(24*60*60) );//天
+								   var h = parseInt( lefttime/(60*60)%24);//小时 
+								   var i = parseInt( lefttime/60%60 )//分
+								   var s = parseInt( lefttime%60)//秒
+								  
+								   
+							var spanH = $('.se-txt')[0];
+				            var spanM = $('.se-txt')[1];
+				            var spanS = $('.se-txt')[2];
+
+				            spanH.innerHTML = tow(h);
+				            spanM.innerHTML = tow(i);
+				            spanS.innerHTML = tow(s);
+								 
+						}
+						
+						
+						var time = setInterval(function(){
+							let newdate = new Date();
+							let olddate = msdate;
+							console.log(newdate.getTime());
+							console.log(olddate.getTime());
+
+							if(newdate.getTime() > olddate.getTime()){
+								console.log('1');
+								clearInterval(time);
+							}else {
+								console.log('0');
+								showtime();//调用方法
+							}
+						},500);
+						
+						
+						
+
+						
+				    </script>
 
 
 				@foreach($branks_data as $k=>$v)
