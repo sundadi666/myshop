@@ -13,6 +13,7 @@ use App\Models\Brands;
 use App\Models\Models;
 use App\Models\Sizes;
 use App\Models\Attributes;
+use App\Models\Seckill;
 use DB;
 
 
@@ -386,6 +387,36 @@ class GoodsController extends Controller
             echo json_encode(['msg'=>'ok']);
         } else {
             echo json_encode(['msg'=>'err']);
+        }
+    }
+
+    // 获取 商品秒杀id 列表
+    public function secadd()
+    {
+        // 
+        $seckills = Seckill::all();
+            
+        echo json_encode(['msg'=>'ok','data'=>$seckills]);
+    }
+
+    // 保存 该商品的秒杀 secid
+    public function secsave(Request $request,$id)
+    {
+        // 接收商品id
+        $gid = $id;
+        // 接收秒杀sec_id
+        $sec_id = $request->input('sec_id');
+
+        // 添加secid
+        $goods = Goods::where('id',$gid)->first();
+        $goods->sec_id = $sec_id;
+
+        $row = $goods->save();
+
+        if($row) {
+            return redirect('admin/goods')->with('success','添加数据成功');
+        } else {
+            return back()->with('error','添加数据失败');
         }
     }
 }
