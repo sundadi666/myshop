@@ -32,7 +32,7 @@ class CatesController extends Controller
         // 接收要搜索的分类名称
         $search_cname = $request->input('search_title','');
 
-
+        
         $cates = self::getCateData($search_cname);
 
         return view('admin.cates.index',['cates'=>$cates,'params'=>$request->all()]);
