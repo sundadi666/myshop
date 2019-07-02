@@ -46,7 +46,7 @@ class GoodsController extends Controller
         $goods_data = Goods::where('cid',$request->input('cid'))->get();
 
         // 获取该商品所有评论
-        $replys = Replys::where('gid',$gid)->paginate(1);
+        $replys = Replys::where('gid',$gid)->paginate(10);
 
 
         // 获取该商品的评价数量
