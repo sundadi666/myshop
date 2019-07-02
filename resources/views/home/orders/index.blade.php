@@ -205,11 +205,10 @@
 															<li class="td td-status">
 																<div class="item-status">
 																	<p class="Mystatus">交易成功</p>
-																	<p class="order-info"><a href="orderinfo.html">订单详情</a></p>
-																	<p class="order-info"><a href="logistics.html">查看物流</a></p>
+															
 																</div>
 															</li>
-															<li class="td td-change">
+															<li class="td td-change" style="position:relative;top:-45px;">
 																
 																<a href="javascript:;" class="btn btn-info" onclick="destroy({{$v->id}},this)">删除订单</a>
 																@foreach($v->orderinfo as $kk=>$vv)
