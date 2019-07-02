@@ -60,7 +60,7 @@ class IndexController extends Controller
       //    //压入到redis中
       //    Redis::setex('cates_redis_data',600,$cates_data_str);
 
-      }
+      // }
 
         // 友情连接 的数据
         $links_data = Links::all();
