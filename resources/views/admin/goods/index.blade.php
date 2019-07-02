@@ -42,6 +42,7 @@
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 200px;">商品状态</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 297px;">商品品牌</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 60px;">缩略图</th>
+                           <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">秒杀id</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">型号</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">大小</th>
                             <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 54px;">属性</th>
@@ -61,6 +62,7 @@
                                 @endif
                                 <td>{{ $v->brands_data->bname }}</td>
                                 <td><img src="/{{ $v->img_small }}"></td>
+                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="secAdd()">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd({{ $v->id }})">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd({{ $v->id }})">添加</button></td>
                           <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="attrAdd({{ $v->id }})">添加</button></td>
@@ -289,6 +291,38 @@
   </div>
 </div>
 <!-- 属性 模态框 结束 -->
+
+<!-- 属性 模态框 开始 -->
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加属性</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form4" action="" method="POST">
+            {{ csrf_field() }}
+            <span>商品属性:</span>
+            <select id="attributes_data" name="mid" class="form-control" style="width: 100px;display: inline-block;">
+              <option>请选择</option>
+            </select><br><br>
+
+            <span>属性值:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" name="attr_val" class="form-control" id="title" placeholder="属性值" style="width: 100px;display: inline-block;">
+            <label for="exampleInputEmail1" style="color: red;position: relative;left:0px;">
+            注意：商品属性值不能含有任何特殊字符</label><br><br>
+          <!-- <input type="hidden" name="goods_id" id="goods_id"> -->
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-success"  value="确认修改">
+          </div>
+        </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 属性 模态框 结束 -->
 <script type="text/javascript">
 	function showContent(id)
 	{
@@ -430,6 +464,15 @@
     function setRecommend(id)
     {
       $.get('/admin/goods/setRecommend/'+id,function(res){
+        if(res.msg == 'ok') {
+          location.reload();
+        }
+      },'json')
+    }
+
+    function secAdd()
+    {
+      $.get(''+id,function(res){
         if(res.msg == 'ok') {
           location.reload();
         }
