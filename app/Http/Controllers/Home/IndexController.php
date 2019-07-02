@@ -12,6 +12,8 @@ use App\Models\Banners;
 use App\Models\Footer;
 use DB;
 use App\Http\Controllers\Home\CartsController;
+use Illuminate\Support\Facades\Redis;
+
 class IndexController extends Controller
 {
    public static function getPidCatesData($pid = 0)
@@ -45,6 +47,20 @@ class IndexController extends Controller
 
         // 获取 分类 的数据
         $cates_data = self::getPidCatesData(0);
+
+
+      // //判断redis里是否有值
+      // if(Redis::exists('cates_redis_data')){
+      //   $cates_data = json_decode(Redis::get('cates_redis_data'));
+      // }else{
+      //         //栏目
+      //    $cates_data = self::getPidCatesData(0);
+      //    //把数组转为字符串
+      //    $cates_data_str = json_encode($cates_data);
+      //    //压入到redis中
+      //    Redis::setex('cates_redis_data',600,$cates_data_str);
+
+      }
 
         // 友情连接 的数据
         $links_data = Links::all();

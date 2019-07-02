@@ -129,7 +129,7 @@
 	              @else
 	              <div class="menu-hd">
 	              	<a href="/home/login" target="_top" class="h">亲，请登录</a>
-	              	<a href="/home/registe" target="_top">免费注册</a>
+	              	<a href="/home/register" target="_top">免费注册</a>
 	              </div>
 	              @endif
 		    </div>

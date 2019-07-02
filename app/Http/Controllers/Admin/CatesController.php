@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cates;
 use DB;
+use Illuminate\Support\Facades\Redis;
 
 class CatesController extends Controller
 {   
@@ -70,6 +71,10 @@ class CatesController extends Controller
      */
     public function store(Request $request)
     {
+         //判断是否有栏目更新是否存在redis
+        // if(Redis::exists('cates_redis_data')){
+        //     Redis::del('cates_redis_data');
+        // }
         // 获取pid值
         $pid = $request->input('pid',0);
 

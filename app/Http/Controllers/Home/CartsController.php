@@ -27,7 +27,7 @@ class CartsController extends Controller
         $uid = session('userinfo')->id;
         // dd($uid);
         // 获取 购物车数据 
-        $cart_data = DB::table('carts')->where('uid',$uid)->orderBy('created_at','desc')->paginate(5);
+        $cart_data = DB::table('carts')->where('uid',$uid)->orderBy('created_at','desc')->paginate(3);
         // 获取 网站底部 数据
         $footer_data = Footer::first();
 
