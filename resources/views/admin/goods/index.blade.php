@@ -62,7 +62,7 @@
                                 @endif
                                 <td>{{ $v->brands_data->bname }}</td>
                                 <td><img src="/{{ $v->img_small }}"></td>
-                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="secAdd()">添加</button></td>
+                                <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="secAdd({{ $v->id }})">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="modelAdd({{ $v->id }})">添加</button></td>
                                 <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="sizeAdd({{ $v->id }})">添加</button></td>
                           <td><button type="button" class="btn btn-primary m-r-5 m-b-5" onclick="attrAdd({{ $v->id }})">添加</button></td>
@@ -272,7 +272,7 @@
         <form id="form4" action="" method="POST">
             {{ csrf_field() }}
             <span>商品属性:</span>
-            <select id="attributes_data" name="mid" class="form-control" style="width: 100px;display: inline-block;">
+            <select id="attributes_data" name="sec_id" class="form-control" style="width: 100px;display: inline-block;">
               <option>请选择</option>
             </select><br><br>
 
@@ -301,17 +301,12 @@
         <h4 class="modal-title" id="myModalLabel">添加属性</h4>
       </div>
       <div class="modal-body">
-        <form id="form4" action="" method="POST">
+        <form id="form5" action="" method="POST">
             {{ csrf_field() }}
-            <span>商品属性:</span>
-            <select id="attributes_data" name="mid" class="form-control" style="width: 100px;display: inline-block;">
+            <span>秒杀时间:</span>
+            <select id="seckills_data" name="sec_id" class="form-control" style="width: 300px;display: inline-block;">
               <option>请选择</option>
             </select><br><br>
-
-            <span>属性值:&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <input type="text" name="attr_val" class="form-control" id="title" placeholder="属性值" style="width: 100px;display: inline-block;">
-            <label for="exampleInputEmail1" style="color: red;position: relative;left:0px;">
-            注意：商品属性值不能含有任何特殊字符</label><br><br>
           <!-- <input type="hidden" name="goods_id" id="goods_id"> -->
           <div class="modal-footer">
             <input type="submit" class="btn btn-success"  value="确认修改">
@@ -419,7 +414,6 @@
         $('#myModal4').modal('show');
         $.get('/admin/attributes/create',{id},function(res){
             if(res.msg == 'ok') {
-
             var str="";
             str += "<option value=''>请选择</option>"
             $.each(res.attributes_data,function(index,val){
@@ -431,7 +425,6 @@
             let newurl = '/admin/attributes/store/'+id;
             
             $('#form4').attr('action',newurl);
-
             }
         },'json')
     }
@@ -470,11 +463,24 @@
       },'json')
     }
 
-    function secAdd()
+    function secAdd(id)
     {
-      $.get(''+id,function(res){
+      $('#myModal5').modal('show');
+      $.get('/admin/goods/seckill/index',function(res){
+
         if(res.msg == 'ok') {
-          location.reload();
+          // console.log(res.data[0].time);
+            var str="";
+            str += "<option value=''>请选择</option>"
+            $.each(res.data,function(index,val){
+               str+="<option value='"+val.id+"'>"+val.time+"</option>"
+            })
+             $("#seckills_data").empty();
+             $("#seckills_data").append(str);
+
+            let newurl = '/admin/goods/seckill/secsave/'+id;
+            
+            $('#form5').attr('action',newurl);
         }
       },'json')
     }

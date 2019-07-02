@@ -368,6 +368,11 @@ Route::group(['middleware'=>['login','nodes']],function(){
    // 后台 秒杀 管理
    Route::resource('admin/seckill','Admin\SeckillController');
 
+   // 后台 秒杀时间列表 路由
+   Route::get('admin/goods/seckill/index','Admin\GoodsController@secadd');
+
+   // 后台 执行保存秒杀secid 路由
+   Route::post('admin/goods/seckill/secsave/{id}','Admin\GoodsController@secsave');
 });
 
 
