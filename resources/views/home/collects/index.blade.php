@@ -113,6 +113,7 @@
 									<div class="s-item">
 										<div class="s-pic">
 											<a href="#" class="s-pic-link">
+												<!-- <a href="/home/goods/details?cid={{$v->cid}}&gid={{$v->id}}"></a> -->
 												<img src="/{{ $v->img_big }}" class="s-pic-img s-guess-item-img">
 											<!-- @if($v->goods_status == '0')
 											<span class="tip-title">已下架</span>
@@ -120,7 +121,7 @@
 											</a>
 										</div>
 										<div class="s-info">
-											<div class="s-title"><a href="#" title="{{ $v->title }}">{{ $v->title }}</a></div>
+											<div class="s-title"><a href="/home/goods/details?cid={{$v->cid}}&gid={{$v->id}}" title="{{ $v->title }}">{{ $v->title }}</a></div>
 											<div class="s-price-box">
 												<span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->goodsmodel[0]->modelsize[0]->money }}</em></span>
 											</div>

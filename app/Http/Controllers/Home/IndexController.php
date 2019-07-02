@@ -10,6 +10,8 @@ use App\Models\Links;
 use App\Models\Brands;
 use App\Models\Banners;
 use App\Models\Footer;
+use App\Models\Seckill;
+use App\Models\Goods;
 use DB;
 use App\Http\Controllers\Home\CartsController;
 use Illuminate\Support\Facades\Redis;
@@ -76,15 +78,27 @@ class IndexController extends Controller
         $banners_data = Banners::all();
 
         // 今日推荐
-        $recommends = DB::table('goods')->where('is_recommend','=','1')->select('goods_info_top','goods_info_bottom','img')->get();
+        $recommends = DB::table('goods')->where('is_recommend','=','1')->select('id','cid','goods_info_top','goods_info_bottom','img')->get();
         // dd($recommends);
          // 获取 购物车 数量
         $num = CartsController::getNum();
          // 获取 网站底部 数据
         $footer_data = Footer::first();
 
+        // 获取 秒杀信息
+        $seckills_data = Seckill::get();
+
+        // dd($seckills_data[0]->time);
         
-        return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends,'links_data'=>$links_data,'branks_data'=>$branks_data,'num'=>$num,'footer_data'=>$footer_data]);
+        // 秒杀 信息 的id
+        $seckill_id = $seckills_data[0]->id;
+
+
+        $seckill_goods_data = Goods::where('sec_id',$seckill_id)->paginate(4);
+
+        // dd($seckill_goods_data);
+        
+        return view('home.index.index',['seckill_goods_data'=>$seckill_goods_data,'seckills_data'=>$seckills_data[0]->time,'cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends,'links_data'=>$links_data,'branks_data'=>$branks_data,'num'=>$num,'footer_data'=>$footer_data]);
     }
 
     /**

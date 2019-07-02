@@ -212,7 +212,8 @@
 					        	<h4>{{ $v->goods_info_bottom }}</h4>
 					       	</div>
 					       	<div class="recommendationMain two">
-					        	<img src="{{ $v->img }}">
+					       		<a href="/home/goods/details?cid={{$v->cid}}&gid={{$v->id}}"><img src="{{ $v->img }}"></a>
+					        	
 					       	</div>
 				      	</div>
 				      @endforeach
@@ -229,6 +230,7 @@
                         </span>
 						</div>
 					  <div class="am-g am-g-fixed ">
+					  	<input type="hidden" value="{{$seckills_data}}" id="seckilldata" name="">
 						<div class="am-u-sm-3 ">
 							<div class="se-kl">
 						        <div class="se-cn">凉凉秒杀</div>
@@ -241,8 +243,23 @@
 						            <div class="se-min"><span class="se-txt">00</span></div>
 						            <div class="se-sec"><span class="se-txt">00</span></div>
 						        </div>
-						    </div>													
+						    </div>
+
 						</div>
+						@foreach($seckill_goods_data as $k=>$v)
+						<div class="am-u-sm-3" style="width:240px;">
+						  <div class="icon-sale two "></div>	
+							<h4>特惠</h4>
+							<div class="activityMain ">
+								<img src="{{$v->img_big}}" style="height:276px;">
+							</div>
+							<div class="info seckilld_info">
+								<a class="seckilld_id" href="/home/goods/details?cid={{$v->cid}}&gid={{$v->id}}"><h3>{{$v->goodsmodel[0]->modelsize[0]->money}}</h3></a>
+																
+							</div>							
+						</div>
+						@endforeach
+						
 						
 						
 
@@ -255,7 +272,14 @@
 				            return n >= 0 && n < 10 ? '0' + n : '' + n;
 				        }
 						
-						var msdate = new Date("2019-07-02 13:34:42");
+						// 获取 要 终止的时间
+						let seckill_data = $('#seckilldata').attr('value');
+
+
+						// 给 一个 准确的 终止时间
+						var msdate = new Date(seckill_data);
+
+						// 进行 倒计时 处理
 						function showtime(){
 							
 							var end = msdate;//到结束时间
@@ -279,18 +303,17 @@
 								 
 						}
 						
-						
+						// 判断 是否 到达 指定的时间
 						var time = setInterval(function(){
 							let newdate = new Date();
 							let olddate = msdate;
-							console.log(newdate.getTime());
-							console.log(olddate.getTime());
 
 							if(newdate.getTime() > olddate.getTime()){
-								console.log('1');
+								$('.seckilld_id').attr('href','javascript:;');
+								$('.seckilld_id').html('未到秒杀时间');
+								$('.seckilld_info').css('backgroundColor','#ccc');
 								clearInterval(time);
 							}else {
-								console.log('0');
 								showtime();//调用方法
 							}
 						},500);
@@ -344,7 +367,7 @@
 									</div>
 									<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 								</div>
-								<a href="# "><img src="{{$v->img_big}}" /></a>
+								<a href="/home/goods/details?cid={{$v->cid}}&gid={{$v->id}}"><img src="{{$v->img_big}}" /></a>
 							</div>
 						@endforeach
 

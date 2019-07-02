@@ -466,7 +466,7 @@ top: 11px;text-align: right;}
 /*活动*/
 .activity .icon-sale{border-top: 100px solid #0087e5;border-right: 100px solid transparent;}
 .activity .am-g h4{position: absolute;color: #fff;top:10px;left: 10px;font-size:16px ;}
-.activity .info{font-size: 16px;bottom: 10px;}
+.activity .info{font-size: 16px;bottom: -17px;}
 
 /*第二套各类活动*/
 .row {padding:0px;position: absolute;left:152px ;bottom:0px ;}
