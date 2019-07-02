@@ -66,8 +66,9 @@
 					<li class="dropdown navbar-user">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 							<!-- 如果 登陆成功 显示管理员信息 -->
-							@if(session('admin_userinfo'))
-							<img src="/uploads/{{session('admin_userinfo')->profile or ''}}"  alt="" /> 							
+							@if(session('admin_login'))
+
+							<img src="/uploads/{{session('admin_userinfo')->profile ? session('admin_userinfo')->profile : ''}}"  alt="" /> 							
 							<span class="hidden-xs">{{session('admin_userinfo')->uname}}</span> <b class="caret"></b>
 							@endif
 						</a>
