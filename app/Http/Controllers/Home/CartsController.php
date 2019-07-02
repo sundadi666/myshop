@@ -8,6 +8,7 @@ use App\Models\Goods;
 use App\Models\Models;
 use App\Models\Sizes;
 use App\Models\Footer;
+use App\Models\Links;
 use DB;
 class CartsController extends Controller
 {
@@ -29,8 +30,12 @@ class CartsController extends Controller
         $cart_data = DB::table('carts')->where('uid',$uid)->orderBy('created_at','desc')->paginate(5);
         // 获取 网站底部 数据
         $footer_data = Footer::first();
+
+         // 友情连接 的数据
+        $links_data = Links::all();
+
         // 显示 购物车页面
-        return view('home.carts.index',['cart_data'=>$cart_data,'num'=>self::getNum(),'zongjia'=>self::getZongjia(),'footer_data'=>$footer_data]);
+        return view('home.carts.index',['links_data'=>$links_data,'cart_data'=>$cart_data,'num'=>self::getNum(),'zongjia'=>self::getZongjia(),'footer_data'=>$footer_data]);
  
       
         

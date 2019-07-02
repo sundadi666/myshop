@@ -8,6 +8,8 @@ use App\Models\Goods;
 use App\Http\Controllers\Home\CartsController;
 use App\Models\Footer;
 use App\Models\Ordersinfo;
+use App\Models\Navigates;
+use App\Models\Links;
 use DB;
 
 class ListController extends Controller
@@ -46,8 +48,14 @@ class ListController extends Controller
         $num = CartsController::getNum();
          // 获取 网站底部 数据
         $footer_data = Footer::first();
+
+        // 获取 导航栏 数据
+        $navigates_data = Navigates::all();
+
+        // 友情连接 的数据
+        $links_data = Links::all();
         
-        return view('home.list.index',['goods'=>$goods,'goods_data'=>$goods_data,'num'=>$num,'footer_data'=>$footer_data,'cid'=>$cid,'keywords'=>$keywords]);
+        return view('home.list.index',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'goods'=>$goods,'goods_data'=>$goods_data,'num'=>$num,'footer_data'=>$footer_data,'cid'=>$cid,'keywords'=>$keywords]);
 
     }
 

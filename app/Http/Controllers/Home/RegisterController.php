@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redis;
 use App\Models\Users;
 use App\Models\UsersInfos; 
 use App\Models\UserLogin;
+use App\Models\Links;
 use Hash;
 use Mail;
 use DB;
@@ -20,9 +21,12 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        // 友情连接 的数据
+        $links_data = Links::all();
+
         // 显示 手机和邮箱 注册页面
-        return view('home.register.index');
+        return view('home.register.index',['links_data'=>$links_data]);
     }
 
     /**

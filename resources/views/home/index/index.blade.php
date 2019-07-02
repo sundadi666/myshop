@@ -296,8 +296,8 @@
 					
 					<div class="am-g am-g-fixed floodFour">
 						<div class="am-u-sm-5 am-u-md-4 text-one list ">
-							<div class="word" style="position: relative;top:130px;">
-								<img src="/uploads/{{$v->bimg}}">	
+							<div class="word" style="position: relative;top:200px;">
+								<img src="/uploads/{{$v->bimg}}" style="border-radius: 20%;">	
 							</div>
 							<a href="# ">
 								<div class="outer-con ">

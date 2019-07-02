@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 
@@ -78,7 +79,7 @@
 					   <div class="nav-cont">
 							<ul>
 								@foreach($navigates_data as $k=>$v)
-									<li class="index"><a href="#">{{$v->title}}</a></li>
+									<li class="index"><a href="{{$v->url}}">{{$v->title}}</a></li>
                                 @endforeach	
 							</ul>
 						    <div class="nav-extra">

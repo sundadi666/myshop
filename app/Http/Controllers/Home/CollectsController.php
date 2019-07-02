@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Collects;
 use App\Models\Users;
+use App\Models\Navigates;
+use App\Models\Links;
 
 class CollectsController extends Controller
 {
@@ -23,6 +25,12 @@ class CollectsController extends Controller
     	// 获取该用户信息
     	$user = Users::where('id',$uid)->first();
 
-    	return view('home.collects.index',['user'=>$user]);
+    	// 获取 导航栏 数据
+        $navigates_data = Navigates::all();
+
+         // 友情连接 的数据
+        $links_data = Links::all();
+
+    	return view('home.collects.index',['links_data'=>$links_data,'user'=>$user,'navigates_data'=>$navigates_data]);
     }
 }

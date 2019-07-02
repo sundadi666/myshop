@@ -9,6 +9,9 @@ use App\Models\Users;
 use App\Models\Goods;
 use App\Models\Ordersinfo;
 use App\Models\Footer;
+use App\Models\Navigates;
+use App\Models\Links;
+
 class ReplysController extends Controller
 {
     // 我的评论 列表页 显示
@@ -20,7 +23,13 @@ class ReplysController extends Controller
         // 查询当前用户信息
         $user = Users::find($uid);
 
-        return view('home.replys.index',['user'=>$user]);
+        // 获取 导航栏 数据
+        $navigates_data = Navigates::all();
+
+        // 友情连接 的数据
+        $links_data = Links::all();
+
+        return view('home.replys.index',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'user'=>$user]);
     }
 
     // 留言 表单 显示
@@ -42,7 +51,14 @@ class ReplysController extends Controller
 
          // 获取 网站底部 数据
         $footer_data = Footer::first();
-    	return view('home.replys.create',['footer_data'=>$footer_data,'user'=>$user,'gid'=>$gid,'orderinfo'=>$orderinfo]);
+
+        // 获取 导航栏 数据
+        $navigates_data = Navigates::all();
+
+        // 友情连接 的数据
+        $links_data = Links::all();
+
+    	return view('home.replys.create',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'footer_data'=>$footer_data,'user'=>$user,'gid'=>$gid,'orderinfo'=>$orderinfo]);
     }
 
     // 执行 保存 留言 

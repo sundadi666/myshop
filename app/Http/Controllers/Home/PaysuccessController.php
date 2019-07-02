@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Footer;
+use App\Models\Links;
 class PaysuccessController extends Controller
 {
     /**
@@ -29,7 +30,10 @@ class PaysuccessController extends Controller
           // 获取 网站底部 数据
         $footer_data = Footer::first();
 
-        return view('home.pay.success',['data'=>$data,'footer_data'=>$footer_data]);
+        // 友情连接 的数据
+        $links_data = Links::all();
+
+        return view('home.pay.success',['links_data'=>$links_data,'data'=>$data,'footer_data'=>$footer_data]);
     }
 
     /**

@@ -66,6 +66,7 @@ class IndexController extends Controller
         $num = CartsController::getNum();
          // 获取 网站底部 数据
         $footer_data = Footer::first();
+
         
         return view('home.index.index',['cates_data'=>$cates_data,'navigates_data'=>$navigates_data,'banners_data'=>$banners_data,'recommends'=>$recommends,'links_data'=>$links_data,'branks_data'=>$branks_data,'num'=>$num,'footer_data'=>$footer_data]);
     }

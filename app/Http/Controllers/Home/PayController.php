@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Addrs;
 use App\Models\Carts;
 use App\Models\Orders;
+use App\Models\Links;
 use DB;
 
 class PayController extends Controller
@@ -58,8 +59,11 @@ class PayController extends Controller
             $size_data_id[$v->id]=$v->sname;
         }
 
+        // 友情连接 的数据
+        $links_data = Links::all();
 
-        return view('home.pay.index',['size_data_id'=>$size_data_id,'addrs_data'=>$addrs_data,'carts_data'=> $carts_data_encode,'addrs_default_data'=>$addrs_default_data,'models_data_id'=>$models_data_id]);
+
+        return view('home.pay.index',['links_data'=>$links_data,'size_data_id'=>$size_data_id,'addrs_data'=>$addrs_data,'carts_data'=> $carts_data_encode,'addrs_default_data'=>$addrs_default_data,'models_data_id'=>$models_data_id]);
     }
 
     /**

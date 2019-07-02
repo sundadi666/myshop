@@ -27,8 +27,12 @@ class PersonalController extends Controller
         $num = CartsController::getNum();
         // 获取 网站底部 数据
         $footer_data = Footer::first();
+
+        // 友情连接 的数据
+        $links_data = Links::all();
+
         // 加载 个人详情 页面
-        return view('home.personal.info',['navigates_data'=>$navigates_data,'user_data'=>$user_data,'num'=>$num,'footer_data'=>$footer_data]);
+        return view('home.personal.info',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'user_data'=>$user_data,'num'=>$num,'footer_data'=>$footer_data]);
     }
     /**
      * 个人中心 列表
@@ -156,8 +160,14 @@ class PersonalController extends Controller
         $num = CartsController::getNum();
         // 获取 网站底部 数据
         $footer_data = Footer::first();
+
+        $navigates_data = Navigates::all();
+
+        // 友情连接 的数据
+        $links_data = Links::all();
+
        // 加载 修改密码 页面
-       return view('home.personal.upass',['user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
+       return view('home.personal.upass',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'user'=>$user,'num'=>$num,'footer_data'=>$footer_data]);
     }
     // 修改 密码 方法
     public function updata_upass(Request $request,$id)

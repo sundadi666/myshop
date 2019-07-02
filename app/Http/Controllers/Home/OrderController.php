@@ -30,7 +30,7 @@ class OrderController extends Controller
         $id = session('userinfo')->id;
         
         // 查询 订单表里面的数据
-        $order_data = Orders::get();
+        $order_data = Orders::where('uid',$id)->get();
 
         // 友情连接 的数据
         $links_data = Links::all();

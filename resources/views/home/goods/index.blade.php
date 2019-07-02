@@ -62,11 +62,9 @@
 					   <div class="long-title"><span class="all-goods">全部分类</span></div>
 					   <div class="nav-cont">
 							<ul>
-								<li class="index"><a href="/home">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
+								@foreach($navigates_data as $k=>$v)
+									<li class="index"><a href="{{$v->url}}">{{$v->title}}</a></li>
+			                    @endforeach	
 							</ul>
 						    <div class="nav-extra">
 						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
@@ -1136,13 +1134,10 @@
 						<div class="footer">
 							<div class="footer-hd">
 								<p>
-									<a href="#">恒望科技</a>
+									@foreach($links_data as $k=>$v)
+									<a href="{{$v->url}}">{{ $v->title}}</a>
 									<b>|</b>
-									<a href="#">商城首页</a>
-									<b>|</b>
-									<a href="#">支付宝</a>
-									<b>|</b>
-									<a href="#">物流</a>
+									@endforeach
 								</p>
 							</div>
 							<div class="footer-bd">

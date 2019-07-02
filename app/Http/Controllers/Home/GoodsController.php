@@ -9,6 +9,8 @@ use App\Models\Sizes;
 use App\Models\Collects;
 use App\Models\Footer;
 use App\Models\Replys;
+use App\Models\Navigates;
+use App\Models\Links;
 use DB;
 
 class GoodsController extends Controller
@@ -50,7 +52,13 @@ class GoodsController extends Controller
         // 获取该商品的评价数量
         $replys_nums = DB::table('replys')->where('gid','=',$gid)->count();
 
-    	return view('home.goods.details',['goods'=>$goods,'goods_data'=>$goods_data,'footer_data'=>$footer_data,'replys'=>$replys,'replys_nums'=>$replys_nums,'gid'=>$gid]);
+        // 获取 导航栏 数据
+        $navigates_data = Navigates::all();
+
+        // 友情连接 的数据
+        $links_data = Links::all();
+
+    	return view('home.goods.details',['links_data'=>$links_data,'navigates_data'=>$navigates_data,'goods'=>$goods,'goods_data'=>$goods_data,'footer_data'=>$footer_data,'replys'=>$replys,'replys_nums'=>$replys_nums,'gid'=>$gid]);
 
     }	
 
