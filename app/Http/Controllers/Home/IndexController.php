@@ -64,6 +64,7 @@ class IndexController extends Controller
 
       // }
 
+
         // 友情连接 的数据
         $links_data = Links::all();
 
